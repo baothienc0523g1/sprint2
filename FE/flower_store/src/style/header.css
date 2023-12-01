@@ -1,63 +1,74 @@
+/*header*/
 .header {
     box-sizing: border-box;
-    position: relative;
-    top: 0;
-    height: 230px;
 }
 
-/*noti*/
-.header .notification {
-    height: 23px;
+/*notification*/
+.notification {
+    height: 27%;
     color: white;
-    background-color: #FFFFFF;
-    background-image: linear-gradient(90deg, #97e7f5 0%, #009ed1 50%, #7dd449 100%);
+    background-color: #007ACC;
+    /*background-image: linear-gradient(90deg, #97e7f5 0%, #009ed1 50%, #7dd449 100%);*/
     display: flex;
 }
 
-.header .notification .notification-text {
+.notification-text {
     width: 100%;
     align-self: center;
     text-align: center;
     font-size: 12px;
 }
 
-.header .main {
-    display: block;
-    width: 100%;
-    height: 120px;
-    background-image: linear-gradient(120deg, #fdfbfb 0%,  #FFFFFF 100%);
+/*vertical line*/
+.vertical-line {
+    width: 1px;
+    background-color: #202228;
+    height: 28px;
 }
 
-.header .header-foot {
-    height: 59px;
-    background-color: #fff;
+/*signin button and cart button*/
+.login-btn-main-page {
+    margin-right: 5px;
 }
 
-/*main + logo*/
-.header .main {
-    display: grid;
-    grid-template-columns: 3fr 7fr;
-    justify-content: center;
+.login-btn-main-page, .cart-header {
+    outline: 3px #007ACC solid;
+    outline-offset: -3px;
+    border: 1px solid #ffffff;
+    border-radius: 15px;
+    background-color: transparent;
+    color: #007ACC;
+    transition: .3s ease-out;
+    font-size: 16px;
+    width: 90px;
 }
 
-.header .main .logo-text {
-    height: 100%;
-    font-size: 40px;
-    display: flex;
+.login-btn-main-page:hover, .cart-header:hover {
+    background-color: #007ACC;
+    color: white;
 }
 
-.header .main .logo-text .logo-text-child {
-    width: 100%;
-    align-self: center;
-    text-align: center;
-    font-size: 60px;
+
+/*navbar text*/
+.navbar-text {
+    padding-right: 30px;
     font-family: 'Pacifico', cursive;
-    color: #009ed1;
 }
 
-
-/*right content*/
-.header .main .main-right {
-    float: right;
+/*logo img*/
+.header-logo {
+    height: 40px;
 }
 
+/*header navlink*/
+.header-nav-link {
+    padding-left: 15px;
+    text-decoration: none;
+    color: #282c34;
+}
+
+@media screen and (max-width: 960px) {
+    .vertical-line {
+        display: none;
+    }
+}

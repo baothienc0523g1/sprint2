@@ -2,7 +2,6 @@
 #wrapper {
     box-sizing: border-box;
     text-decoration: none;
-    font-family: 'Lora', serif;
     position: absolute;
     top: 0;
     right: 0;
@@ -34,6 +33,7 @@
     color: #3f426e;
     font-size: 36px;
     font-weight: bold;
+    font-family: 'Lora', cursive;
 }
 
 /**/
@@ -68,6 +68,7 @@
     outline-offset: -3px;
     gap: 15px;
     background-color: transparent;
+    font-family: 'Lora', cursive;
 }
 
 .login-btn:hover, .fb-login-tag:hover {
@@ -89,11 +90,11 @@
     font-size: 16px;
     padding-left: 15px;
     font-weight: bold;
-    font-family: 'Lora', serif;
+    font-family: 'Lora', cursive;
 }
 
 .input-tag::placeholder {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.3);
     font-weight: bold;
 }
 
@@ -104,13 +105,13 @@
 
 /*option*/
 .a-link {
-    font-weight: bold;
     color: #ffffff;
+    text-decoration: none;
 }
 
 .a-link:hover {
     text-decoration: underline;
-    color: #ffffff;
+    color: #4158D0;
 }
 
 /*remember me*/
@@ -175,6 +176,7 @@
 }
 
 .login-text {
+    font-family: 'Pacifico', cursive;
     color: #ffffff;
 }
 
@@ -184,6 +186,7 @@
 }
 
 .form-child-option {
+    font-size: 18px;
     padding-top: 3%;
 }
 

@@ -1,0 +1,47 @@
+
+.footer-area {
+    padding: 40px 0;
+    background-color: #3f426e;
+    color: #fff;
+}
+
+.footer-area a {
+    text-decoration: none;
+}
+
+.footer-area .footer-heading {
+    font-size: 18px;
+    color: #fff;
+}
+
+.footer-area .footer-underline {
+    height: 1px;
+    width: 70px;
+    background-color: #ddd;
+    margin: 10px 0;
+}
+
+.copyright-area {
+    padding: 14px 0;
+    background-color: #282c34;
+}
+
+.copyright-area p {
+    color: #fff;
+    height: 100%;
+    padding-top: 16px;
+}
+
+.copyright-area .social-media {
+    text-align: end;
+}
+
+.copyright-area .social-media a {
+    margin: 0 10px;
+    color: #fff;
+    width: 20px;
+}
+
+.text-white:hover {
+    text-decoration: underline;
+}
