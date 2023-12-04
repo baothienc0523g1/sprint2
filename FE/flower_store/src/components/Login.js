@@ -4,6 +4,8 @@ import FacebookLogin from 'react-facebook-login';
 import {Link} from "react-router-dom";
 
 export default function Login() {
+
+
     return (
         <div id="wrapper">
             <div className="main-form">
@@ -40,7 +42,7 @@ export default function Login() {
                     <div className="form-child-option">
                         <p className="login-text" id="back-to-main-div"> Quay về <Link className="a-link" to={"/"}>Trang
                             chủ</Link></p>
-                        <p className="login-text">Bạn chưa có tài khoản? <Link className="a-link" to={"/sign-up"}>Đăng ký</Link></p>
+                        <p className="login-text">Bạn chưa có tài khoản? <Link className="a-link" to={"/signup"}>Đăng ký</Link></p>
                     </div>
                 </div>
             </div>

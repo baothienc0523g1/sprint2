@@ -1,0 +1,61 @@
+.detail-title {
+    padding-top: 2%;
+    text-align: center;
+    color: #282c34;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Lora', cursive;
+}
+
+.product-detail {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    color: #c27a6b;
+    font-size: 18px;
+}
+
+.product-des-content {
+    box-sizing: border-box;
+    color: #c27a6b;
+    font-style: oblique;
+}
+
+.quantity-btn-minus, .quantity-btn-addition {
+    padding: 0;
+    box-sizing: border-box;
+    background-color: white;
+    color: #e7bab0;
+    border: 1px solid #e7bab0;
+    border-radius: 3px;
+    width: 40px;
+    height: 40px;
+}
+
+.quantity-btn-minus:hover, .quantity-btn-addition:hover, .add-to-cart-btn:hover {
+    background-color: #e7bab0;
+    color: #5e5c4d;
+}
+
+.quantity-input {
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    width: 80px;
+    text-align: center;
+    color: #e7bab0;
+    height: 40px;
+}
+
+.add-to-cart-btn {
+    box-sizing: border-box;
+    background-color: white;
+    color: #e7bab0;
+    border: 1px solid #e7bab0;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.add-to-cart-btn:hover {
+    color: #5e5c4d;
+}

@@ -4,8 +4,21 @@
 
 .my-card {
     transition: .2s;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 .my-card:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
     scale: 1.01;
+}
+.my-card-btn {
+    background-color: white;
+    outline: none;
+    border: 1px #e7bab0 solid;
+    border-radius: 8px;
+    transition: .3s ease;
+    color: #e7bab0;
+}
+.my-card-btn:hover {
+    background-color: #717171;
+    color: white;
 }

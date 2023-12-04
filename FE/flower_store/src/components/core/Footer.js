@@ -1,4 +1,4 @@
-import '../style/footer.css'
+import '../../style/footer.css'
 
 export default function Footer() {
     return (
@@ -17,22 +17,22 @@ export default function Footer() {
                             <h4 className="footer-heading">Liên kết</h4>
                             <div className="footer-underline"/>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     Về chúng tôi
                                 </a>
                             </div>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     Liên lạc
                                 </a>
                             </div>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     Blogs
                                 </a>
                             </div>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     Địa chỉ
                                 </a>
                             </div>
@@ -41,22 +41,22 @@ export default function Footer() {
                             <h4 className="footer-heading">Mua ngay</h4>
                             <div className="footer-underline"/>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     Sản phẩm bán chạy
                                 </a>
                             </div>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     Sản phẩm mới
                                 </a>
                             </div>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     Sản phẩm nổi bật
                                 </a>
                             </div>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     Giỏ hàng
                                 </a>
                             </div>
@@ -71,12 +71,12 @@ export default function Footer() {
                                 </p>
                             </div>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     <i className="fa fa-phone"/> +84 XXX-XXXX
                                 </a>
                             </div>
                             <div className="mb-2">
-                                <a href="" className="text-white">
+                                <a href="#" className="text-white">
                                     <i className="fa fa-envelope"/> daisy@gmail.com
                                 </a>
                             </div>
@@ -94,24 +94,21 @@ export default function Footer() {
                         </div>
                         <div className="col-md-4">
                             <div className="social-media">
-                                <span style={{color: "white"}}>Kết nối:</span>
+                                <span>Kết nối:</span>
                                 <a className="btn btn-link btn-floating btn-lg text-dark m-1"
                                    href="https://www.facebook.com/5qua.chuoi9"
                                    target="_blank" role="button"
-                                   data-mdb-ripple-color="dark"><i className="fab fa-facebook-f"
-                                                                   style={{color: "white"}}/></a>
+                                   data-mdb-ripple-color="dark"><i className="fab fa-facebook-f"/></a>
 
                                 <a className="btn btn-link btn-floating btn-lg text-dark m-1"
                                    href="https://www.instagram.com/donefor.thien/"
                                    target="_blank" role="button"
-                                   data-mdb-ripple-color="dark"><i className="fab fa-instagram"
-                                                                   style={{color: "white"}}/></a>
+                                   data-mdb-ripple-color="dark"><i className="fab fa-instagram"/></a>
 
                                 <a className="btn btn-link btn-floating btn-lg text-dark m-1"
                                    href="https://github.com/baothienc0523g1/"
                                    target="_blank" role="button"
-                                   data-mdb-ripple-color="dark"><i className="fab fa-github"
-                                                                   style={{color: "white"}}/></a>
+                                   data-mdb-ripple-color="dark"><i className="fab fa-github"/></a>
                             </div>
                         </div>
                     </div>
