@@ -3,9 +3,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../style/header.css'
 import {useNavigate, NavLink, Link} from "react-router-dom";
+import * as securityService from "../service/securityService";
+import {useEffect, useState} from "react";
 
 export default function Header() {
     const navigate = useNavigate();
+    const [userFullname, setUserFullname] = useState();
+
+    const getUserFullname = async () => {
+        const name = await securityService.getUserFullnameByJwt();
+        setUserFullname(name);
+    };
+
     const forwardToLogin = () => {
         navigate("/login");
     }
@@ -18,6 +27,14 @@ export default function Header() {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
     }
+
+    const doLogout = () => {
+
+    }
+
+    useEffect(() => {
+        getUserFullname();
+    }, [userFullname])
 
     return (
         <>
@@ -35,26 +52,34 @@ export default function Header() {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
                                 <NavLink to="/c" className="nav-link" style={({isActive}) => ({
-                                    color: isActive ? '#282c34' : 'gray',
-                                    fontWeight: isActive ? 'bolder' : 'normal'
+                                    color: isActive ? '#282c34' : 'gray', fontWeight: isActive ? 'bolder' : 'normal'
                                 })}>Sinh nhật</NavLink>
                                 <NavLink to="/a" className="nav-link" style={({isActive}) => ({
-                                    color: isActive ? '#282c34' : 'gray',
-                                    fontWeight: isActive ? 'bolder' : 'normal'
+                                    color: isActive ? '#282c34' : 'gray', fontWeight: isActive ? 'bolder' : 'normal'
                                 })}>Dịp</NavLink>
                                 <NavLink to="/b" className="nav-link" style={({isActive}) => ({
-                                    color: isActive ? '#282c34' : 'gray',
-                                    fontWeight: isActive ? 'bolder' : 'normal'
+                                    color: isActive ? '#282c34' : 'gray', fontWeight: isActive ? 'bolder' : 'normal'
                                 })}>Hoa & Cây</NavLink>
                             </Nav>
                             <Nav>
-                                <span className="navbar-text">“Đời là bông hoa, tình yêu là mật.” - Victor Hugo</span>
-                                <button className="login-btn-main-page" onClick={forwardToLogin}>
+                                {!userFullname && <span className="navbar-text">“Đời là bông hoa, tình yêu là mật.” - Victor Hugo</span>}
+
+                                {userFullname &&
+                                    <div className="navbar-logined">
+                                        <div className="header-dropdown">
+                                            <button className="user-fullname">{userFullname}</button>
+                                            <div className="header-dropdown-content">
+                                                <Link className="dropdown-child" to="/cart">Giỏ hàng</Link>
+                                                <Link className="dropdown-child" to="/cart">Thông tin cá nhân</Link>
+                                                <button className="logout-btn" onClick={doLogout}>Đăng xuất</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                {!userFullname && <button className="login-btn-main-page" onClick={forwardToLogin}>
                                     <i className="fa-solid fa-right-to-bracket fa-lg"/>
-                                </button>
-                                <button className="cart-btn-header" onClick={forwardToCart}>
-                                    <i className="fa-solid fa-cart-shopping fa-lg"/>
-                                </button>
+                                </button>}
                             </Nav>
                         </Navbar.Collapse>
                     </Container>

@@ -1,14 +1,21 @@
-import '../style/cart.css';
 import {Link} from "react-router-dom";
 import Footer from "./core/Footer";
+import Header from "./Header";
+import '../style/cart.css';
 
 export default function Cart() {
     return (
         <>
+            <Header/>
+
             <section className="cart-wrapper h-100 h-custom" style={{backgroundColor: "#eee"}}>
                 <div className="container h-100 py-5">
-                    <h3>Giỏ hàng</h3>
-                    <div className="row d-flex justify-content-center align-items-center h-100">
+                    <h3 className="text-center cart-title">Giỏ hàng</h3>
+                    <Link to="/" className="cart-link-child">
+                        <i className="fas fa-angle-left me-2"/>
+                        Tiếp tục mua hàng
+                    </Link>
+                    <div className="row d-flex justify-content-center align-items-center h-100 mt-3">
                         <div className="col">
                             <div className="card shopping-cart" style={{borderRadius: 15}}>
                                 <div className="card-body text-black">
@@ -22,34 +29,31 @@ export default function Cart() {
                                                     <img
                                                         src="https://www.marthastewart.com/thmb/pl6Lss6Voxz3Js6gwFXVXQ84I6Q=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/grocery-store-flowers-to-florist-worthy-bouquet-2-0123-2000-bbf6fae0c76a416cad65b07f17ab1431.jpg"
                                                         className="img-fluid"
-                                                        style={{width: 150}}
+                                                        style={{width: 200}}
                                                         alt="Generic placeholder image"
                                                     />
                                                 </div>
                                                 <div className="flex-grow-1 ms-3">
-                                                    <a href="#!" className="float-end text-black">
+                                                    <Link to="/" className="float-end text-black">
                                                         <i className="fas fa-times"/>
-                                                    </a>
-                                                    <h5 className="text-primary">Samsung Galaxy M11 64GB</h5>
-                                                    <h6 style={{color: "#9e9e9e"}}>Color: white</h6>
-                                                    <div className="d-flex align-items-center">
-                                                        <p className="fw-bold mb-0 me-5 pe-3">799$</p>
-                                                        <div className="def-number-input number-input safari_only">
+                                                    </Link>
+                                                    <h5 className="text-primary">Sản phẩm: </h5>
+                                                    <div className="d-flex align-items-center row">
+                                                        <p className="fw-bold mb-0 me-5 pe-3 col-lg-6 col-md-6 col-sm-6">Giá: .đ</p>
+                                                        <div className="col-lg-6 col-md-6 col-sm-6 cart-quantity-div">
                                                             <button
-                                                                onClick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                                                className="minus"
-                                                            />
+                                                                className="cart-minus-btn"
+                                                            > - </button>
                                                             <input
-                                                                className="quantity fw-bold text-black"
+                                                                className="fw-bold text-black cart-quantity-input"
                                                                 min={0}
-                                                                name="quantity"
                                                                 defaultValue={1}
                                                                 type="number"
+                                                                readOnly={true}
                                                             />
                                                             <button
-                                                                onClick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                                className="plus"
-                                                            />
+                                                                className="cart-addition-btn"
+                                                            > + </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -73,7 +77,7 @@ export default function Cart() {
                                                 className="d-flex justify-content-between p-2 mb-2"
                                                 style={{backgroundColor: "#e1f5fe"}}
                                             >
-                                                <h5 className="fw-bold mb-0">Tạm tính:</h5>
+                                                <h5 className="fw-bold mb-0">Tổng cộng: </h5>
                                                 <h5 className="fw-bold mb-0">2261 .đ</h5>
                                             </div>
                                             <hr
@@ -98,10 +102,6 @@ export default function Cart() {
                                                 <h5
                                                     className="col-lg-6 col-md-6 col-sm-12 fw-light cart-link"
                                                 >
-                                                    <Link to="/" className="cart-link-child">
-                                                        <i className="fas fa-angle-left me-2"/>
-                                                        Tiếp tục mua hàng
-                                                    </Link>
                                                 </h5>
                                             </div>
                                         </div>

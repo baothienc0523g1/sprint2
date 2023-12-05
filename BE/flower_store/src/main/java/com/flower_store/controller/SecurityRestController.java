@@ -25,7 +25,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/public")
-public class SecurityController {
+public class SecurityRestController {
 
     @Autowired
     private JwtUtilities jwtUtilities;
@@ -39,7 +39,7 @@ public class SecurityController {
     @Autowired
     private ISecurityService securityService;
 
-    private static final Logger logger = LoggerFactory.getLogger(SecurityController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityRestController.class);
 
     /**
      * method authenticationUser
@@ -61,7 +61,7 @@ public class SecurityController {
         BeanUtils.copyProperties(loginRequestDto, loginRequest);
 
         try {
-            Optional<User> user = this.jwtUserDetailsService.findUserByUsername(loginRequest.getUsername());
+            Optional<User> user = this.jwtUserDetailsService.findUserByUsername(loginRequest.getUsername().toLowerCase());
 
             if (user.isPresent()) {
                 if (passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())) {

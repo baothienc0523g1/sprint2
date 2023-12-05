@@ -7,8 +7,10 @@ import Body from "./components/Body";
 import Cart from "./components/Cart";
 import Signup from "./components/Signup";
 import ProductDetail from "./components/core/ProductDetail";
+import {requestFilter} from "./service/requestFilter";
 
 function App() {
+    requestFilter();
     return (
         <>
             <Routes>
@@ -19,7 +21,7 @@ function App() {
             </Routes>
 
             <Routes>
-                <Route path="/detail" element={<ProductDetail/>}/>
+                <Route path="/detail/:id" element={<ProductDetail/>}/>
                 <Route path="/" element={<Body/>}/>
             </Routes>
         </>

@@ -1,9 +1,18 @@
 import Footer from "./Footer";
 import '../../style/productDetail.css';
 import {useEffect, useState} from "react";
+import {Link, useParams} from "react-router-dom";
+import * as productService from "../../service/productService";
 
 export default function ProductDetail() {
+    const [productDetail, setProductDetail] = useState();
     let [quantity, setQuantity] = useState(1);
+    const {id} = useParams();
+
+    const getProductDetail = async () => {
+        const data = (await productService.getProductDetail(id)).data;
+        await setProductDetail(data);
+    }
 
     const quantityMinus = () => {
         setQuantity(quantity--);
@@ -16,32 +25,31 @@ export default function ProductDetail() {
     }
 
     useEffect(() => {
-
+        getProductDetail();
     }, [quantity]);
+
+    if (!productDetail) {
+        return null;
+    }
 
     return (
         <>
             <div className="container">
                 <div className="detail-title">Chi tiết sản phẩm</div>
+                <Link to="/" className="back-to-main-page-link"> <i className="fas fa-angle-left me-2"/> Quay lại trang chủ </Link>
                 <div className="row mt-5 mb-5">
                     <div className="col-lg-6">
                         <img
-                            src="https://www.marthastewart.com/thmb/pl6Lss6Voxz3Js6gwFXVXQ84I6Q=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/grocery-store-flowers-to-florist-worthy-bouquet-2-0123-2000-bbf6fae0c76a416cad65b07f17ab1431.jpg"
+                            src={productDetail.pictureUrl}
                             alt="detail" style={{height: "auto", width: "100%"}}/>
                     </div>
                     <div className="col-lg-6">
-                        <div className="product-detail mb-3">Tên sản phẩm:</div>
-                        <div className="product-detail mb-3">Giá:</div>
-                        <div className="product-des-content mb-3">Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit
-                            . Iure maxime qui voluptatem voluptates! Autem consectetur cupiditate dicta dolorem expedita
-                            incidunt iusto laborum, maxime nam perferendis quidem sunt tenetur voluptatem voluptatibus.
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae magnam numquam repellat
-                            voluptates? Atque, cumque, praesentium! Ab doloremque dolorum exercitationem laudantium
-                            neque omnis quaerat temporibus. Consectetur ducimus eligendi reiciendis similique! Lorem
-                            ipsum dolor sit amet, consectetur adipisicing elit. Adipisci consequuntur distinctio eius
-                            eos error quasi quidem sed similique vitae. Asperiores autem corporis in nemo nobis
-                            praesentium quisquam ut voluptatem voluptates.
+                        <div className="product-detail mb-3 fw-bold">Tên sản phẩm: {productDetail.name}</div>
+                        <div
+                            className="product-detail mb-3 fw-medium">Giá: {new Intl.NumberFormat().format(productDetail.price)} đ
+                        </div>
+                        <div className="product-des-content mb-3">
+                            {productDetail.description}
                         </div>
                         <div className="product-detail mb-3">
                             <span>Số lượng: </span>

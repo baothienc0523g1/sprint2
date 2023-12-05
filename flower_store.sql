@@ -38,20 +38,14 @@ CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(50),
     `username` VARCHAR(50),
-    `password` VARCHAR(50),
+    `password` VARCHAR(255),
+    `phone_number` VARCHAR(50),
     `birthday` DATE,
+    `email` VARCHAR(100),
     `address` LONGTEXT,
     `online_status` BIT(1) DEFAULT 0,
-    is_deleted BIT(1) DEFAULT 0
-);
-
-CREATE TABLE user_role (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    role_id INT,
-    FOREIGN KEY (user_id)
-        REFERENCES users (id),
-    FOREIGN KEY (role_id)
+    `role_id` INT,
+    FOREIGN KEY (`role_id`)
         REFERENCES roles (id),
     is_deleted BIT(1) DEFAULT 0
 );
@@ -89,26 +83,8 @@ CREATE TABLE carts (
 );
 
 
-delimiter //
-create procedure add_new_account(
-    `new_name` VARCHAR(50),
-    `new_username` VARCHAR(50),
-    `new_password` VARCHAR(50),
-    `new_birthday` DATE,
-    `new_address` LONGTEXT
-)
-begin
-declare new_account_id_role int;
-    set new_account_id_role = (select MAX(id) + 1 from users);
-    
-insert into user_role(user_id, role_id)
-values 
-(new_account_id_role, 2);
 
-insert into users(`name`,`username`,`password`,`birthday`,`address`)
-values 
-(`new_name`,`new_username`,`new_password`,`new_birthday`,`new_address`);
-end //
 
-delimiter ;
+
+
 

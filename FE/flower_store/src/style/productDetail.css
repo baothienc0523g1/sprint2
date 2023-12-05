@@ -59,3 +59,12 @@
 .add-to-cart-btn:hover {
     color: #5e5c4d;
 }
+
+.back-to-main-page-link {
+    color: #282c34;
+    text-decoration: none;
+}
+
+.back-to-main-page-link:hover {
+    text-decoration: underline #282c34;
+}

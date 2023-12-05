@@ -17,7 +17,7 @@
     align-self: center;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, serif;
     text-align: center;
-    font-size: 11px;
+    font-size: 13px;
 }
 
 /*vertical line*/
@@ -33,7 +33,7 @@
 }
 
 .login-btn-main-page, .cart-btn-header {
-    outline: 3px #e7bab0 solid;
+    outline: 2px #e7bab0 solid;
     outline-offset: -3px;
     border: 1px solid #ffffff;
     border-radius: 15px;
@@ -44,17 +44,79 @@
     width: 60px;
 }
 
+.cart-btn-header {
+    margin-left: 15px;
+    border-radius: 10px;
+}
+
 .login-btn-main-page:hover, .cart-btn-header:hover, #scrollToTop:hover {
     background-color: #e7bab0;
     color: white;
 }
-
 
 /*navbar text*/
 .navbar-text {
     padding-right: 30px;
     font-family: 'Pacifico', cursive;
     color: #e7bab0;
+}
+
+/*header dropdown*/
+.user-fullname {
+    border: none;
+    background-color: white;
+    font-family: 'Pacifico', cursive;
+    color: #5e5c4d;
+    font-size: 18px;
+}
+
+.navbar-logined {
+    display: flex;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.header-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.header-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 150px;
+    z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.header-dropdown-content .dropdown-child {
+    background-color: white;
+    color: #5e5c4d;
+    padding: 5px 16px;
+    text-decoration: none;
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    display: block;
+}
+
+.header-dropdown-content .dropdown-child:hover, .logout-btn:hover {
+    background-color: #ddd;
+}
+
+.header-dropdown:hover .header-dropdown-content {
+    display: block;
+}
+
+.logout-btn {
+    background-color: white;
+    color: #5e5c4d;
+    border: none;
+    text-align: center;
+    width: 100%;
+    padding: 5px 16px;
+    font-family: 'Pacifico', cursive;
 }
 
 /*logo img*/
@@ -99,10 +161,26 @@
     #scrollToTop {
         left: 90%;
     }
+    .user-fullname {
+        font-family: "Bookman Old Style", sans-serif;
+        color: gray;
+        font-weight: normal;
+        padding-left: 0;
+        font-size: 15px;
+    }
 }
+
 @media screen and (max-width: 576px) {
     #scrollToTop {
         left: 85%;
         z-index: 1;
+    }
+
+    .user-fullname {
+        font-family: "Bookman Old Style", sans-serif;
+        color: gray;
+        font-weight: normal;
+        padding-left: 0;
+        font-size: 15px;
     }
 }
