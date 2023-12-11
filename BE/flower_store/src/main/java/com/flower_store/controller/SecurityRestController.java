@@ -1,14 +1,14 @@
 package com.flower_store.controller;
 
+import org.slf4j.Logger;
+import com.flower_store.dto.UserDto;
 import com.flower_store.config.JwtUtilities;
 import com.flower_store.dto.LoginRequestDto;
-import com.flower_store.dto.UserDto;
 import com.flower_store.jwt.JwtResponse;
 import com.flower_store.jwt.LoginRequest;
 import com.flower_store.model.User;
 import com.flower_store.service.IJwtUserDetailService;
 import com.flower_store.service.ISecurityService;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +43,12 @@ public class SecurityRestController {
 
     /**
      * method authenticationUser
-     * Creator ThienBB
-     * Date 04-12-2023
-     * param LoginRequestDto
-     * return Jwt string
+     *
+     * @param loginRequestDto
+     * @param bindingResult
+     * @return Jwt string
+     * @author ThienBB
+     * @since 04-12-2023
      */
     @PostMapping("/login")
     public ResponseEntity<?> authenticationUser(@Valid @RequestBody LoginRequestDto loginRequestDto,

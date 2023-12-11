@@ -14,6 +14,13 @@ public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepository;
 
+    /**
+     * method find user by username
+     * @author Bao Thien
+     * @since 06-12-2023
+     * @param username
+     * @return Optional<User>
+     */
     @Override
     public Optional<User> findUserByUsername(String username) {
         return this.userRepository.findUserByUsername(username);

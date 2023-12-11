@@ -8,10 +8,14 @@ const doLogin = async (event) => {
 };
 
 const addAccessToken = async (token) => {
-  await localStorage.setItem("accessToken", token);
+    await localStorage.setItem("accessToken", token);
 };
 
-const getAccessToken = async () => {
+const doLogout = () => {
+    localStorage.removeItem("accessToken");
+}
+
+const getAccessToken = () => {
     const jwt = localStorage.getItem("accessToken");
     if (jwt) {
         return jwt;
@@ -29,6 +33,15 @@ const getUserFullnameByJwt = () => {
     }
 };
 
+const getUsernameByJwt = () => {
+    const jwt = localStorage.getItem("accessToken");
+    if (jwt) {
+        return jwtDecode(jwt).sub;
+    } else {
+        return null;
+    }
+};
+
 const getRoleByJwt = () => {
     const jwt = localStorage.getItem("accessToken");
     if (jwt) {
@@ -38,4 +51,4 @@ const getRoleByJwt = () => {
     }
 };
 
-export {doLogin, addAccessToken, getAccessToken, getUserFullnameByJwt, getRoleByJwt}
+export {doLogin, doLogout, addAccessToken, getAccessToken, getUserFullnameByJwt, getUsernameByJwt, getRoleByJwt}

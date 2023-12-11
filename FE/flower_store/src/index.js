@@ -7,14 +7,27 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {BrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CartProvider from "./provider/CartProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <ToastContainer/>
-            <App/>
-        </BrowserRouter>
+
+            <BrowserRouter>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={2222}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"/>
+                <App/>
+            </BrowserRouter>
+
     </React.StrictMode>
 );
 

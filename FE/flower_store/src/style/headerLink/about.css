@@ -1,0 +1,130 @@
+.about-wrapper {
+    background: #eee;
+    position: relative;
+    top: 86px;
+    box-sizing: border-box;
+}
+
+.about-main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 5%;
+}
+
+/*left*/
+.about-left {
+    width: 100%;
+    margin-top: 5%;
+    padding: 0 5% 7% 5%;
+}
+
+.iframe-map {
+    min-width: 100%;
+    min-height: 600px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+/*right*/
+.about-right {
+    margin-top: 2%;
+    padding: 0 1% 7% 5%;
+    width: 100%;
+}
+
+.about-us-title {
+    text-align: center;
+    font-family: Tahoma, 'sans-serif';
+    font-size: 3rem;
+    font-weight: bolder;
+    color: #5e5c4d;
+}
+
+.about-form-wrapper {
+    border: 3px solid #5e5c4d;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.about-form-child {
+    display: flex;
+    width: 100%;
+    padding: 3%;
+}
+
+.about-form-label {
+    width: 30%;
+}
+
+.about-form-label-child {
+    font-weight: bold;
+    font-family: Tahoma, 'sans-serif';
+    color: #5e5c4d;
+}
+
+.about-form-input-child {
+    border: none;
+    border-bottom: 2px solid #5e5c4d;
+    background-color: #eee;
+    color: #5e5c4d;
+    font-family: Tahoma, 'sans-serif';
+}
+
+.about-form-input-child:focus {
+    outline: none;
+}
+
+.about-form-child2 {
+    padding-top: 25%;
+    font-family: Tahoma, 'sans-serif';
+}
+
+.about-form-child2 i {
+    font-weight: bolder;
+    font-size: 1.5rem;
+    color: #5e5c4d;
+}
+
+.about-social {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 2%;
+}
+
+/**/
+.about-btn {
+    margin: auto;
+    background-color: #eee;
+    color: #5e5c4d;
+    width: 33%;
+    border: 1px solid #5e5c4d;
+    border-radius: 5px;
+    transition: .2s ease-in;
+
+}
+
+.about-btn:hover {
+    background-color: #5e5c4d;
+    color: white;
+}
+
+.about-form-child2 i:hover {
+    cursor: pointer;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+    .about-main {
+        top: 100px;
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .about-main {
+        top: 150px;
+    }
+}
+

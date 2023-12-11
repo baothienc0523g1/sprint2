@@ -4,6 +4,7 @@
     background-color: #e7bab0;
     color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, serif;
+    cursor: default;
 }
 
 .footer-area a {
@@ -23,6 +24,7 @@
 }
 
 .copyright-area {
+    cursor: default;
     padding: 14px 0;
     background-color: #eee;
 }
@@ -43,10 +45,16 @@
     width: 20px;
 }
 
-.text-white:hover {
+.text-white:hover, .footer-map-link:hover {
     text-decoration: underline;
 }
 
 .social-media a, .social-media i{
     color: #282c34;
+}
+
+.footer-map-link {
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, serif;
+    text-decoration: navajowhite;
 }

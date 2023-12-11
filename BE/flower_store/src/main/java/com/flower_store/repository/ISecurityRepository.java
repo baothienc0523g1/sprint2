@@ -15,10 +15,11 @@ public interface ISecurityRepository extends JpaRepository<User, Integer> {
 
     /**
      * method findByUsername
-     * Creator ThienBB
-     * Date 04-12-2023
-     * param String userName
-     * return Optional<User>
+     *
+     * @param name
+     * @return Optional<User>
+     * @author Bao Thien
+     * @since 04-12-2023
      */
     @Query(value = " select * from users where username like :name and is_deleted = 0 ", nativeQuery = true)
     Optional<User> findByUserName(@Param("name") String name);

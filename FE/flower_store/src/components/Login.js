@@ -1,7 +1,6 @@
 import '../style/login.css';
-import React, {useState} from "react";
-import FacebookLogin from 'react-facebook-login';
-import {Link, useNavigate} from "react-router-dom";
+import React, {useContext, useEffect, useRef, useState} from "react";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {toast} from "react-toastify";
@@ -9,6 +8,7 @@ import * as securityService from "../service/securityService";
 import {addAccessToken} from "../service/securityService";
 
 export default function Login() {
+
     const navigate = useNavigate();
     const initUser = {
         username: "",
@@ -28,21 +28,20 @@ export default function Login() {
             .trim(trimFormat),
     };
 
-
-    /*Handle: username, password, submit */
     const handleChangeUsername = (events) => {
         setUserInit({
             ...userInit,
             username: events.target.value
         })
-    }
+    };
 
     const handleChangePassword = (events) => {
         setUserInit({
             ...userInit,
             password: events.target.value
         })
-    }
+    };
+
     const doLogin = async () => {
         const userRequired = "Vui lòng điền tài khoản!";
         const passwordRequired = "Vui lòng điền mật khẩu!";
@@ -67,7 +66,7 @@ export default function Login() {
                 if (status === 200) {
                     toast("Đăng nhập thành công!!");
                     addAccessToken(res.data.jwtToken);
-                    navigate("/");
+                    navigate(-1);
                 } else {
                     toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
                 }
@@ -76,6 +75,7 @@ export default function Login() {
             }
         }
     };
+
 
     return (
         <div id="wrapper">
@@ -107,17 +107,9 @@ export default function Login() {
                                     </button>
                                 </div>
                                 <div className="login-with-fb-btn">
-                                    <FacebookLogin
-                                        appId="277886178584824"
-                                        fields="name,email,picture"
-                                        callback={null}
-                                        onFailure={null}
-                                        cssClass="login-btn"
-                                        icon=<i className="fa-brands fa-facebook"/>
-                                    style={{color: "#ffffff"}}
-                                    textButton=" Đăng nhập bằng Facebook"
-                                    />
+
                                 </div>
+
                             </div>
                         </Form>
                     </Formik>

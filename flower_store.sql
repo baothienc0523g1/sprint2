@@ -50,24 +50,25 @@ CREATE TABLE users (
     is_deleted BIT(1) DEFAULT 0
 );
 
-CREATE TABLE delivery_status (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    `name` VARCHAR(20),
-    is_deleted BIT(1) DEFAULT 0
-);
-
-CREATE TABLE purchase_history (
+CREATE TABLE `orders` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
-    product_id INT,
     `time` DATETIME,
     FOREIGN KEY (user_id)
         REFERENCES users (id),
+    is_deleted BIT(1) DEFAULT 0
+);
+
+CREATE TABLE order_detail (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT,
     FOREIGN KEY (product_id)
         REFERENCES products (id),
-    delivered_id INT,
-    FOREIGN KEY (delivered_id)
-        REFERENCES delivery_status (id),
+    order_id INT,
+    FOREIGN KEY (order_id)
+        REFERENCES orders (id),
+    quantity INT,
+    total_cost INT,
     is_deleted BIT(1) DEFAULT 0
 );
 
@@ -79,12 +80,8 @@ CREATE TABLE carts (
         REFERENCES users (id),
     FOREIGN KEY (product_id)
         REFERENCES products (id),
+	quantity INT,
     is_deleted BIT(1) DEFAULT 0
 );
-
-
-
-
-
 
 

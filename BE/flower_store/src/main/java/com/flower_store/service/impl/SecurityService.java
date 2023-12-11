@@ -1,6 +1,5 @@
 package com.flower_store.service.impl;
 
-import com.flower_store.config.JwtRequestFilter;
 import com.flower_store.model.User;
 import com.flower_store.repository.ISecurityRepository;
 import com.flower_store.service.ISecurityService;
@@ -17,6 +16,14 @@ public class SecurityService implements ISecurityService {
     ISecurityRepository securityRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityService.class);
+
+    /**
+     * method add new user
+     * @author Bao Thien
+     * @since 06-12-2023
+     * @param user
+     * @return void
+     */
     @Override
     @Transactional
     public void addUser(User user) {

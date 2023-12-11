@@ -15,18 +15,14 @@ import java.util.Optional;
 @Transactional
 public interface IProductRepository extends JpaRepository<Product, Integer> {
 
-    @Query(value =
-            " select p.id as id, p.name as name, p.code as code, " +
-                    " p.description as description, " +
-                    " p.price as price, pt.id as productTypeId, " +
-                    " pt.name as productTypeName, pp.picture_url as pictureUrl " +
-                    " from products as p " +
-                    " join product_picture as pp " +
-                    " on p.id = pp.product_id " +
-                    " join product_type as pt " +
-                    " on p.product_type_id = pt.id ", nativeQuery = true)
-    Collection<Feature> findAllFeature();
-
+    /**
+     * method get product to main page
+     *
+     * @param
+     * @return Collection<Feature>
+     * @author Bao Thien
+     * @since 05-12-2023
+     */
     @Query(value =
             " select p.id as id, p.name as name, p.code as code, " +
                     " p.description as description, " +
@@ -37,15 +33,80 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                     " on p.id = pp.product_id " +
                     " join product_type as pt " +
                     " on p.product_type_id = pt.id " +
-                    " where p.id = :paramId", nativeQuery = true)
+                    " where p.is_deleted = 0 ", nativeQuery = true)
+    Collection<Feature> findAllFeature();
+
+    /**
+     * method get product by ID
+     *
+     * @param id
+     * @return PathVariable ID
+     * @author Bao Thien
+     * @since 05-12-2023
+     */
+    @Query(value =
+            " select p.id as id, p.name as name, p.code as code, " +
+                    " p.description as description, " +
+                    " p.price as price, pt.id as productTypeId, " +
+                    " pt.name as productTypeName, pp.picture_url as pictureUrl " +
+                    " from products as p " +
+                    " join product_picture as pp " +
+                    " on p.id = pp.product_id " +
+                    " join product_type as pt " +
+                    " on p.product_type_id = pt.id " +
+                    " where p.id = :paramId " +
+                    " and p.is_deleted = 0 ", nativeQuery = true)
     Optional<Feature> findFeatureById(@Param("paramId") Integer paramId);
 
-    @Query(value = " select products.* from products where product_type_id=1 ", nativeQuery = true)
-    Collection<Product> findAllProductType1();
 
-    @Query(value = " select products.* from products where product_type_id=2 ", nativeQuery = true)
-    Collection<Product> findAllProductType2();
+    /**
+     * method get product list by type id
+     *
+     * @param id
+     * @return PathVariable ID
+     * @author Bao Thien
+     * @since 05-12-2023
+     */
+    @Query(value =
+            " select p.id as id, p.name as name, p.code as code, " +
+                    " p.description as description, " +
+                    " p.price as price, pt.id as productTypeId, " +
+                    " pt.name as productTypeName, pp.picture_url as pictureUrl " +
+                    " from products as p " +
+                    " join product_picture as pp " +
+                    " on p.id = pp.product_id " +
+                    " join product_type as pt " +
+                    " on p.product_type_id = pt.id " +
+                    " where pt.id = :paramId " +
+                    " and p.is_deleted = 0 ", nativeQuery = true)
+    Collection<Feature> findAllProductByType(@Param("paramId") Integer paramId);
 
-    @Query(value = " select products.* from products where product_type_id=3 ", nativeQuery = true)
-    Collection<Product> findAllProductType3();
+    /**
+     * method find products with option
+     *
+     * @param productName
+     * @param productMinPrice
+     * @param productMaxPrice
+     * @param productTypeId
+     * @author Bao Thien
+     * @since 08-12-2023
+     */
+    @Query(value =
+            " select p.id as id, p.name as name, p.code as code, " +
+                    " p.description as description, " +
+                    " p.price as price, pt.id as productTypeId, " +
+                    " pt.name as productTypeName, pp.picture_url as pictureUrl " +
+                    " from products as p " +
+                    " join product_picture as pp " +
+                    " on p.id = pp.product_id " +
+                    " join product_type as pt " +
+                    " on p.product_type_id = pt.id " +
+                    " where p.name like :productName " +
+                    " and (p.price between :productMinPrice and :productMaxPrice) " +
+                    " and p.product_type_id = :productTypeId " +
+                    " and p.is_deleted = 0 ", nativeQuery = true)
+    Collection<Feature> findProductWithOption(@Param("productName") String productName,
+                                              @Param("productMinPrice") Long productMinPrice,
+                                              @Param("productMaxPrice") Long productMaxPrice,
+                                              @Param("productTypeId") Integer productTypeId);
 }

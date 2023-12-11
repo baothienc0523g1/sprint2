@@ -139,9 +139,7 @@
 }
 
 .cart-confirm-buy-btn {
-    outline: 3px #C6461D solid;
-    outline-offset: -3px;
-    border: 1px solid #ffffff;
+    border: 3px #C6461D solid;
     border-radius: 10px;
     background-color: transparent;
     color: #C6461D;
@@ -180,7 +178,7 @@
 .cart-quantity-input {
     box-sizing: border-box;
     outline: none;
-    width: 40px;
+    width: 30%;
     text-align: center;
     border: none;
     color: #495057;
@@ -188,4 +186,15 @@
 }
 .cart-quantity-div {
     display: flex;
+    width: 100%;
+}
+.cart-product-img {
+    max-width: 100%;
+    min-width: 100%;
+
+}
+
+.cart-trash-btn {
+    color: #5e5c4d;
+    font-size: 20px;
 }

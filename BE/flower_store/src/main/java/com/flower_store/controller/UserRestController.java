@@ -17,6 +17,14 @@ public class UserRestController {
     @Autowired
     private IUserService userService;
 
+    /**
+     * method get user full name
+     *
+     * @param username
+     * @return Optional<User>
+     * @author Bao Thien
+     * @since 05-12-2023
+     */
     @GetMapping("/getUserName/{username}")
     public ResponseEntity<?> getNameByUsername(@PathVariable(name = "username") String username) {
 

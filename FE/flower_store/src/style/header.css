@@ -1,23 +1,30 @@
 /*header*/
 .header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
     box-sizing: border-box;
     background-color: whitesmoke;
+    border-bottom: 1px solid #e7bab0;
 }
 
 /*notification*/
 .notification {
     height: 27%;
-    color: white;
-    background-color: #e7bab0;
+    color: #eee;
+    background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
     display: flex;
+    cursor: default;
 }
 
 .notification-text {
     width: 100%;
     align-self: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, serif;
     text-align: center;
     font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, serif;
+    font-style: italic;
 }
 
 /*vertical line*/
@@ -32,26 +39,44 @@
     margin-right: 5px;
 }
 
-.login-btn-main-page, .cart-btn-header {
-    outline: 2px #e7bab0 solid;
+.login-btn-main-page {
     outline-offset: -3px;
-    border: 1px solid #ffffff;
-    border-radius: 15px;
-    background-color: transparent;
-    color: #e7bab0;
-    transition: .3s ease-out;
-    font-size: 16px;
+    border: 1px solid #5e5c4d;
+    background-color: white;
+    border-radius: 9px;
+    color: #5e5c4d;
+    transition: .4s ease-out;
+    font-size: 1rem;
     width: 60px;
 }
 
 .cart-btn-header {
-    margin-left: 15px;
-    border-radius: 10px;
+    border: 1px solid #e7bab0;
+    margin-left: 35px;
+    border-radius: 9px;
+    color: #5e5c4d;
+    font-size: 22px;
 }
 
-.login-btn-main-page:hover, .cart-btn-header:hover, #scrollToTop:hover {
+#cart-badge {
+    color: #5e5c4d;
+    font-size: 18px;
+}
+
+.cart-btn-header:hover {
+    color: white;
+    background-color: #FBDA61;
+    background-image: linear-gradient(45deg, #FBDA61 0%, #FF5ACD 100%);
+}
+
+.cart-btn-header:hover #cart-badge {
+    color: white;
+}
+
+.login-btn-main-page:hover, #scrollToTop:hover {
     background-color: #e7bab0;
     color: white;
+    border: #e7bab0;
 }
 
 /*navbar text*/
@@ -184,3 +209,63 @@
         font-size: 15px;
     }
 }
+
+/*modal*/
+.logout-btn-modal-cancel, .logout-btn-modal-confirm {
+    height: 36px;
+    border: 1px solid #5e5c4d;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+}
+
+.logout-btn-modal-cancel {
+    background-color: #717171;
+    color: #eee;
+}
+
+.logout-btn-modal-cancel:hover {
+    background-color: #5e5c4d;
+    color: white;
+}
+
+.logout-btn-modal-confirm {
+    background-color: #eee;
+    color: #5e5c4d;
+    transition: .5s ease;
+}
+
+.logout-btn-modal-confirm:hover {
+    background-color: #5e5c4d;
+    color: white;
+}
+
+.logout-modal-header {
+    font-family: Lora, 'sans-serif';
+    background-color: #e7bab0;
+    color: #5e5c4d;
+}
+
+.logout-modal-body {
+    font-family: Lora, 'sans-serif';
+    font-size: 18px;
+}
+
+/*nav link active/un-active*/
+.my-nav-link-un-active {
+    color: gray;
+    font-weight: normal;
+    padding-left: 15px;
+    text-decoration: none;
+    color: #282c34;
+    font-family: "Tahoma", sans-serif;
+}
+
+.my-nav-link-active {
+    padding-left: 15px;
+    text-decoration: none;
+    font-family: "Tahoma", sans-serif;
+    color: #282c34;
+    font-weight: bold;
+}
+
+

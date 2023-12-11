@@ -1,7 +1,6 @@
 package com.flower_store.service.impl;
 
 import com.flower_store.dto.JwtUserDetailResponse;
-import com.flower_store.jwt.JwtResponse;
 import com.flower_store.model.User;
 import com.flower_store.repository.ISecurityRepository;
 import com.flower_store.service.IJwtUserDetailService;
@@ -22,6 +21,14 @@ public class JwtUserDetailsService implements IJwtUserDetailService {
     @Autowired
     private ISecurityRepository securityRepository;
 
+    /**
+     * method get user by username
+     *
+     * @param username
+     * @return UserDetails obj
+     * @author Bao Thien
+     * @since 06-12-2023
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> existedUser = this.securityRepository.findByUserName(username);
@@ -43,6 +50,14 @@ public class JwtUserDetailsService implements IJwtUserDetailService {
         return userDetails;
     }
 
+    /**
+     * method find user by username
+     *
+     * @param username
+     * @return Optional User obj
+     * @author Bao Thien
+     * @since 06-12-2023
+     */
     @Override
     public Optional<User> findUserByUsername(String username) {
         return this.securityRepository.findByUserName(username);

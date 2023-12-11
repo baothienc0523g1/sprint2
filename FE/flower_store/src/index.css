@@ -11,3 +11,42 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #FF9A8B;
+  background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #FF3CAC;
+  background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+}
+
+.body-main-page, .cart-wrapper, .footer-area, .header,
+#wrapper, .my-card, .product-detail-wrapper, .products,
+.signup-wrapper, .notfound
+{
+  animation-name: body-fade;
+  animation-duration: .3s;
+}
+
+@keyframes body-fade {
+  from {
+    opacity: .2
+  }
+  to {
+    opacity: 1
+  }
+}

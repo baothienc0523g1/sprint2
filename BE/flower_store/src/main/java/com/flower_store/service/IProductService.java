@@ -2,7 +2,6 @@ package com.flower_store.service;
 
 import com.flower_store.dto.Feature;
 import com.flower_store.model.Product;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -12,15 +11,16 @@ public interface IProductService {
 
     Optional<Feature> findFeatureById(Integer paramId);
 
-    Collection<Product> findAllProductType1();
-
-    Collection<Product> findAllProductType2();
-
-    Collection<Product> findAllProductType3();
+    Collection<Feature> findAllProductByType(Integer id);
 
     void addProduct(Product product);
 
     void removeProduct(Integer id);
 
     void updateProduct(Product product);
+
+    Optional<Product> findById(Integer id);
+
+    Collection<Feature> findProductWithOption(String productName, Long productMinPrice,
+                                              Long productMaxPrice, Integer productTypeId);
 }
