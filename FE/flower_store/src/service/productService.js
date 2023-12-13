@@ -10,6 +10,15 @@ const getFeature = async () => {
     }
 }
 
+const getTrendingFeature = async () => {
+    try {
+        const res = await axios.get(BASE_API + "/public/trending-feature");
+        return res.data
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 const getProductDetail = async (id) => {
     try {
         return await axios.get(BASE_API + `/public/product-detail/${id}`);
@@ -36,9 +45,9 @@ const getProductTypeList = async () => {
     }
 }
 
-const getProductWithSearchOption = async (productName, productMinPrice, productMaxPrice, productTypeId) => {
+const getProductWithSearchOption = async (productMinPrice, productMaxPrice, productTypeId) => {
     try {
-        const res = await axios.get(BASE_API + `/public/product/search/${productName}/${productMinPrice}`
+        const res = await axios.get(BASE_API + `/public/product/search/${productMinPrice}`
             + `/${productMaxPrice}/${productTypeId}`);
         return res.data;
     } catch (e) {
@@ -46,4 +55,22 @@ const getProductWithSearchOption = async (productName, productMinPrice, productM
     }
 }
 
-export {getFeature, getProductDetail, getProductListWithType, getProductTypeList, getProductWithSearchOption}
+const getProductHighestPrice = async () => {
+    try {
+        const res = await axios.get(BASE_API + "/public/product/getProductHighestPrice/");
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+const getProductTypeName = async (id) => {
+    try {
+        const res = await axios.get(BASE_API + `/public/product/typename/${id}`)
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+export {getFeature, getProductDetail, getProductListWithType, getProductTypeList, getProductWithSearchOption,
+    getProductHighestPrice, getProductTypeName, getTrendingFeature}

@@ -3,31 +3,32 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {ToastContainer, toast} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {BrowserRouter} from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import CartProvider from "./provider/CartProvider";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import {Provider} from "react-redux";
+import {store} from './provider/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-
-            <BrowserRouter>
-                <ToastContainer
-                    position="bottom-right"
-                    autoClose={2222}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="light"/>
+        <BrowserRouter>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2222}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"/>
+            <Provider store={store}>
                 <App/>
-            </BrowserRouter>
-
+            </Provider>
+        </BrowserRouter>
     </React.StrictMode>
 );
 

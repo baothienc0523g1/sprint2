@@ -25,6 +25,10 @@ export default function Products() {
         navigate("/product/type/3");
     }
 
+    const handleChangeToTrendingProduct = () => {
+        navigate("/product/trending");
+    }
+
     useEffect(() => {
         productList();
     }, [])
@@ -42,6 +46,7 @@ export default function Products() {
             <div className="products container">
 
                 <div className="product-type-search-div mt-2 mb-2">
+                    <button className="product-type-btn" onClick={handleChangeToTrendingProduct}>Bán chạy <i className="fa-solid fa-fire"/></button>
                     <button className="product-type-btn" onClick={handleChangeProductTypeBirthday}>Sinh nhật <i className="fa-solid fa-gift"/></button>
                     <button className="product-type-btn" onClick={handleChangeProductTypeEvents}>Dịp <i className="fa-solid fa-calendar-days"/></button>
                     <button className="product-type-btn" onClick={handleChangeProductTypePlants}>Hoa và cây <i className="fa-brands fa-pagelines"/></button>

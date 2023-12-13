@@ -1,9 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import Footer from "../Footer";
 import '../../style/headerLink/about.css'
 import Banner from "../Banner";
+import {Button, Modal} from "react-bootstrap";
 
 export default function About() {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+
     return (
         <div className="about-wrapper">
             <Banner/>
@@ -49,7 +56,7 @@ export default function About() {
                                     </div>
                                 </div>
                                 <div className="about-form-child">
-                                    <button className="about-btn">Gửi</button>
+                                    <button className="about-btn" type="button" onClick={handleShow}>Gửi</button>
                                 </div>
                             </form>
                         </div>
@@ -71,6 +78,19 @@ export default function About() {
                 </div>
             </div>
             <Footer/>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header className="logout-modal-header" closeButton>
+                    <Modal.Title>Phản hồi</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="logout-modal-body">
+                    Cảm ơn bạn đã phản hồi,
+                    phản hồi của bạn sẽ được ngó lơ.
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="logout-btn-modal-confirm" onClick={handleClose}>???</button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

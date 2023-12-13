@@ -195,6 +195,15 @@
 }
 
 .cart-trash-btn {
+    cursor: pointer;
     color: #5e5c4d;
     font-size: 20px;
+}
+
+.cart-product-name {
+    text-decoration: none;
+}
+
+.cart-product-name:hover {
+    text-decoration: underline;
 }

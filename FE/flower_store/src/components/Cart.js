@@ -1,77 +1,40 @@
 import {Link} from "react-router-dom";
 import Footer from "./Footer";
 import '../style/cart.css';
-import {useEffect, useState, useContext} from "react";
+import {useEffect, useState} from "react";
 import * as cartService from "../service/cartService";
 import {getUsernameByJwt} from "../service/securityService";
 import {toast} from "react-toastify";
+import {useDispatch, useSelector} from "react-redux";
+import {removeProducts} from "../provider/actions";
 
-export default function Cart() {
+function Cart() {
     const [cart, setCart] = useState([]);
-    const [cartTotalCost, setCartTotalCost] = useState(+0);
-    const [cartCustomerName, setCartCustomerName] = useState("");
-    const [cartCustomerAddress, setCartCustomerAddress] = useState("");
-    const [cartTotalITemQuantity, setCartTotalItemQuantity] = useState(+0);
+    const [flag, setFlag] = useState(false);
+
+    const dispatch = useDispatch();
 
     const getCart = async () => {
         const userCart = await cartService.getCart();
         await setCart(userCart);
     }
+    useSelector(state => state.reducers);
+    const totalItem = useSelector(state => state.reducers.totalItem)
 
-    const getCartTotalCost = () => {
-        let totalCost = +0;
-        cart.map(temp => {
-            totalCost += +temp.productQuantity * temp.productPrice;
-        })
-        setCartTotalCost(totalCost);
-    }
-
-    const getCartTotalItem = () => {
-        let items = +0;
-        cart.map(temp => {
-            items += +temp.productQuantity;
-        })
-        setCartTotalItemQuantity(items);
-    }
-
-    const getCustomerAddress = () => {
-        if (cart.length > 0) {
-            let customerAddress = cart[0].address;
-            setCartCustomerAddress(customerAddress);
-        } else {
-            return null;
-        }
-    }
-
-    const handleRemoveFromCart = async (productId, productName) => {
+    const handleRemoveFromCart = async (productName, productId) => {
         const username = getUsernameByJwt();
-        const status = await cartService.removeProductFromCart(username, productId);
-
-        if (status === 200) {
-            toast("Xóa sản phẩm " + productName + " ra khỏi giỏ hàng!");
-        } else {
-            toast.warn("Lỗi máy chủ, vui nòng niên hệ QTV để được hỗ chợ!");
-        }
+        dispatch(removeProducts(username, productId));
+        toast("Xóa sản phẩm " + productName + " ra khỏi giỏ hàng!");
+        setFlag(!flag);
     }
 
     useEffect(() => {
         getCart();
-        getCartTotalItem();
-        getCartTotalCost();
-        getCustomerAddress();
-    }, [])
-
-    if (!cart) {
-        return null;
-    }
-
-    if (cart.length === 0) {
-        return (<h1>CHƯA CÓ ĐỒ BÀY ĐẶT VÔ GIỎ HÀNG</h1>)
-    }
+    }, [totalItem])
 
     return (
         <>
-            <section className="cart-wrapper h-100 h-custom mt-5" style={{backgroundColor: "#eee"}}>
+            <section className="cart-wrapper h-100 h-custom mt-2" style={{backgroundColor: "#eee"}}>
                 <div className="container h-100 py-5">
                     <h3 className="text-center cart-title mt-5">Giỏ hàng</h3>
                     <Link to="/" className="cart-link-child">
@@ -87,57 +50,70 @@ export default function Cart() {
                                             <h3 className="mb-5 pt-2 text-center fw-bold cart-title">
                                                 Sản phẩm
                                             </h3>
-                                            <div className="d-flex align-items-center mb-5">
-                                                <div className="flex-grow-1 ms-3 mt-5">
-                                                    {
-                                                        cart.map(temp => {
-                                                            return (
-                                                                <div className="row mb-3">
-                                                                    <div className="col-lg-3">
-                                                                        <img
-                                                                            src={temp.productPicture}
-                                                                            className="cart-product-img"
-                                                                            alt="Generic placeholder image"/>
-                                                                    </div>
-                                                                    <div
-                                                                        className="d-flex align-items-center col-lg-9 row mt-3">
-                                                                        <div className="d-flex">
-                                                                            <div>
-                                                                                <h5 className="text-primary"> Sản
-                                                                                    phẩm: {temp.productName}</h5>
-                                                                            </div>
-                                                                            <div className="ms-auto">
-                                                                                <Link onClick={() => handleRemoveFromCart(temp.productId, temp.productName)}
-                                                                                   className="fa-solid fa-trash cart-trash-btn"/>
-                                                                            </div>
+                                            {
+                                                cart.length === 0 && <span className="fst-italic">Chưa cóa sản phẩm nào</span>
+                                            }
+                                            {
+                                                cart.length > 0 &&
+                                                <div className="d-flex align-items-center mb-5">
+                                                    <div className="flex-grow-1 ms-3 mt-5">
+                                                        {
+                                                            cart.length > 0 && cart.map((temp, index) => {
+                                                                return (
+                                                                    <div className="row mb-3 gap-4" key={index}>
+                                                                        <div className="d-flex gap-2 col-lg-3">
 
+                                                                            <img
+                                                                                src={temp.productPicture}
+                                                                                className="cart-product-img"
+                                                                                alt="Generic placeholder image"/>
                                                                         </div>
-                                                                        <p className="fw-bold mb-0 me-5 pe-3 col-lg-6 col-md-6 col-sm-6">
-                                                                            Giá: {new Intl.NumberFormat().format(temp.productPrice)} .đ
-                                                                            / 1 sp</p>
                                                                         <div
-                                                                            className="d-flex col-lg-6 col-md-6 col-sm-6 cart-quantity-div">
-                                                                            <button
-                                                                                className="cart-minus-btn"> -
-                                                                            </button>
-                                                                            <input
-                                                                                className="fw-bold text-black cart-quantity-input"
-                                                                                min={0}
-                                                                                defaultValue={temp.productQuantity}
-                                                                                type="number"
-                                                                                readOnly={true}/>
-                                                                            <button
-                                                                                className="cart-addition-btn"> +
-                                                                            </button>
+                                                                            className="d-flex gap-2 align-items-center col-lg-9 row mt-3">
+                                                                            <div className="d-flex">
+                                                                                <div>
+                                                                                    <h5 className="text-primary"> <span>Sản
+                                                                                    phẩm: </span>
+                                                                                        <Link className="cart-product-name"
+                                                                                              to={`/detail/${temp.productId}`}>
+                                                                                            {temp.productName}
+                                                                                        </Link>
+                                                                                    </h5>
+                                                                                </div>
+                                                                                <div className="ms-auto">
+                                                                                    <i onClick={() => handleRemoveFromCart(temp.productName, temp.productId)}
+                                                                                       className="fa-solid fa-trash cart-trash-btn"/>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <p className="fw-bold mb-0 me-5 pe-3 col-lg-6 col-md-6 col-sm-6">
+                                                                                Giá: {new Intl.NumberFormat().format(temp.productPrice)} .đ
+                                                                                / 1 sp</p>
+                                                                            <div
+                                                                                className="d-flex col-lg-6 col-md-6 col-sm-6 cart-quantity-div">
+                                                                                <button
+                                                                                    className="cart-minus-btn"> -
+                                                                                </button>
+                                                                                <input
+                                                                                    className="fw-bold text-black cart-quantity-input"
+                                                                                    min={0}
+                                                                                    defaultValue={temp.productQuantity}
+                                                                                    type="number"
+                                                                                    readOnly={true}/>
+                                                                                <button
+                                                                                    className="cart-addition-btn"> +
+                                                                                </button>
+                                                                            </div>
                                                                         </div>
+                                                                        <hr className="mt-2 mb-2"/>
                                                                     </div>
-                                                                    <hr className="mt-2 mb-2"/>
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
+                                                                )
+                                                            })
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
+
                                         </div>
                                         <div className="col-lg-6 px-5 py-4">
                                             <h3 className="mb-5 pt-2 text-center fw-bold cart-title">
@@ -154,7 +130,7 @@ export default function Cart() {
                                                 className="d-flex justify-content-between p-2 mb-2"
                                                 style={{backgroundColor: "#e1f5fe"}}>
                                                 <h5 className="fw-bold mb-0">Tổng cộng: </h5>
-                                                <h5 className="fw-bold mb-0">{new Intl.NumberFormat().format(cartTotalCost)} .đ</h5>
+                                                <h5 className="fw-bold mb-0">{new Intl.NumberFormat().format(3333)} .đ</h5>
                                             </div>
                                             <hr
                                                 className="mb-4"
@@ -171,7 +147,7 @@ export default function Cart() {
                                                 <button
                                                     type="button"
                                                     className="col-lg-6 col-md-6 col-sm-12 cart-confirm-buy-btn">
-                                                    Mua hàng ( sản phẩm!)
+                                                    Mua hàng ({totalItem} sản phẩm!)
                                                 </button>
                                                 <h5
                                                     className="col-lg-6 col-md-6 col-sm-12 fw-light cart-link">
@@ -189,3 +165,5 @@ export default function Cart() {
         </>
     )
 }
+
+export default Cart;

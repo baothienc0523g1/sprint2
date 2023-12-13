@@ -2,13 +2,16 @@ import '../style/products.css'
 import {toast} from "react-toastify";
 import Card from 'react-bootstrap/Card';
 import {useNavigate} from "react-router-dom";
-import * as cartService from "../service/cartService";
 import * as securityService from "../service/securityService";
+import {useDispatch} from "react-redux";
+import {addToCart} from "../provider/actions";
 
 export default function MyCard(event) {
     const {url, name, price, id} = event;
     const flag = securityService.getAccessToken() != null;
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const productDetail = () => {
         navigate(`/detail/${id}`);
@@ -17,12 +20,8 @@ export default function MyCard(event) {
     const handleAddProductToCart = async () => {
         if (flag) {
             const username = securityService.getUsernameByJwt();
-            const status = await cartService.addNewProductToCart(username, id, 1);
-            if (status === 200) {
-                toast.success("Thêm vào giỏ hàng thành công!");
-            } else {
-                toast.warn("Máy chủ đang bảo trì, vui lòng đợi trong giây lát!")
-            }
+            dispatch(addToCart(username, id, 1));
+            toast.success("Thêm vào giỏ hàng thành công!");
         } else {
             toast.success("Vui lòng đăng nhập!");
             navigate("/login");

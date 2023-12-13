@@ -1,13 +1,15 @@
 import '../style/login.css';
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import React, {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {toast} from "react-toastify";
 import * as securityService from "../service/securityService";
-import {addAccessToken} from "../service/securityService";
+import {addAccessToken, getAccessToken} from "../service/securityService";
 
 export default function Login() {
+
+    const flag = getAccessToken() != null;
 
     const navigate = useNavigate();
     const initUser = {
@@ -77,50 +79,54 @@ export default function Login() {
     };
 
 
-    return (
-        <div id="wrapper">
-            <div className="main-form">
-                <div className="login-title">
-                    <span className="login-title">ĐĂNG NHẬP</span>
-                </div>
-                <div className="login-form">
-                    <Formik
-                        initialValues={userInit}
-                        validationSchema={yup.object(loginValidator)}
-                        onSubmit={doLogin}
-                    >
-                        <Form>
-                            <div className="form-child-unit">
-                                <Field onChange={(event) => handleChangeUsername(event)} name="username" type="text"
-                                       placeholder="Tên tài khoản" className="input-tag"/>
-                                <ErrorMessage name="username" component="div" className="form-err-msg"/>
-                            </div>
-                            <div className="form-child-unit">
-                                <Field onChange={(event) => handleChangePassword(event)} name="password" type="password"
-                                       placeholder="Mật khẩu" className="input-tag"/>
-                                <ErrorMessage name="password" component="div" className="form-err-msg"/>
-                            </div>
-                            <div className="form-child-btn" id="login-btn-div">
-                                <div className="login-btn-div">
-                                    <button type="submit" className="login-btn">
-                                        Đăng nhập
-                                    </button>
+    if (!flag) {
+        return (
+            <div id="wrapper">
+                <div className="main-form">
+                    <div className="login-title">
+                        <span className="login-title">ĐĂNG NHẬP</span>
+                    </div>
+                    <div className="login-form">
+                        <Formik
+                            initialValues={userInit}
+                            validationSchema={yup.object(loginValidator)}
+                            onSubmit={doLogin}
+                        >
+                            <Form>
+                                <div className="form-child-unit">
+                                    <Field onChange={(event) => handleChangeUsername(event)} name="username" type="text"
+                                           placeholder="Tên tài khoản" className="input-tag"/>
+                                    <ErrorMessage name="username" component="div" className="form-err-msg"/>
                                 </div>
-                                <div className="login-with-fb-btn">
+                                <div className="form-child-unit">
+                                    <Field onChange={(event) => handleChangePassword(event)} name="password" type="password"
+                                           placeholder="Mật khẩu" className="input-tag"/>
+                                    <ErrorMessage name="password" component="div" className="form-err-msg"/>
+                                </div>
+                                <div className="form-child-btn" id="login-btn-div">
+                                    <div className="login-btn-div">
+                                        <button type="submit" className="login-btn">
+                                            Đăng nhập
+                                        </button>
+                                    </div>
+                                    <div className="login-with-fb-btn">
+
+                                    </div>
 
                                 </div>
-
-                            </div>
-                        </Form>
-                    </Formik>
-                    <div className="form-child-option">
-                        <p className="login-text" id="back-to-main-div"> Quay về <Link className="a-link" to={"/"}>Trang
-                            chủ</Link></p>
-                        <p className="login-text">Bạn chưa có tài khoản? <Link className="a-link" to={"/signup"}>Đăng
-                            ký</Link></p>
+                            </Form>
+                        </Formik>
+                        <div className="form-child-option">
+                            <p className="login-text" id="back-to-main-div"> Quay về <Link className="a-link" to={"/"}>Trang
+                                chủ</Link></p>
+                            <p className="login-text">Bạn chưa có tài khoản? <Link className="a-link" to={"/signup"}>Đăng
+                                ký</Link></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+
+    }
 }

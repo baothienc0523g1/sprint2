@@ -7,7 +7,7 @@
 .detail-title {
     padding-top: 2%;
     text-align: center;
-    color: #282c34;
+    color: #5e5c4d;
     font-size: 30px;
     font-weight: bold;
     font-family: 'Lora', cursive;
@@ -18,6 +18,13 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     color: #c27a6b;
     font-size: 18px;
+}
+
+.product-detail-img {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    border-radius: 15px;
+    outline: none;
+    border: none;
 }
 
 .product-des-content {
@@ -80,7 +87,7 @@
 }
 
 @media screen and (max-width: 1024px) {
-    .product-detail-wrapper{
+    .product-detail-wrapper {
         min-height: 70vh;
     }
 }

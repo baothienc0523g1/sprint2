@@ -1,17 +1,23 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import '../style/header.css'
+import {toast} from "react-toastify";
+import Nav from 'react-bootstrap/Nav';
+import {Modal} from "react-bootstrap";
+import {useEffect, useState} from "react";
+import Navbar from 'react-bootstrap/Navbar';
+import {getCartFromAPI} from "../provider/actions";
+import Container from 'react-bootstrap/Container';
 import {useNavigate, NavLink, Link} from "react-router-dom";
 import * as securityService from "../service/securityService";
-import {useEffect, useState} from "react";
-import {Modal} from "react-bootstrap";
-import {toast} from "react-toastify";
+import {connect, useDispatch, useSelector} from "react-redux";
 
-export default function Header() {
+function Header() {
     const navigate = useNavigate();
     const [userFullname, setUserFullname] = useState();
     const [show, setShow] = useState(false);
+
+    const dispatch = useDispatch();
+    const cartInit = useSelector((state) => state.reducers);
+    const totalItem = useSelector((state) => state.reducers.totalItem);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -48,7 +54,8 @@ export default function Header() {
 
     useEffect(() => {
         getUserFullname();
-    }, [userFullname, show])
+        dispatch(getCartFromAPI());
+    }, [userFullname, show, totalItem])
 
     return (
         <>
@@ -60,7 +67,7 @@ export default function Header() {
                 </div>
                 <Navbar expand="lg" className="bg-white">
                     <Container>
-                        <Navbar.Brand href="#home">
+                        <Navbar.Brand>
                             <Link to="/"><img className="header-logo" src="/store_logo.png"
                                               alt="logo"/></Link></Navbar.Brand>
                         <div className="vertical-line"></div>
@@ -68,25 +75,26 @@ export default function Header() {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
                                 <NavLink to="/about" className={navLinkClass}>Liên lạc</NavLink>
-                                <NavLink to="/a" className={navLinkClass}>Chính sách</NavLink>
-                                <NavLink to="/a" className={navLinkClass}>Chương trình khuyến mãi</NavLink>
+                                <NavLink to="/product/type/1" className={navLinkClass}>Sinh nhật</NavLink>
+                                <NavLink to="/product/type/2" className={navLinkClass}>Dịp</NavLink>
+                                <NavLink to="/product/type/3" className={navLinkClass}>Hoa và cây</NavLink>
                             </Nav>
                             <Nav>
                                 {!userFullname && <span className="navbar-text">“Đời là bông hoa, tình yêu là mật.” - Victor Hugo</span>}
-
                                 {userFullname &&
                                     <div className="navbar-logined"
                                          style={{display: "table-cell", verticalAlign: "middle"}}>
                                         <div className="header-dropdown">
                                             <button className="user-fullname">{userFullname}</button>
                                             <div className="header-dropdown-content">
+                                                <Link className="dropdown-child" to="/">Lịch sử mua hàng</Link>
                                                 <Link className="dropdown-child" to="/">Thông tin cá nhân</Link>
                                                 <button className="logout-btn" onClick={handleShow}>Đăng xuất</button>
                                             </div>
                                         </div>
                                         <button onClick={forwardToCart} className="cart-btn-header"><i
                                             className="fa-solid fa-cart-shopping"/>
-                                            <div className="badge badge-light" id="cart-badge">?</div>
+                                            <div className="badge badge-light" id="cart-badge">{cartInit.totalItem}</div>
                                         </button>
                                     </div>
                                 }
@@ -123,3 +131,4 @@ export default function Header() {
         </>
     );
 }
+export default Header;
