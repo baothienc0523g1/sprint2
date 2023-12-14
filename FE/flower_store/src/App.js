@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Header from "./components/Header";
 import {EnumRole} from "./service/EnumRole";
+import {render} from 'creditcardpayments/creditCardPayments'
 import {Route, Routes} from "react-router-dom";
 import About from "./components/HeaderLink/About";
 import {HandleAuthor} from "./service/authorization";
@@ -15,8 +16,7 @@ import ProductDetail from "./components/ProductDetail";
 import ProductsWithType from "./components/ProductsWithType";
 import ProductsTrending from "./components/ProductsTrending";
 
-export default function App({productArr, productQuantity}) {
-
+export default function App() {
     requestFilter();
     return (
         <>

@@ -1,5 +1,6 @@
 .product-detail-wrapper {
     position: relative;
+    display: block;
     top: 89px;
     margin-bottom: 10%;
 }
@@ -70,6 +71,7 @@
     height: 40px;
     border-radius: 5px;
     transition: .1s ease;
+    margin-bottom: 5vh;
 }
 
 .add-to-cart-btn:hover {
@@ -89,5 +91,17 @@
 @media screen and (max-width: 1024px) {
     .product-detail-wrapper {
         min-height: 70vh;
+    }
+    .product-des {
+        padding-top: 5%;
+    }
+}
+@media screen and (max-width: 720px) {
+    .product-detail-wrapper {
+        top: 100px;
+    }
+    .product-des {
+        padding-top: 7%;
+        text-align: center;
     }
 }

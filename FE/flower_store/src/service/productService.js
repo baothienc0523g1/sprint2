@@ -2,9 +2,10 @@ import axios from "axios";
 
 const BASE_API = "http://localhost:8080/api";
 
-const getFeature = async () => {
+const getFeature = async (searchName) => {
     try {
-        return await axios.get(BASE_API + "/public/feature");
+        const res = await axios.get(BASE_API + `/public/feature?searchName=${searchName}`);
+        return res.data;
     } catch (e) {
         console.log(e);
     }

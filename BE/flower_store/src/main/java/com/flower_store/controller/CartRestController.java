@@ -83,7 +83,7 @@ public class CartRestController {
      * @since 08-12-2023
      */
     @GetMapping("/cart/add/{username}/{productId}/{quantity}")
-    public ResponseEntity<?> addProductsInCart(@PathVariable(name = "username") String username,
+    public ResponseEntity<?> addProductsToCart(@PathVariable(name = "username") String username,
                                                @PathVariable(name = "productId") Integer productId,
                                                @PathVariable(name = "quantity") Integer quantity) {
 

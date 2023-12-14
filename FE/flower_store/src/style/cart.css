@@ -130,12 +130,13 @@
 }
 
 .cart-link-child, .cart-link, .cart-address-change {
-    color: #495057;
+    color: #5e5c4d;
+    font-style: italic;
     text-decoration: none;
 }
 
 .cart-link-child:hover, .cart-address-change:hover {
-    text-decoration: underline #282c34;
+    text-decoration: underline #5e5c4d;
 }
 
 .cart-confirm-buy-btn {

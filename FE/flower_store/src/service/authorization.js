@@ -15,7 +15,7 @@ export const HandleAuthor = ({allowedRole}) => {
     const isAuthenticated = securityService.getAccessToken();
     let userRole;
 
-    if(isAuthenticated) {
+    if(isAuthenticated != null) {
         userRole = securityService.getRoleByJwt();
     }
     return userRole && hasAuthor(allowedRole, userRole) ?

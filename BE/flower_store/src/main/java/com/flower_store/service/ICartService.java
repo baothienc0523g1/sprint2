@@ -1,9 +1,6 @@
 package com.flower_store.service;
 
 import com.flower_store.dto.CartDto;
-import com.flower_store.dto.Feature;
-import org.springframework.data.repository.query.Param;
-
 import java.util.Collection;
 
 public interface ICartService {

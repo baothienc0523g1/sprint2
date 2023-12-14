@@ -78,9 +78,10 @@ export default function ProductDetail() {
                     trước </i>
                 <div className="row mt-5 mb-5">
                     <div className="col-lg-6">
-                        <img className="product-detail-img" src={productDetail.pictureUrl} alt="detail" style={{height: "auto", width: "100%"}}/>
+                        <img className="product-detail-img" src={productDetail.pictureUrl} alt="detail"
+                             style={{height: "auto", width: "100%"}}/>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 product-des">
                         <div className="product-detail mb-3 fw-normal">Tên sản phẩm: <span
                             className="fw-bolder">{productDetail.name}</span></div>
                         <div className="product-detail mb-3 fw-normal">Mã sản phẩm: <span

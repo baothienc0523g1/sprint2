@@ -6,10 +6,12 @@ import {useNavigate} from "react-router-dom";
 
 export default function Products() {
     const [products, setProducts] = useState([]);
+    const [searchType, setSearchType] = useState("none");
+    const [searchName, setSearchName] = useState("");
     const navigate = useNavigate();
 
-    const productList = async () => {
-        const data = (await featureService.getFeature()).data;
+    const getProductList = async () => {
+        const data = (await featureService.getFeature(searchName));
         await setProducts(data);
     }
 
@@ -29,30 +31,58 @@ export default function Products() {
         navigate("/product/trending");
     }
 
+    const handleChangeSortType = (event) => {
+        setSearchType(event.target.value);
+    }
+
+    const handleChangeSearchName = (event) => {
+        setSearchName(event.target.value);
+    }
+
+    const handleSearchName = async (e) => {
+        if (e.key === 'Enter') {
+            await getProductList();
+        }
+    }
+
     useEffect(() => {
-        productList();
+        getProductList();
     }, [])
 
-    if (products.length === 0) {
-        return null;
-    }
-
-    if (products.length === 0) {
-        return null;
-    }
 
     return (
         <>
             <div className="products container">
-
                 <div className="product-type-search-div mt-2 mb-2">
-                    <button className="product-type-btn" onClick={handleChangeToTrendingProduct}>Bán chạy <i className="fa-solid fa-fire"/></button>
-                    <button className="product-type-btn" onClick={handleChangeProductTypeBirthday}>Sinh nhật <i className="fa-solid fa-gift"/></button>
-                    <button className="product-type-btn" onClick={handleChangeProductTypeEvents}>Dịp <i className="fa-solid fa-calendar-days"/></button>
-                    <button className="product-type-btn" onClick={handleChangeProductTypePlants}>Hoa và cây <i className="fa-brands fa-pagelines"/></button>
+                    <button className="product-type-btn" onClick={handleChangeToTrendingProduct}>Bán chạy <i
+                        className="fa-solid fa-fire"/></button>
+                    <button className="product-type-btn" onClick={handleChangeProductTypeBirthday}>Sinh nhật <i
+                        className="fa-solid fa-gift"/></button>
+                    <button className="product-type-btn" onClick={handleChangeProductTypeEvents}>Dịp <i
+                        className="fa-solid fa-calendar-days"/></button>
+                    <button className="product-type-btn" onClick={handleChangeProductTypePlants}>Hoa và cây <i
+                        className="fa-brands fa-pagelines"/></button>
+                    <input type="text" className="search-input" placeholder="Nhập tên sản phẩm"
+                           onChange={(event => handleChangeSearchName(event))}
+                           onKeyDown={handleSearchName}
+                    />
+
+                    <div className="search-option-wrapper gap-2">
+                        <select onChange={event => handleChangeSortType(event)}
+                                name="price-sort" id="price-sort">
+                            <option value="none" className="price-sort-opt">Mặc định</option>
+                            <option value="asc" className="price-sort-opt">Giá tăng dần</option>
+                            <option value="desc" className="price-sort-opt">Giá giảm dần</option>
+                        </select>
+                    </div>
                 </div>
-                <div className="row">
+                <div className="row product-list">
                     {
+                        !products &&
+                        <span className="fst-italic">Không có kết quả</span>
+                    }
+
+                    {products &&
                         products.map((temp, index) => {
                             return (
                                 <div key={index} className="col-xxl-2 col-lg-3 col-md-4 col-sm-5 mb-5 mt-3"

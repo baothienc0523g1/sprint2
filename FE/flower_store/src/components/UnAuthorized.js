@@ -9,7 +9,7 @@ export default function UnAuthorized() {
                     <div className="notfound-404">
                         <h1 className="notfound-h1">Oops!!!</h1>
                     </div>
-                    <h2 className="notfound-h2">Hình như có gì đó ...sai sai!!</h2>
+                    <h2 className="notfound-h2">Vui lòng đăng nhập để sử dụng tính năng này</h2>
                     <Link className="notfound-link" to="/"><span className="arrow"></span> Quay về trang chủ</Link>
                 </div>
             </div>

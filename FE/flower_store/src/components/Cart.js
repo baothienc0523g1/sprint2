@@ -1,36 +1,39 @@
 import {Link} from "react-router-dom";
 import Footer from "./Footer";
 import '../style/cart.css';
-import {useEffect, useState} from "react";
-import * as cartService from "../service/cartService";
+import {useEffect} from "react";
 import {getUsernameByJwt} from "../service/securityService";
 import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
-import {removeProducts} from "../provider/actions";
+import {addToCart, minusFromCart, removeProducts} from "../provider/actions";
 
 function Cart() {
-    const [cart, setCart] = useState([]);
-    const [flag, setFlag] = useState(false);
-
     const dispatch = useDispatch();
+    const username = getUsernameByJwt();
 
-    const getCart = async () => {
-        const userCart = await cartService.getCart();
-        await setCart(userCart);
-    }
-    useSelector(state => state.reducers);
     const totalItem = useSelector(state => state.reducers.totalItem)
+    const cart = useSelector(state => state.reducers.productArr);
+    const address = useSelector(state => state.reducers.address);
+    const phoneNumber = useSelector(state => state.reducers.phoneNumber);
+    const totalPrice = useSelector(state => state.reducers.totalPrice);
 
     const handleRemoveFromCart = async (productName, productId) => {
         const username = getUsernameByJwt();
         dispatch(removeProducts(username, productId));
         toast("Xóa sản phẩm " + productName + " ra khỏi giỏ hàng!");
-        setFlag(!flag);
+    }
+
+    const handleAddition = (productId) => {
+        dispatch(addToCart(username, productId, 1));
+    }
+
+    const handleMinus = (productId) => {
+        dispatch(minusFromCart(username, productId, 1));
     }
 
     useEffect(() => {
-        getCart();
-    }, [totalItem])
+
+    }, [totalItem, totalPrice])
 
     return (
         <>
@@ -50,11 +53,15 @@ function Cart() {
                                             <h3 className="mb-5 pt-2 text-center fw-bold cart-title">
                                                 Sản phẩm
                                             </h3>
+                                            <hr className="mb-4"
+                                                style={{height: 2, backgroundColor: "#5e5c4d", opacity: 1}}/>
                                             {
-                                                cart.length === 0 && <span className="fst-italic">Chưa cóa sản phẩm nào</span>
+                                                totalItem === 0 &&
+                                                <span className="fst-italic">Chưa cóa sản phẩm nào</span>
                                             }
+
                                             {
-                                                cart.length > 0 &&
+                                                totalItem > 0 &&
                                                 <div className="d-flex align-items-center mb-5">
                                                     <div className="flex-grow-1 ms-3 mt-5">
                                                         {
@@ -92,16 +99,19 @@ function Cart() {
                                                                             <div
                                                                                 className="d-flex col-lg-6 col-md-6 col-sm-6 cart-quantity-div">
                                                                                 <button
-                                                                                    className="cart-minus-btn"> -
+                                                                                    className="cart-minus-btn"
+                                                                                    onClick={() => handleMinus(temp.productId)}
+                                                                                > -
                                                                                 </button>
                                                                                 <input
                                                                                     className="fw-bold text-black cart-quantity-input"
                                                                                     min={0}
-                                                                                    defaultValue={temp.productQuantity}
+                                                                                    value={temp.productQuantity}
                                                                                     type="number"
                                                                                     readOnly={true}/>
                                                                                 <button
-                                                                                    className="cart-addition-btn"> +
+                                                                                    className="cart-addition-btn"
+                                                                                    onClick={() => handleAddition(temp.productId)}> +
                                                                                 </button>
                                                                             </div>
                                                                         </div>
@@ -119,40 +129,44 @@ function Cart() {
                                             <h3 className="mb-5 pt-2 text-center fw-bold cart-title">
                                                 Thanh toán
                                             </h3>
-                                            <hr
-                                                className="mb-4"
-                                                style={{height: 2, backgroundColor: "#1266f1", opacity: 1}}/>
-                                            <div className="d-flex justify-content-between px-x">
-                                                <p className="fw-bold">Giảm giá:</p>
-                                                <p className="fw-bold">0 .đ</p>
-                                            </div>
-                                            <div
-                                                className="d-flex justify-content-between p-2 mb-2"
-                                                style={{backgroundColor: "#e1f5fe"}}>
-                                                <h5 className="fw-bold mb-0">Tổng cộng: </h5>
-                                                <h5 className="fw-bold mb-0">{new Intl.NumberFormat().format(3333)} .đ</h5>
-                                            </div>
-                                            <hr
-                                                className="mb-4"
-                                                style={{height: 2, backgroundColor: "#1266f1", opacity: 1}}/>
-                                            <p className="fw-bold">
-                                                Giao hàng tới:
-                                                <Link to="/" className="float-lg-end cart-address-change">Thay
-                                                    đổi</Link>
-                                            </p>
-                                            <h5> - Điện thoại</h5>
-                                            <p></p>
+                                            <hr className="mb-4"
+                                                style={{height: 2, backgroundColor: "#5e5c4d", opacity: 1}}/>
 
-                                            <div className="row">
-                                                <button
-                                                    type="button"
-                                                    className="col-lg-6 col-md-6 col-sm-12 cart-confirm-buy-btn">
-                                                    Mua hàng ({totalItem} sản phẩm!)
-                                                </button>
-                                                <h5
-                                                    className="col-lg-6 col-md-6 col-sm-12 fw-light cart-link">
-                                                </h5>
-                                            </div>
+                                            {
+                                                totalItem > 0 &&
+                                                <>
+                                                    <div className="d-flex justify-content-between px-x">
+                                                        <p className="fw-bold">Giảm giá:</p>
+                                                        <p className="fw-bold">0 .đ</p>
+                                                    </div>
+                                                    <div className="d-flex justify-content-between p-2 mb-2"
+                                                         style={{backgroundColor: "#e1f5fe"}}>
+                                                        <h5 className="fw-bold mb-0">Tổng thiệt hại: </h5>
+                                                        <h5 className="fw-bold mb-0">{new Intl.NumberFormat().format(totalPrice)} .đ</h5>
+                                                    </div>
+                                                    <hr className="mb-4"
+                                                        style={{height: 2, backgroundColor: "#5e5c4d", opacity: 1}}/>
+
+                                                    <p className="fw-bold">
+                                                        <Link to="/" className="float-lg-end cart-address-change">Thay
+                                                            đổi</Link>
+                                                        Giao hàng tới: {address}
+                                                    </p>
+                                                    <p>Điện thoại</p>
+                                                    <h5>{phoneNumber}</h5>
+
+                                                    <div className="row">
+                                                        <button
+                                                            type="button"
+                                                            className="col-lg-6 col-md-6 col-sm-12 cart-confirm-buy-btn">
+                                                            Mua hàng ({totalItem})
+                                                        </button>
+                                                        <h5
+                                                            className="col-lg-6 col-md-6 col-sm-12 fw-light cart-link">
+                                                        </h5>
+                                                    </div>
+                                                </>
+                                            }
                                         </div>
                                     </div>
                                 </div>

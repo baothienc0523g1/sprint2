@@ -1,23 +1,30 @@
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
-import {getAccessToken} from "./securityService";
+import {getUsernameByJwt} from "./securityService";
 
 const BASE_API = "http://localhost:8080/api/member/cart";
 
 const getCart = async () => {
     try {
-        const token = getAccessToken();
-        const username = jwtDecode(token).sub;
+        const username = getUsernameByJwt();
         const res = await axios.get(BASE_API + `/${username}`);
         return res.data;
     } catch (e) {
-        console.log(e);
+        console.log(e)
     }
 }
 
 const addNewProductToCart = async (username, productId, productQuantity) => {
     try {
         const res = await axios.get(BASE_API + `/${username}/${productId}/${productQuantity}`);
+        return res.status;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+const minusProductFromCart = async (username, productId, productQuantity) => {
+    try {
+        const res = await axios.get(BASE_API + `/remove/${username}/${productId}/${productQuantity}`);
         return res.status;
     } catch (e) {
         console.log(e);
@@ -34,4 +41,4 @@ const removeProductFromCart = async (username, productId) => {
 }
 
 
-export {getCart, addNewProductToCart, removeProductFromCart}
+export {getCart, addNewProductToCart, removeProductFromCart, minusProductFromCart}

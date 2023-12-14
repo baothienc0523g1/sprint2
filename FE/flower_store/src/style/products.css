@@ -11,6 +11,7 @@
     max-height: 500px;
     box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 }
+
 .my-card:hover {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
@@ -26,6 +27,7 @@
     background-color: rgba(94, 92, 77, .7);
     color: #e7bab0;
 }
+
 .my-card-btn {
     background-color: white;
     outline: none;
@@ -36,6 +38,7 @@
     color: #e7bab0;
     width: 33%;
 }
+
 .my-card-btn:hover {
     background-color: #e7bab0;
     color: white;
@@ -82,13 +85,15 @@
     border-radius: 5px;
 }
 
-.search-option:focus {
+.search-option:focus, #price-sort:focus {
     outline: none;
 }
+
 
 .search-input {
     border: none;
     border-bottom: 1px solid #e7bab0;
+    background-color: #eee;
 }
 
 .search-input::placeholder {
@@ -98,24 +103,7 @@
 .search-input:focus {
     outline: none;
 }
-@media screen and (max-width: 1200px){
-    .product-type-search-div {
-        width: 50%;
-    }
-}
 
-@media screen and (max-width: 768px){
-    .product-type-search-div {
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 576px){
-    .my-card {
-        width: 60%;
-        margin: auto;
-    }
-}
 
 /*product with type*/
 .search-btn {
@@ -131,4 +119,58 @@
     background-color: #e7bab0;
     border: 1px solid #e7bab0;
     color: white;
+}
+
+/*products */
+.search-option-wrapper {
+    margin-left: auto;
+    column-gap: 15px;
+}
+
+#price-sort {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: #eee;
+    border: 1px solid #e7bab0;
+    border-radius: 5px;
+}
+
+.price-sort-opt {
+
+}
+
+@media screen and (max-width: 576px) {
+    .product-type-search-div {
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-type-btn {
+        width: 42%;
+        margin-bottom: 2%;
+    }
+
+    .search-input {
+        width: 42%;
+        margin-bottom: 2%;
+    }
+
+    .search-option-wrapper {
+        width: 42%;
+        margin: auto;
+        display: grid;
+    }
+    .price-sort {
+        ;
+        place-self: center;
+    }
+    .product-list {
+        padding-left: 15%;
+        padding-right: 15%;
+    }
 }

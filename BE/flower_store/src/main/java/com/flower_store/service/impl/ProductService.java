@@ -32,10 +32,21 @@ public class ProductService implements IProductService {
      * @since 06-12-2023
      */
     @Override
-    public Collection<Feature> findAllFeature() {
-        return this.productRepository.findAllFeature();
+    public Collection<Feature> findAllFeature(String searchName) {
+        return this.productRepository.findAllFeature("%" + searchName + "%");
     }
 
+    /**
+     * method get trending product by quantity in order details table
+     *
+     * @return Collection<Feature>
+     * @author Bao Thien
+     * @since 12-12-2023
+     */
+    @Override
+    public Collection<Feature> findTrendingFeature() {
+        return this.productRepository.findTrendingFeature();
+    }
 
     /**
      * method find feature by id
@@ -143,18 +154,29 @@ public class ProductService implements IProductService {
      * @since 10-12-2023
      */
     @Override
-    public Collection<Feature> findProductWithOption(String productName, Long productMinPrice,
-                                                     Long productMaxPrice, Integer productTypeId) {
+    public Collection<Feature> findProductWithOption(Long productMinPrice,
+                                                     Long productMaxPrice,
+                                                     Integer productTypeId) {
         try {
-            return this.productRepository.findProductWithOption(productName, productMinPrice,
+            return this.productRepository.findProductWithOption(productMinPrice,
                     productMaxPrice, productTypeId);
         } catch (IllegalArgumentException e) {
             logger.warn("IllegalArgumentException: ", e.getMessage());
         } catch (TransactionException e) {
             logger.warn("TransactionException: ", e.getMessage());
         } catch (Exception e) {
-            logger.warn("Error while add new cart: ", e.getMessage());
+            logger.warn("Error while finding product with option: ", e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public Optional<Long> maxPriceOfProducts() {
+        return this.productRepository.getMaxPrice();
+    }
+
+    @Override
+    public String productTypeName(int id) {
+        return this.productRepository.getProductTypeName(id);
     }
 }
