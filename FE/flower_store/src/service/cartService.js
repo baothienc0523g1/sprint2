@@ -1,7 +1,7 @@
 import axios from "axios";
 import {getUsernameByJwt} from "./securityService";
 
-const BASE_API = "http://localhost:8080/api/member/cart";
+const BASE_API = "http://localhost:8080/api/member/carts";
 
 const getCart = async () => {
     try {
@@ -40,5 +40,13 @@ const removeProductFromCart = async (username, productId) => {
     }
 }
 
+const payCart = async (username) => {
+    try {
+        const username = getUsernameByJwt();
+        const res = await axios.delete(BASE_API + `/pay?username=${username}/`);
+    } catch (err) {
 
-export {getCart, addNewProductToCart, removeProductFromCart, minusProductFromCart}
+    }
+}
+
+export {getCart, addNewProductToCart, removeProductFromCart, minusProductFromCart, payCart}

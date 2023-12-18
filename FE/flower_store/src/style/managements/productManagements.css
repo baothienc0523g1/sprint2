@@ -1,0 +1,23 @@
+.p-management-wrapper {
+    position: relative;
+    top: 86px;
+}
+
+.p-management-title {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/*sidebar*/
+.p-management-sidebar {
+    border-right: 2px solid #EADFDF;
+    min-height: 100vh;
+}
+.product-type-chose {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+    row-gap: 2%;
+}
+
+/*content*/

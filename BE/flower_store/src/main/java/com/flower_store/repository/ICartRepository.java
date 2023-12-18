@@ -5,6 +5,7 @@ import com.flower_store.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,5 +76,23 @@ public interface ICartRepository extends JpaRepository<Cart, Integer> {
                     " and carts.product_id = :productId " +
                     " and carts.is_deleted = 0 ", nativeQuery = true)
     void removeByUserAndProduct(@Param("userName") String userName, @Param("productId") int productId);
+
+    /**
+     * method cart where username = param
+     *
+     * @param userName
+     * @author Bao Thien
+     * @since 18-12-2023
+     */
+    @Transactional
+    @Modifying
+    @Query(value =
+            " delete carts.* " +
+                    " from carts " +
+                    " left join users " +
+                    " on carts.user_id = users.id " +
+                    " where users.username = :userName " +
+                    " and carts.is_deleted = 0 ", nativeQuery = true)
+    void removeByUser(@Param("userName") String userName);
 
 }

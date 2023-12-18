@@ -84,4 +84,57 @@ CREATE TABLE carts (
     is_deleted BIT(1) DEFAULT 0
 );
 
+delimiter //
+create procedure ADD_NEW_ACCOUNT(
+    `new_name` VARCHAR(50),
+    `new_username` VARCHAR(50),
+    `new_password` VARCHAR(50),
+    `new_birthday` DATE,
+    `new_address` LONGTEXT
+)
+
+
+begin
+declare new_account_id_role int;
+    set new_account_id_role = (select MAX(id) + 1 from users);
+    
+insert into user_role(user_id, role_id)
+values 
+(new_account_id_role, 2);
+
+insert into users(`name`,`username`,`password`,`birthday`,`address`)
+values 
+(`new_name`,`new_username`,`new_password`,`new_birthday`,`new_address`);
+end //
+
+delimiter ;
+
+
+delimiter //
+create procedure ADD_NEW_ORDER_DETAIL(
+    `new_user_id` int,
+    `new_time` int,
+    `new_product_id` int,
+    `new_quantity` int,
+    `new_total_cost` int
+)
+begin
+
+declare new_order_id int;
+    set new_order_id = (select MAX(id) + 1 from orders);
+
+insert into orders (`user_id`, `time`)
+values
+(`new_user_id`, `new_time`);
+
+insert into order_detail(`product_id`, `order_id`, `quantity`, `total_cost`)
+values 
+(`new_product_id`, new_order_id, `new_quantity`, `total_cost`);
+
+end //
+
+delimiter ;
+
+
+
 

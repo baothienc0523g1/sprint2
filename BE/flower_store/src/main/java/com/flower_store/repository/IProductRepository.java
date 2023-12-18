@@ -2,6 +2,8 @@ package com.flower_store.repository;
 
 import com.flower_store.dto.Feature;
 import com.flower_store.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,12 +18,13 @@ import java.util.Optional;
 public interface IProductRepository extends JpaRepository<Product, Integer> {
 
     /**
-     * method get product to main page
+     * method get product with search
      *
-     * @param
-     * @return Collection<Feature>
-     * @author Bao Thien
-     * @since 05-12-2023
+     * @param pageable
+     * @param searchName
+     * @return Page<Feature>
+     * @author ThienBB
+     * @since 14-12-2023
      */
     @Query(value =
             " select p.id as id, p.name as name, p.code as code, " +
@@ -35,7 +38,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                     " on p.product_type_id = pt.id " +
                     " where p.is_deleted = 0 " +
                     " and p.name like :searchName ", nativeQuery = true)
-    Collection<Feature> findAllFeature(@Param(("searchName")) String searchName);
+    Page<Feature> findAllFeatureWithSort(@Param("searchName") String searchName, Pageable pageable);
 
     /**
      * method get trending product by quantity in order details table
@@ -58,7 +61,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                     " on p.id = od.product_id " +
                     " where p.is_deleted = 0 " +
                     " group by p.id " +
-                    " order by SUM(od.quantity) desc " +
+                    " order by COUNT(od.product_id) desc " +
                     " limit 12 ", nativeQuery = true)
     Collection<Feature> findTrendingFeature();
 
@@ -133,10 +136,12 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                     " and :productMaxPrice " +
                     " and p.product_type_id = :productTypeId " +
                     " and p.is_deleted = 0 " +
+                    " and p.name like :productName " +
                     " order by p.price asc ", nativeQuery = true)
     Collection<Feature> findProductWithOption(@Param("productMinPrice") Long productMinPrice,
                                               @Param("productMaxPrice") Long productMaxPrice,
-                                              @Param("productTypeId") Integer productTypeId);
+                                              @Param("productTypeId") Integer productTypeId,
+                                              @Param("productName") String productName);
 
     /**
      * method find products max price

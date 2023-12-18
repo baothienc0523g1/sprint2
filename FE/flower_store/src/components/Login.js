@@ -1,19 +1,35 @@
 import '../style/login.css';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {toast} from "react-toastify";
 import * as securityService from "../service/securityService";
-import {addAccessToken, getAccessToken} from "../service/securityService";
+import {addAccessToken, getAccessToken, getUsernameByJwt} from "../service/securityService";
+import {LoginSocialFacebook} from 'reactjs-social-login';
+import {Button, Modal} from "react-bootstrap";
 
 export default function Login() {
+
+    const [fbLoginModalshow, setFbLoginModalShow] = useState(false);
+    const handleShowFbLoginModal = () => setFbLoginModalShow(true);
+    const initFbUser = {
+        name: "",
+        email: "",
+    }
+    const [initFb, setInitFb] = useState({initFbUser});
+    const handleCloseFbLoginModal = () => {
+        setFbLoginModalShow(false);
+    };
+
 
     const navigate = useNavigate();
     const initUser = {
         username: "",
         password: ""
     };
+
+    const username = getUsernameByJwt();
 
     const [userInit, setUserInit] = useState({initUser});
 
@@ -40,6 +56,12 @@ export default function Login() {
             ...userInit,
             password: events.target.value
         })
+    };
+
+    const isAuthenticated = () => {
+        if (username) {
+            navigate("/");
+        }
     };
 
     const doLogin = async () => {
@@ -76,6 +98,50 @@ export default function Login() {
         }
     };
 
+    const doFacebookLogin = async (initFb) => {
+        try {
+            const res = await securityService.loginWithFb({
+                facebookAddress: initFb.email
+            })
+
+            if (res.status === 200) {
+                toast("Đăng nhập thành công!!");
+                await securityService.addAccessToken("accessToken", res.data.jwtToken);
+                handleCloseFbLoginModal();
+                navigate(-1);
+            }
+        } catch (err) {
+            toast.error("Đăng nhập thất bại!");
+        }
+    }
+
+    const handleSetFbUserInfo = async (resolve) => {
+        await setInitFb({
+            name: resolve.data.name,
+            email: resolve.data.email,
+        })
+        await handleShowFbLoginModal();
+    }
+
+    const loginWithFbButtonHandle = async () => {
+        try {
+            const res = await securityService.loginWithFb({
+                facebookAddress: initFbUser.email,
+            })
+
+            if (res.status === 200) {
+                toast("Đăng nhập thành công!!");
+                await securityService.addAccessToken("accessToken", res.data.jwtToken);
+                navigate(-1);
+            }
+        } catch (err) {
+            toast.error("Đăng nhập thất bại!");
+        }
+    }
+
+    useEffect(() => {
+        isAuthenticated();
+    }, []);
 
     return (
         <div id="wrapper">
@@ -106,8 +172,19 @@ export default function Login() {
                                         Đăng nhập
                                     </button>
                                 </div>
-                                <div className="login-with-fb-btn">
-
+                                <div className="login-with-fb">
+                                    <LoginSocialFacebook
+                                        className="login-with-fb-btn"
+                                        appId="316156344649446"
+                                        onResolve={(resolve) => {
+                                            handleSetFbUserInfo(resolve);
+                                        }}
+                                        onReject="71086a8cffb19056f3c6fdba8280f75b">
+                                        <button type="button" className="login-btn">
+                                            <i className="fa-brands fa-facebook"/>
+                                            <span> Đăng nhập với Facebook</span>
+                                        </button>
+                                    </LoginSocialFacebook>
                                 </div>
 
                             </div>
@@ -121,6 +198,26 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+
+            <Modal show={fbLoginModalshow} onHide={handleCloseFbLoginModal}>
+                <Modal.Header closeButton className="logout-modal-header">
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Xin chào {initFb.name} bạn có muốn đăng nhập thông qua {initFb.email} không?
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="logout-btn-modal-cancel" onClick={handleCloseFbLoginModal}
+                            style={{width: "18%"}}>
+                        Hủy
+                    </button>
+                    <button className="logout-btn-modal-confirm" onClick={loginWithFbButtonHandle}
+                            style={{width: "18%"}}>
+                        Có
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
     )
 }

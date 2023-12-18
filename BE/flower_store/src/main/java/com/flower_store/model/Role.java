@@ -22,5 +22,9 @@ public class Role {
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)
     private String name;
 
+    public Role(String name) {
+        this.name = name;
+    }
+
     private boolean isDeleted;
 }

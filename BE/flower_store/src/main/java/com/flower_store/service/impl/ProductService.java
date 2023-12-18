@@ -7,6 +7,8 @@ import com.flower_store.service.IProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +26,17 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method find all feature for display on main page
+     * method get product with search
      *
-     * @param
-     * @return Collection<Feature>
-     * @author Bao Thien
-     * @since 06-12-2023
+     * @param pageable
+     * @param searchName
+     * @return Page<Feature>
+     * @author ThienBB
+     * @since 14-12-2023
      */
     @Override
-    public Collection<Feature> findAllFeature(String searchName) {
-        return this.productRepository.findAllFeature("%" + searchName + "%");
+    public Page<Feature> findAllFeatureWithSort(String searchName, Pageable pageable) {
+        return this.productRepository.findAllFeatureWithSort("%" + searchName + "%", pageable);
     }
 
     /**
@@ -48,6 +51,7 @@ public class ProductService implements IProductService {
         return this.productRepository.findTrendingFeature();
     }
 
+
     /**
      * method find feature by id
      *
@@ -61,6 +65,7 @@ public class ProductService implements IProductService {
         return this.productRepository.findFeatureById(id);
     }
 
+
     /**
      * method find feature by type id
      *
@@ -73,6 +78,7 @@ public class ProductService implements IProductService {
     public Collection<Feature> findAllProductByType(Integer id) {
         return this.productRepository.findAllProductByType(id);
     }
+
 
     /**
      * method add new product
@@ -91,6 +97,7 @@ public class ProductService implements IProductService {
             logger.warn("Error while adding product: " + e.getMessage());
         }
     }
+
 
     /**
      * method remove product
@@ -111,6 +118,7 @@ public class ProductService implements IProductService {
         }
     }
 
+
     /**
      * method update product
      *
@@ -128,6 +136,7 @@ public class ProductService implements IProductService {
             logger.warn("Error while update product: " + e.getMessage());
         }
     }
+
 
     /**
      * method update product
@@ -156,16 +165,17 @@ public class ProductService implements IProductService {
     @Override
     public Collection<Feature> findProductWithOption(Long productMinPrice,
                                                      Long productMaxPrice,
-                                                     Integer productTypeId) {
+                                                     Integer productTypeId,
+                                                     String productName) {
         try {
             return this.productRepository.findProductWithOption(productMinPrice,
-                    productMaxPrice, productTypeId);
+                    productMaxPrice, productTypeId, "%" + productName + "%");
         } catch (IllegalArgumentException e) {
-            logger.warn("IllegalArgumentException: ", e.getMessage());
+            logger.warn("{IllegalArgumentException}: {}", e.getMessage());
         } catch (TransactionException e) {
-            logger.warn("TransactionException: ", e.getMessage());
+            logger.warn("{TransactionException}: {}", e.getMessage());
         } catch (Exception e) {
-            logger.warn("Error while finding product with option: ", e.getMessage());
+            logger.warn("{Error while finding product with option}: {}", e.getMessage());
         }
         return null;
     }

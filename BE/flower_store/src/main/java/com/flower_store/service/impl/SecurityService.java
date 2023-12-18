@@ -33,4 +33,5 @@ public class SecurityService implements ISecurityService {
             logger.warn("Error while adding user: " + e.getMessage());
         }
     }
+
 }

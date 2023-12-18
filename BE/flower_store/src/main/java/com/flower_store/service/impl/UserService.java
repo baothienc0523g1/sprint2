@@ -1,5 +1,6 @@
 package com.flower_store.service.impl;
 
+import com.flower_store.model.Role;
 import com.flower_store.model.User;
 import com.flower_store.repository.IUserRepository;
 import com.flower_store.service.IUserService;
@@ -24,5 +25,12 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> findUserByUsername(String username) {
         return this.userRepository.findUserByUsername(username);
+    }
+
+    @Override
+    public void createNewUser(User user, String role) {
+        Role newRole = new Role(role);
+        user.setRole(newRole);
+        this.userRepository.save(user);
     }
 }

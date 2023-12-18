@@ -4,7 +4,6 @@
     font-size: 30px;
     font-family: 'Lora', cursive;
     margin-top: 50px;
-    cursor: default;
 }
 
 .body-main-page {
@@ -12,4 +11,73 @@
     top: 86px;
     background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255, 255, 255, 0.50) 47%, rgba(0, 0, 0, 0.50) 100%);
     background-blend-mode: screen;
+}
+
+#rich-text {
+    position: relative;
+    margin: auto;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    height: auto;
+    background: #e7bab0;
+    padding-left: 9%;
+    padding-right: 9%;
+}
+
+#rich-text-title {
+    text-align: center;
+    margin-top: 80px;
+    color: white;
+    font-size: 1.6rem;
+    font-family: Lora, 'sans-serif'
+}
+
+
+#rich-text-content {
+    font-family: Lora, 'sans-serif';
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 5%;
+}
+
+#introduction {
+    position: relative;
+    margin: auto;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    height: auto;
+    padding-left: 14%;
+    padding-right: 14%;
+}
+
+#introduction-img {
+    min-width: 100%;
+    max-width: 100%;
+    border-radius: 15px;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+
+#introduction-title {
+    text-align: center;
+    font-style: italic;
+    color: #5e5c4d;
+    font-size: 1rem;
+    font-family: Merriweather, 'sans-serif';
+    width: 100%;
+    margin-top: 5%;
+    height: min-content;
+}
+
+#introduction-content {
+    font-family: Merriweather, 'sans-serif';
+    color: #5e5c4d;
+    width: 100%;
+    font-size: .8rem;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 5%;
 }

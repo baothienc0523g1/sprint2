@@ -3,8 +3,10 @@ package com.flower_store.controller;
 import com.flower_store.dto.Feature;
 import com.flower_store.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,26 +23,57 @@ public class ProductRestController {
     private IProductService productService;
 
     /**
-     * method get product to main page
+     * method get product with sort/non-sort and search
      *
-     * @param
-     * @return Collection<Feature>
+     * @param sort
+     * @param searchName
+     * @return Page<Feature>
      * @author ThienBB
-     * @since 05-12-2023
+     * @since 14-12-2023
      */
-    @GetMapping("/public/feature")
-    public ResponseEntity<?> getFeature(@RequestParam(name = "sort", required = false) String sort,
-                                        @RequestParam(name = "searchName", required = false, defaultValue = "") String searchName) {
-        Collection<Feature> features = this.productService.findAllFeature(searchName);
+    @GetMapping("/public/features")
+    public ResponseEntity<?> getFeatureWithSort(
+            @RequestParam(name = "sort", required = false) String sort,
+            @RequestParam(name = "searchName", required = false, defaultValue = "") String searchName) {
 
-        if (features == null) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        Pageable pageable;
+        Page<Feature> features;
+        switch (sort) {
+            case "asc":
+                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").ascending());
+                features = this.productService.findAllFeatureWithSort(searchName, pageable);
+                if (features == null) {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                if (features.isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+                return ResponseEntity.ok(features);
+            case "desc":
+                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").descending());
+                features = this.productService.findAllFeatureWithSort(searchName, pageable);
+                if (features == null) {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                if (features.isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+                return ResponseEntity.ok(features);
+            case "":
+                pageable = PageRequest.of(0, Integer.MAX_VALUE);
+                features = this.productService.findAllFeatureWithSort(searchName, pageable);
+                if (features == null) {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                if (features.isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+                return ResponseEntity.ok(features);
+            default:
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        if (features.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(features);
     }
+
 
     /**
      * method get trending product to main page
@@ -50,7 +83,7 @@ public class ProductRestController {
      * @author ThienBB
      * @since 12-12-2023
      */
-    @GetMapping("/public/trending-feature")
+    @GetMapping("/public/trending-features")
     public ResponseEntity<?> getTrendingFeature() {
         Collection<Feature> products = this.productService.findTrendingFeature();
 
@@ -70,7 +103,7 @@ public class ProductRestController {
      * @author ThienBB
      * @since 05-12-2023
      */
-    @GetMapping("/public/product-detail/{id}")
+    @GetMapping("/public/product-details/{id}")
     public ResponseEntity<?> getFeatureById(@PathVariable(name = "id") Integer id) {
         Optional<Feature> products = this.productService.findFeatureById(id);
 
@@ -89,7 +122,7 @@ public class ProductRestController {
      * @author ThienBB
      * @since 05-12-2023
      */
-    @GetMapping("/public/product/type/{id}")
+    @GetMapping("/public/products/types/{id}")
     public ResponseEntity<?> getFeaturePicture(@PathVariable(name = "id") Integer id) {
         Collection<Feature> productListByType = this.productService.findAllProductByType(id);
 
@@ -103,20 +136,25 @@ public class ProductRestController {
     /**
      * method find products with option
      *
-     * @param productName
      * @param productMinPrice
      * @param productMaxPrice
      * @param productTypeId
+     * @param productName
      * @author Bao Thien
      * @since 10-12-2023
      */
-    @GetMapping("/public/product/search/{productMinPrice}/{productMaxPrice}/{productTypeId}")
-    public ResponseEntity<?> findProductWithOption(@PathVariable(name = "productMinPrice") Long productMinPrice,
-                                                   @PathVariable(name = "productMaxPrice") Long productMaxPrice,
-                                                   @PathVariable(name = "productTypeId") Integer productTypeId
-    ) {
-        Collection<Feature> productList = this.productService.findProductWithOption(productMinPrice,
-                productMaxPrice, productTypeId);
+    @GetMapping("/public/products/search/{productMinPrice}/{productMaxPrice}/{productTypeId}")
+    public ResponseEntity<?> findProductWithOption(
+            @PathVariable(name = "productMinPrice") Long productMinPrice,
+            @PathVariable(name = "productMaxPrice") Long productMaxPrice,
+            @PathVariable(name = "productTypeId") Integer productTypeId,
+            @RequestParam(name = "productName", defaultValue = "", required = false) String productName) {
+
+        Collection<Feature> productList = this.productService.findProductWithOption(
+                productMinPrice,
+                productMaxPrice,
+                productTypeId,
+                productName);
 
         if (productList == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -127,7 +165,14 @@ public class ProductRestController {
         }
     }
 
-    @GetMapping("/public/product/getProductHighestPrice")
+    /**
+     * method find the highest price of products
+     *
+     * @return Optional<Long>
+     * @author Bao Thien
+     * @since 10-12-2023
+     */
+    @GetMapping("/public/products/getProductHighestPrice")
     public ResponseEntity<?> getProductHighestPrice() {
         Optional<Long> highestPrice = this.productService.maxPriceOfProducts();
 
@@ -138,7 +183,15 @@ public class ProductRestController {
         }
     }
 
-    @GetMapping("/public/product/typename/{id}")
+    /**
+     * method find product type name by id
+     *
+     * @param id
+     * @return String
+     * @author Bao Thien
+     * @since 10-12-2023
+     */
+    @GetMapping("/public/products/typename/{id}")
     public ResponseEntity<?> getProductTypeName(@PathVariable(name = "id") int id) {
         String typeName = this.productService.productTypeName(id);
 

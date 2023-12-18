@@ -51,4 +51,12 @@ const getRoleByJwt = () => {
     }
 };
 
-export {doLogin, doLogout, addAccessToken, getAccessToken, getUserFullnameByJwt, getUsernameByJwt, getRoleByJwt}
+const loginWithFb = async (event) => {
+    try {
+        return await axios.post(BASE_API + `/public/login-fb`, event);
+    } catch (err) {
+
+    }
+}
+
+export {doLogin, doLogout, addAccessToken, getAccessToken, getUserFullnameByJwt, getUsernameByJwt, getRoleByJwt, loginWithFb}

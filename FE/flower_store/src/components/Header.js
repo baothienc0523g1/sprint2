@@ -104,7 +104,7 @@ function Header() {
                                                 {
                                                     curRole === 'ADMIN' &&
                                                     <>
-                                                        <Link className="dropdown-child" to="/">Sản phẩm</Link>
+                                                        <Link className="dropdown-child" to="/product-managements">Sản phẩm</Link>
                                                         <Link className="dropdown-child" to="/">Khách hàng</Link>
                                                     </>
                                                 }

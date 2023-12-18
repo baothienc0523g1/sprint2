@@ -6,7 +6,6 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Header from "./components/Header";
 import {EnumRole} from "./service/EnumRole";
-import {render} from 'creditcardpayments/creditCardPayments'
 import {Route, Routes} from "react-router-dom";
 import About from "./components/HeaderLink/About";
 import {HandleAuthor} from "./service/authorization";
@@ -14,7 +13,7 @@ import UnAuthorized from "./components/UnAuthorized";
 import {requestFilter} from "./service/requestFilter";
 import ProductDetail from "./components/ProductDetail";
 import ProductsWithType from "./components/ProductsWithType";
-import ProductsTrending from "./components/ProductsTrending";
+import ProductManagements from "./components/Managements/ProductManagements";
 
 export default function App() {
     requestFilter();
@@ -34,17 +33,27 @@ export default function App() {
                             EnumRole.ADMIN,
                             EnumRole.MEMBER
                         ]}/>}>
-                    <Route path="/cart" element={<Cart/>}/>
+
                     <Route path="/personal-page" element={<Cart/>}/>
                 </Route>
             </Routes>
 
             <Routes>
+                <Route
+                    element={<HandleAuthor
+                        allowedRole={[
+                            EnumRole.ADMIN
+                        ]}/>}>
+                    <Route path="/product-managements" element={<ProductManagements/>}/>
+                </Route>
+            </Routes>
+
+            <Routes>
+                <Route path="/cart" element={<Cart/>}/>
                 <Route path="/" element={<Body/>}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/detail/:id" element={<ProductDetail/>}/>
                 <Route path="/product/type/:id" element={<ProductsWithType/>}/>
-                <Route path="/product/trending" element={<ProductsTrending/>}/>
             </Routes>
         </>
     );

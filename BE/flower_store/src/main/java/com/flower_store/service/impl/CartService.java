@@ -1,10 +1,10 @@
 package com.flower_store.service.impl;
 
 import com.flower_store.dto.CartDto;
-import com.flower_store.model.Cart;
-import com.flower_store.model.Product;
-import com.flower_store.model.User;
+import com.flower_store.model.*;
 import com.flower_store.repository.ICartRepository;
+import com.flower_store.repository.IOrderDetailRepository;
+import com.flower_store.repository.IOrderRepository;
 import com.flower_store.repository.IUserRepository;
 import com.flower_store.service.ICartService;
 import com.flower_store.service.IProductService;
@@ -15,7 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static com.flower_store.commons.Enum.ADD_TO_CART;
@@ -32,6 +36,13 @@ public class CartService implements ICartService {
 
     @Autowired
     private IProductService productService;
+
+    @Autowired
+    private IOrderRepository orderRepository;
+
+    @Autowired
+    private IOrderDetailRepository orderDetailRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(CartService.class);
 
     /**
@@ -47,7 +58,7 @@ public class CartService implements ICartService {
         try {
             return this.cartRepository.getCartByUsername(username);
         } catch (IllegalArgumentException e) {
-            logger.warn("Error while get cart by username ", e.getMessage());
+            logger.warn("Error while get cart by username: {}", e.getMessage());
         }
         return null;
     }
@@ -87,11 +98,11 @@ public class CartService implements ICartService {
                 return false;
             }
         } catch (IllegalArgumentException e) {
-            logger.warn("IllegalArgumentException: ", e.getMessage());
+            logger.warn("IllegalArgumentException: {}", e.getMessage());
         } catch (TransactionException e) {
-            logger.warn("TransactionException: ", e.getMessage());
+            logger.warn("TransactionException: {}", e.getMessage());
         } catch (Exception e) {
-            logger.warn("Error while add new cart: ", e.getMessage());
+            logger.warn("Error while add new cart: {}", e.getMessage());
         }
         return false;
     }
@@ -114,11 +125,11 @@ public class CartService implements ICartService {
                 return true;
             }
         } catch (IllegalArgumentException e) {
-            logger.warn("IllegalArgumentException: ", e.getMessage());
+            logger.warn("IllegalArgumentException: {}", e.getMessage());
         } catch (TransactionException e) {
-            logger.warn("TransactionException: ", e.getMessage());
+            logger.warn("TransactionException: {}", e.getMessage());
         } catch (Exception e) {
-            logger.warn("Error while remove product from cart: ", e.getMessage());
+            logger.warn("Error while remove product from cart: {}", e.getMessage());
         }
         return false;
     }
@@ -143,6 +154,52 @@ public class CartService implements ICartService {
             default:
                 return false;
         }
+    }
+
+    /**
+     * method do pay
+     *
+     * @param username
+     * @author Bao Thien
+     * @since 16-12-2023
+     */
+    @Override
+    public boolean cartPay(String username) {
+        try {
+            Optional<User> existedUser = this.userRepository.findUserByUsername(username);
+            LocalDateTime now = LocalDateTime.now();
+
+            if (existedUser.isPresent()) {
+                Order newOrder = new Order(now.toString(), existedUser.get());
+                Collection<CartDto> existedUserCart = this.cartRepository.getCartByUsername(username);
+
+                if (existedUserCart.size() > 0) {
+                    this.orderRepository.save(newOrder);
+                    for (CartDto cartDto : existedUserCart) {
+                        Optional<Product> curProduct = this.productService.findById(cartDto.getProductId());
+                        if (curProduct.isPresent()) {
+                            int newQty = Integer.parseInt(cartDto.getProductQuantity());
+                            int newTotalCost = (int) (Long.parseLong(cartDto.getProductQuantity())
+                                    * curProduct.get().getPrice());
+
+                            OrderDetail newOrderDetail = new OrderDetail(newQty, newTotalCost, newOrder, curProduct.get());
+                            this.orderDetailRepository.save(newOrderDetail);
+                        } else {
+                            return false;
+                        }
+                    }
+                    this.cartRepository.removeByUser(username);
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            logger.warn("Error while get paying cart: {}", e.getMessage());
+        }
+        return false;
     }
 
 }

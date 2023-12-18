@@ -29,7 +29,6 @@ public class UserRestController {
     public ResponseEntity<?> getNameByUsername(@PathVariable(name = "username") String username) {
 
         Optional<User> existedUser = this.userService.findUserByUsername(username);
-
         if (existedUser.isPresent()) {
             return ResponseEntity.ok(existedUser);
         } else {

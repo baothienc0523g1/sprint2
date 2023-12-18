@@ -7,6 +7,7 @@ import com.flower_store.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -17,7 +18,7 @@ import static com.flower_store.commons.Enum.REMOVE_FROM_CART;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/member")
+@RequestMapping("/api/member/carts")
 public class CartRestController {
 
     @Autowired
@@ -34,10 +35,10 @@ public class CartRestController {
      * @author Bao Thien
      * @since 06-12-2023
      */
-    @GetMapping("/cart/{username}")
+    @GetMapping("/{username}")
     public ResponseEntity<?> getCartByUsername(@PathVariable(name = "username") String username) {
-        Optional<User> user = this.userService.findUserByUsername(username);
 
+        Optional<User> user = this.userService.findUserByUsername(username);
         if (!user.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -59,10 +60,11 @@ public class CartRestController {
      * @author Bao Thien
      * @since 08-12-2023
      */
-    @GetMapping("/cart/{username}/{productId}/{quantity}")
-    public ResponseEntity<?> addNewProductToCart(@PathVariable(name = "username") String username,
-                                                 @PathVariable(name = "productId") Integer productId,
-                                                 @PathVariable(name = "quantity") Integer quantity) {
+    @GetMapping("/{username}/{productId}/{quantity}")
+    public ResponseEntity<?> addNewProductToCart(
+            @PathVariable(name = "username") String username,
+            @PathVariable(name = "productId") Integer productId,
+            @PathVariable(name = "quantity") Integer quantity) {
 
         boolean flag = this.cartService.addToCart(username, productId, quantity);
 
@@ -82,10 +84,11 @@ public class CartRestController {
      * @author Bao Thien
      * @since 08-12-2023
      */
-    @GetMapping("/cart/add/{username}/{productId}/{quantity}")
-    public ResponseEntity<?> addProductsToCart(@PathVariable(name = "username") String username,
-                                               @PathVariable(name = "productId") Integer productId,
-                                               @PathVariable(name = "quantity") Integer quantity) {
+    @GetMapping("/add/{username}/{productId}/{quantity}")
+    public ResponseEntity<?> addProductsToCart(
+            @PathVariable(name = "username") String username,
+            @PathVariable(name = "productId") Integer productId,
+            @PathVariable(name = "quantity") Integer quantity) {
 
         boolean flag = this.cartService.adjustmentProductInCart(ADD_TO_CART, username, productId, quantity);
         if (flag) {
@@ -104,10 +107,11 @@ public class CartRestController {
      * @author Bao Thien
      * @since 08-12-2023
      */
-    @GetMapping("/cart/remove/{username}/{productId}/{quantity}")
-    public ResponseEntity<?> removeProductsInCart(@PathVariable(name = "username") String username,
-                                                  @PathVariable(name = "productId") Integer productId,
-                                                  @PathVariable(name = "quantity") Integer quantity) {
+    @GetMapping("/remove/{username}/{productId}/{quantity}")
+    public ResponseEntity<?> removeProductsInCart(
+            @PathVariable(name = "username") String username,
+            @PathVariable(name = "productId") Integer productId,
+            @PathVariable(name = "quantity") Integer quantity) {
 
         boolean flag = this.cartService.adjustmentProductInCart(REMOVE_FROM_CART, username, productId, quantity);
         if (flag) {
@@ -125,7 +129,7 @@ public class CartRestController {
      * @author Bao Thien
      * @since 08-12-2023
      */
-    @DeleteMapping("/cart/{username}/{productId}")
+    @DeleteMapping("/{username}/{productId}")
     public ResponseEntity<?> removeProduct(@PathVariable(name = "username") String username,
                                            @PathVariable(name = "productId") int productId) {
 
@@ -137,5 +141,25 @@ public class CartRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    
+
+    /**
+     * method do pay
+     *
+     * @param username
+     * @param cartPayDto
+     * @author Bao Thien
+     * @since 16-12-2023
+     */
+    @PostMapping("/pay")
+    public ResponseEntity<?> cartPay(
+            @RequestParam(name = "username") String username) {
+
+        boolean flag = this.cartService.cartPay(username);
+
+        if (flag) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
 }
