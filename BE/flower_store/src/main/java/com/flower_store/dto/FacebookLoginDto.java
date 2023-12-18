@@ -10,5 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FacebookLoginDto {
+    private String fullName;
     private String facebookAddress;
 }

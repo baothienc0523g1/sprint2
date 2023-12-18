@@ -5,7 +5,6 @@ import com.flower_store.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,7 +77,7 @@ public interface ICartRepository extends JpaRepository<Cart, Integer> {
     void removeByUserAndProduct(@Param("userName") String userName, @Param("productId") int productId);
 
     /**
-     * method cart where username = param
+     * method delete cart where username = param
      *
      * @param userName
      * @author Bao Thien
@@ -95,4 +94,24 @@ public interface ICartRepository extends JpaRepository<Cart, Integer> {
                     " and carts.is_deleted = 0 ", nativeQuery = true)
     void removeByUser(@Param("userName") String userName);
 
+
+    /**
+     * method get total cost user need to pay when they want to check out
+     *
+     * @param userName
+     * @author Bao Thien
+     * @since 18-12-2023
+     */
+    @Transactional
+    @Modifying
+    @Query(value =
+            " select sum(p.price * c.quantity) " +
+                    " from products as p " +
+                    " left join carts as c " +
+                    " on p.id = c.product_id  " +
+                    " left join user as u " +
+                    " on c.user_id = u.id " +
+                    " where u.username = :userName " +
+                    " and carts.is_deleted = 0 ", nativeQuery = true)
+    int getTotalCost(@Param("userName") String userName);
 }

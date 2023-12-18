@@ -17,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import static com.flower_store.commons.Enum.ADD_TO_CART;
@@ -202,4 +200,15 @@ public class CartService implements ICartService {
         return false;
     }
 
+    /**
+     * method get total cost when user want to pay
+     *
+     * @param username
+     * @author Bao Thien
+     * @since 18-12-2023
+     */
+    @Override
+    public int getTotalCostForPay(String username) {
+        return 0;
+    }
 }

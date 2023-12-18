@@ -109,20 +109,23 @@ public class SecurityRestController {
         }
 
         String fbAddress = facebookLoginDto.getFacebookAddress();
+        String fullName = facebookLoginDto.getFullName();
 
         Optional<User> existedUser = this.userService.findUserByUsername(fbAddress);
 
         if (!existedUser.isPresent()) {
             User newUser = new User();
             newUser.setUsername(fbAddress);
+            newUser.setName(fullName);
+            newUser.setEmail(fbAddress);
             String passwordGenerator = PasswordGenerator.generateRandomString();
             newUser.setPassword(this.passwordEncoder.encode(passwordGenerator));
-            this.userService.createNewUser(newUser, "MEMBER");
+            this.userService.createNewUser(newUser);
         }
         UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(fbAddress);
-        String token = this.jwtUtilities.generateToken(userDetails);
+        String jwt = this.jwtUtilities.generateToken(userDetails);
 
-        return ResponseEntity.ok().body(new JwtResponse(token));
+        return ResponseEntity.ok().body(new JwtResponse(jwt));
     }
 
 

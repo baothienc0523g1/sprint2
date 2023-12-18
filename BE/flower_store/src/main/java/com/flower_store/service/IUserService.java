@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface IUserService {
     Optional<User> findUserByUsername(String username);
-    void createNewUser(User user, String role);
+    void createNewUser(User user);
 }

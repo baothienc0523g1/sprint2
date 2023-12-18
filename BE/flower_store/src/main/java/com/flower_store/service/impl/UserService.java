@@ -2,6 +2,7 @@ package com.flower_store.service.impl;
 
 import com.flower_store.model.Role;
 import com.flower_store.model.User;
+import com.flower_store.repository.IRoleRepository;
 import com.flower_store.repository.IUserRepository;
 import com.flower_store.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepository;
 
+    @Autowired
+    private IRoleRepository roleRepository;
+
     /**
      * method find user by username
      * @author Bao Thien
@@ -27,9 +31,16 @@ public class UserService implements IUserService {
         return this.userRepository.findUserByUsername(username);
     }
 
+    /**
+     * method create new user with facebook login
+     * @author Bao Thien
+     * @since 18-12-2023
+     * @param user
+     * @return void
+     */
     @Override
-    public void createNewUser(User user, String role) {
-        Role newRole = new Role(role);
+    public void createNewUser(User user) {
+        Role newRole = this.roleRepository.findByName("MEMBER");
         user.setRole(newRole);
         this.userRepository.save(user);
     }
