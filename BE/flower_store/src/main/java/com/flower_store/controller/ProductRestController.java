@@ -49,6 +49,7 @@ public class ProductRestController {
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 }
                 return ResponseEntity.ok(features);
+
             case "desc":
                 pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").descending());
                 features = this.productService.findAllFeatureWithSort(searchName, pageable);
@@ -59,6 +60,7 @@ public class ProductRestController {
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 }
                 return ResponseEntity.ok(features);
+
             case "":
                 pageable = PageRequest.of(0, Integer.MAX_VALUE);
                 features = this.productService.findAllFeatureWithSort(searchName, pageable);
@@ -69,6 +71,7 @@ public class ProductRestController {
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 }
                 return ResponseEntity.ok(features);
+
             default:
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

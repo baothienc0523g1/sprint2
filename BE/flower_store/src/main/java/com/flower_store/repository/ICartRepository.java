@@ -102,16 +102,14 @@ public interface ICartRepository extends JpaRepository<Cart, Integer> {
      * @author Bao Thien
      * @since 18-12-2023
      */
-    @Transactional
-    @Modifying
     @Query(value =
             " select sum(p.price * c.quantity) " +
                     " from products as p " +
                     " left join carts as c " +
                     " on p.id = c.product_id  " +
-                    " left join user as u " +
+                    " left join users as u " +
                     " on c.user_id = u.id " +
                     " where u.username = :userName " +
-                    " and carts.is_deleted = 0 ", nativeQuery = true)
+                    " and c.is_deleted = 0 ", nativeQuery = true)
     int getTotalCost(@Param("userName") String userName);
 }

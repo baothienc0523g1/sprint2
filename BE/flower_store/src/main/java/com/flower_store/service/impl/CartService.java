@@ -162,6 +162,7 @@ public class CartService implements ICartService {
      * @since 16-12-2023
      */
     @Override
+    @Transactional
     public boolean cartPay(String username) {
         try {
             Optional<User> existedUser = this.userRepository.findUserByUsername(username);
@@ -209,6 +210,6 @@ public class CartService implements ICartService {
      */
     @Override
     public int getTotalCostForPay(String username) {
-        return 0;
+        return this.cartRepository.getTotalCost(username);
     }
 }
