@@ -78,7 +78,7 @@ public class CartService implements ICartService {
             Optional<User> existedUser = this.userRepository.findUserByUsername(userName);
             Optional<Product> existedProduct = this.productService.findById(productId);
             Optional<Cart> existedCart = this.cartRepository.findExistedCart(userName, productId);
-            Boolean isDataValid = existedUser.isPresent() && existedProduct.isPresent();
+            boolean isDataValid = existedUser.isPresent() && existedProduct.isPresent();
 
             if (isDataValid && existedCart.isPresent()) {
                 Optional<Cart> cart = this.cartRepository.findExistedCart(userName, productId);
@@ -110,7 +110,7 @@ public class CartService implements ICartService {
      *
      * @param productId
      * @return boolean
-     * @author Bui Bao TransactionExceptionhien
+     * @author Bui Bao Thien
      * @since 08-12-2023
      */
     @Override
@@ -201,15 +201,4 @@ public class CartService implements ICartService {
         return false;
     }
 
-    /**
-     * method get total cost when user want to pay
-     *
-     * @param username
-     * @author Bao Thien
-     * @since 18-12-2023
-     */
-    @Override
-    public int getTotalCostForPay(String username) {
-        return this.cartRepository.getTotalCost(username);
-    }
 }

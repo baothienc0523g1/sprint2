@@ -12,10 +12,10 @@ export default function Body() {
             <ProductsTrending/>
             <LazyLoad threshold={0.55}>
                 <div id="rich-text" className="row">
-                    <p id="rich-text-title" className="col-xl-12">
+                    <div id="rich-text-title" className="col-xl-12">
                         <p>Chỉ sống là không đủ… </p>
                         <p>người ta phải có ánh nắng, tự do và một bông hoa nhỏ.</p>
-                    </p>
+                    </div>
                     <span id="rich-text-content" className="col-xl-12">
                         Chúng tôi tập trung vào các thiết kế hoa trang nhã và cách cắm hoa độc đáo, phù hợp cho các dịp
                         sinh nhật, cầu hôn, ngày kỷ niệm, lễ tốt nghiệp, Ngày lễ tình nhân, Ngày của Mẹ, khai trương cửa
@@ -36,11 +36,11 @@ export default function Body() {
                          alt=""/>
                 </div>
                 <div className="col-xl-6 row">
-                    <p id="introduction-title" className="col-xl-6 col-md-12">
+                    <div id="introduction-title" className="col-xl-6 col-md-12">
                         <p>Thay vì tặng em một đóa hoa hồng không tàn… </p>
                         <p>thì anh sẽ tặng em một mối tình không phai.</p>
                         <hr/>
-                    </p>
+                    </div>
                     <span id="introduction-content" className="col-xl-6 col-md-6">
                         Trong một ngôi làng nhỏ, có một đàn trẻ thường xuyên tụ tập ở khu vườn hoa nhỏ. Trong đám đông,
                         có một cô gái tên là Linh, người luôn say mê bông hoa hồng trắng tinh khôi.

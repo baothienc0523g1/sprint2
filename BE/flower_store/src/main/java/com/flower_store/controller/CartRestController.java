@@ -143,26 +143,6 @@ public class CartRestController {
     }
 
 
-    /**
-     * method get total cost for pay
-     *
-     * @param username
-     * @param cartPayDto
-     * @author Bao Thien
-     * @since 18-12-2023
-     */
-    @PostMapping("/total-cost")
-    public ResponseEntity<?> getTotalCost(
-            @RequestParam(name = "username") String username) {
-
-        Optional<User> existedUser = this.userService.findUserByUsername(username);
-        if (existedUser.isPresent()) {
-            int totalCost = this.cartService.getTotalCostForPay(username);
-            return ResponseEntity.ok(totalCost);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
 
     /**
      * method do pay

@@ -68,7 +68,7 @@ export default function Products() {
                            onChange={(event => handleChangeSearchName(event))}
                            onKeyDown={handleSearchName}
                     />
-                    <button className="product-type-btn" onClick={handleResetSearchFilter}>Xóa bộ lọc </button>
+                    <button className="reset-search-mainp" onClick={handleResetSearchFilter}>Xóa bộ lọc </button>
 
                     <div className="search-option-wrapper gap-2">
                         <select onChange={event => handleChangeSortType(event)}

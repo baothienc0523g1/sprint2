@@ -26,9 +26,7 @@ root.render(
                 pauseOnHover
                 theme="light"/>
             <Provider store={store}>
-
-                    <App/>
-
+                <App/>
             </Provider>
         </BrowserRouter>
     </React.StrictMode>

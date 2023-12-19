@@ -16,5 +16,4 @@ public interface ICartService {
 
     boolean cartPay(String username);
 
-    int getTotalCostForPay(String username);
 }

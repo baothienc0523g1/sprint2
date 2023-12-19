@@ -64,6 +64,7 @@
     .search-type-btn {
         width: 200px;
     }
+
     .search-type-input {
         min-width: 200px;
     }
@@ -79,6 +80,21 @@
     line-clamp: 2;
     -webkit-box-orient: vertical;
     font-size: 15px;
+}
+
+.reset-search-mainp {
+    height: 120%;
+    background-color: #eee;
+    border: 1px solid #e7bab0;
+    border-radius: 8px;
+    transition: .2s ease-in;
+    color: #5e5c4d;
+}
+
+.reset-search-mainp:hover {
+    border: 1px solid #eee;
+    background-color: #e7bab0;
+    color: #eee
 }
 
 

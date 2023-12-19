@@ -94,22 +94,4 @@ public interface ICartRepository extends JpaRepository<Cart, Integer> {
                     " and carts.is_deleted = 0 ", nativeQuery = true)
     void removeByUser(@Param("userName") String userName);
 
-
-    /**
-     * method get total cost user need to pay when they want to check out
-     *
-     * @param userName
-     * @author Bao Thien
-     * @since 18-12-2023
-     */
-    @Query(value =
-            " select sum(p.price * c.quantity) " +
-                    " from products as p " +
-                    " left join carts as c " +
-                    " on p.id = c.product_id  " +
-                    " left join users as u " +
-                    " on c.user_id = u.id " +
-                    " where u.username = :userName " +
-                    " and c.is_deleted = 0 ", nativeQuery = true)
-    int getTotalCost(@Param("userName") String userName);
 }

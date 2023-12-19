@@ -11,7 +11,7 @@ import {Button, Modal} from "react-bootstrap";
 
 export default function Login() {
 
-    const [fbLoginModalshow, setFbLoginModalShow] = useState(false);
+    const [fbLoginModalShow, setFbLoginModalShow] = useState(false);
     const handleShowFbLoginModal = () => setFbLoginModalShow(true);
     const initFbUser = {
         name: "",
@@ -98,23 +98,6 @@ export default function Login() {
         }
     };
 
-    const doFacebookLogin = async (initFb) => {
-        try {
-            const res = await securityService.loginWithFb({
-                facebookAddress: initFb.email
-            })
-
-            if (res.status === 200) {
-                toast("Đăng nhập thành công!!");
-                await securityService.addAccessToken("accessToken", res.data.jwtToken);
-                handleCloseFbLoginModal();
-                navigate(-1);
-            }
-        } catch (err) {
-            toast.error("Đăng nhập thất bại!");
-        }
-    }
-
     const handleSetFbUserInfo = async (resolve) => {
         await setInitFb({
             name: resolve.data.name,
@@ -125,13 +108,15 @@ export default function Login() {
 
     const loginWithFbButtonHandle = async () => {
         try {
-            const res = await securityService.loginWithFb({
-                facebookAddress: initFbUser.email,
-            })
-
+            const res = await securityService.loginWithFb(
+                {
+                    fullName: initFb.name,
+                    facebookAddress: initFb.email,
+                }
+            )
             if (res.status === 200) {
                 toast("Đăng nhập thành công!!");
-                await securityService.addAccessToken("accessToken", res.data.jwtToken);
+                await securityService.addAccessToken(res.data.jwtToken);
                 navigate(-1);
             }
         } catch (err) {
@@ -179,7 +164,9 @@ export default function Login() {
                                         onResolve={(resolve) => {
                                             handleSetFbUserInfo(resolve);
                                         }}
-                                        onReject="71086a8cffb19056f3c6fdba8280f75b">
+                                        onReject={err => {
+                                            console.log(err);
+                                        }}>
                                         <button type="button" className="login-btn">
                                             <i className="fa-brands fa-facebook"/>
                                             <span> Đăng nhập với Facebook</span>
@@ -199,12 +186,14 @@ export default function Login() {
                 </div>
             </div>
 
-            <Modal show={fbLoginModalshow} onHide={handleCloseFbLoginModal}>
+            <Modal show={fbLoginModalShow} onHide={handleCloseFbLoginModal}>
                 <Modal.Header closeButton className="logout-modal-header">
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Xin chào {initFb.name} bạn có muốn đăng nhập thông qua {initFb.email} không?
+                    Xin chào: <span className="fw-bold">{initFb.name}</span>,
+                    <br/>
+                    bạn có muốn đăng nhập thông qua <span className="fw-bold">{initFb.email}</span> không?
                 </Modal.Body>
                 <Modal.Footer>
                     <button className="logout-btn-modal-cancel" onClick={handleCloseFbLoginModal}
@@ -217,7 +206,6 @@ export default function Login() {
                     </button>
                 </Modal.Footer>
             </Modal>
-
         </div>
     )
 }

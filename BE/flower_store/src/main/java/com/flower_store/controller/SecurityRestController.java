@@ -18,12 +18,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -159,8 +165,9 @@ public class SecurityRestController {
      * @author ThienBB
      * @since 15-12-2023
      */
-    @PostMapping("/logout/{token}")
-    public ResponseEntity<?> doLogout(@PathVariable(name = "token") String token) {
-        return null;
+    @PostMapping("/logout/")
+    public ResponseEntity<?> doLogout(HttpServletRequest request) {
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

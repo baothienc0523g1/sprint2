@@ -6,8 +6,8 @@ import {getUsernameByJwt} from "../service/securityService";
 import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
 import {addToCart, minusFromCart, removeProducts} from "../provider/actions";
-import PaypalBtn from "./PaypalBtn";
 import {Button, Modal} from "react-bootstrap";
+import MyPayPalV2 from "./MyPayPalV2";
 
 function Cart() {
     const dispatch = useDispatch();
@@ -45,6 +45,11 @@ function Cart() {
 
     const handlePayModalClose = () => setPayModalShow(false);
     const handlePayModalShow = () => setPayModalShow(true);
+
+    //checkout test
+    const [checkout, setCheckOut] = useState(false);
+
+    //
 
     useEffect(() => {
         isAuthenticated();
@@ -169,7 +174,6 @@ function Cart() {
                                                     </p>
                                                     <p>Điện thoại</p>
                                                     <h5>{phoneNumber}</h5>
-
                                                     <div className="row">
                                                         <button
                                                             type="button"
@@ -177,7 +181,6 @@ function Cart() {
                                                             onClick={() => handlePayModalShow()}>
                                                             Mua hàng ({totalItem})
                                                         </button>
-
                                                         <h5
                                                             className="col-lg-6 col-md-6 col-sm-12 fw-light cart-link">
                                                         </h5>
@@ -199,7 +202,9 @@ function Cart() {
                     <Modal.Title>Phương thức thanh toán</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="logout-modal-body">
-                    <PaypalBtn/>
+                    <MyPayPalV2
+                        totalCost={totalPrice}
+                        closeModalFn={handlePayModalClose}/>
                 </Modal.Body>
                 <Modal.Footer>
                 </Modal.Footer>

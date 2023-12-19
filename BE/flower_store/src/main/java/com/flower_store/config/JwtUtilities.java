@@ -71,11 +71,17 @@ public class JwtUtilities implements Serializable {
         final String username = getUserNameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(
                 claims,
                 userDetails.getUsername(),
                 userDetails.getAuthorities());
+    }
+
+    public void expiredTokenHandler(String token) {
+        Date exipredDate = new Date();
+
     }
 }
