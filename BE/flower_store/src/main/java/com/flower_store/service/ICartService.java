@@ -1,6 +1,7 @@
 package com.flower_store.service;
 
 import com.flower_store.dto.CartDto;
+import com.flower_store.dto.OrderPayDto;
 
 
 import java.util.Collection;
@@ -14,6 +15,6 @@ public interface ICartService {
 
     boolean adjustmentProductInCart(String username, String actionCase, int productId, int quantity);
 
-    boolean cartPay(String username);
+    boolean cartPay(OrderPayDto orderPayDto);
 
 }

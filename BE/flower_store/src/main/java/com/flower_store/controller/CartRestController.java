@@ -1,6 +1,7 @@
 package com.flower_store.controller;
 
 import com.flower_store.dto.CartDto;
+import com.flower_store.dto.OrderPayDto;
 import com.flower_store.model.User;
 import com.flower_store.service.ICartService;
 import com.flower_store.service.IUserService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -143,7 +145,6 @@ public class CartRestController {
     }
 
 
-
     /**
      * method do pay
      *
@@ -154,9 +155,9 @@ public class CartRestController {
      */
     @PostMapping("/pay")
     public ResponseEntity<?> cartPay(
-            @RequestParam(name = "username") String username) {
+            @RequestBody OrderPayDto orderPayDto) {
 
-        boolean flag = this.cartService.cartPay(username);
+        boolean flag = this.cartService.cartPay(orderPayDto);
 
         if (flag) {
             return new ResponseEntity<>(HttpStatus.OK);

@@ -54,6 +54,7 @@ CREATE TABLE `orders` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     `time` DATETIME,
+    message LONGTEXT,
     FOREIGN KEY (user_id)
         REFERENCES users (id),
     is_deleted BIT(1) DEFAULT 0

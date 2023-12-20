@@ -1,6 +1,7 @@
 package com.flower_store.service.impl;
 
 import com.flower_store.dto.CartDto;
+import com.flower_store.dto.OrderPayDto;
 import com.flower_store.model.*;
 import com.flower_store.repository.ICartRepository;
 import com.flower_store.repository.IOrderDetailRepository;
@@ -163,13 +164,15 @@ public class CartService implements ICartService {
      */
     @Override
     @Transactional
-    public boolean cartPay(String username) {
+    public boolean cartPay(OrderPayDto orderPayDto) {
         try {
+            String username = orderPayDto.getUsername();
+            String orderMessage = orderPayDto.getMessage();
             Optional<User> existedUser = this.userRepository.findUserByUsername(username);
             LocalDateTime now = LocalDateTime.now();
 
             if (existedUser.isPresent()) {
-                Order newOrder = new Order(now.toString(), existedUser.get());
+                Order newOrder = new Order(now.toString(), orderMessage, existedUser.get());
                 Collection<CartDto> existedUserCart = this.cartRepository.getCartByUsername(username);
 
                 if (existedUserCart.size() > 0) {

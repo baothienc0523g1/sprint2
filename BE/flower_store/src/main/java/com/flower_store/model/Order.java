@@ -22,14 +22,18 @@ public class Order {
     @Column(columnDefinition = "datetime", nullable = false)
     private String time;
 
+    @Column(columnDefinition = "longtext")
+    private String message;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     private boolean isDeleted;
 
-    public Order(String time, User user) {
+    public Order(String time, String message, User user) {
         this.time = time;
+        this.message = message;
         this.user = user;
     }
 }

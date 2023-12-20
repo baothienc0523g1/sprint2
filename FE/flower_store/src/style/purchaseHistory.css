@@ -1,0 +1,39 @@
+.purchase-history-wrapper {
+    position: relative;
+    top: 86px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    border: 0;
+}
+
+.ph-title-div {
+    padding-top: 30px;
+    text-align: center;
+}
+
+.ph-title-text {
+    color: #5e5c4d;
+    font-size: 1.6rem;
+    font-family: Lora, 'sans-serif'
+}
+
+.ph-table tr {
+    border-bottom: 1px solid #e7bab0;
+}
+
+.ph-table tr, .ph-table th {
+    height: 45px;
+}
+
+.ph-thead {
+    background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+}
+
+.ph-content {
+    margin-top: 5%;
+}
+
+.ph-table th {
+    font-family: Lora, 'sans-serif'
+}
+

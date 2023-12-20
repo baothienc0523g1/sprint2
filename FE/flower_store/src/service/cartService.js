@@ -40,10 +40,14 @@ const removeProductFromCart = async (username, productId) => {
     }
 }
 
-const payCart = async () => {
+const payCart = async (message) => {
     try {
         const username = getUsernameByJwt();
-        return await axios.post(BASE_API + `/pay?username=${username}`);
+        const orderPayDto = {
+            username: username,
+            message: message,
+        }
+        return await axios.post(BASE_API + `/pay`, orderPayDto);
     } catch (err) {
 
     }

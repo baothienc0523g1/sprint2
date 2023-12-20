@@ -6,7 +6,7 @@ import {getUsernameByJwt} from "../service/securityService";
 import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
 import {addToCart, minusFromCart, removeProducts} from "../provider/actions";
-import {Button, Modal} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import MyPayPalV2 from "./MyPayPalV2";
 
 function Cart() {
@@ -14,8 +14,9 @@ function Cart() {
     const navigate = useNavigate();
     const username = getUsernameByJwt();
 
+    const [msgModalShow, setMsgModalShow] = useState(false);
     const [payModalShow, setPayModalShow] = useState(false);
-
+    const [orderMsg, setOrderMsg] = useState("");
 
     const totalItem = useSelector(state => state.reducers.totalItem)
     const cart = useSelector(state => state.reducers.productArr);
@@ -44,16 +45,25 @@ function Cart() {
     }
 
     const handlePayModalClose = () => setPayModalShow(false);
-    const handlePayModalShow = () => setPayModalShow(true);
 
-    //checkout test
-    const [checkout, setCheckOut] = useState(false);
+    const handlePayModalShow = () => {
+        setPayModalShow(true);
+        setMsgModalShow(false);
+    };
+    const handleMsgModalShow = () => setMsgModalShow(true);
+    const handleMsgModalClose = () => setMsgModalShow(false);
 
-    //
+    const handleChangeOrderMsg = (event) => {
+        if (orderMsg.length <= 1000) {
+            setOrderMsg(event.target.value)
+        } else {
+            alert("Lời nhắn không được vượt quá 1000 ký tự")
+        }
+    }
 
     useEffect(() => {
         isAuthenticated();
-    }, [totalItem, totalPrice])
+    }, [totalItem, totalPrice, payModalShow])
 
     return (
         <>
@@ -178,7 +188,7 @@ function Cart() {
                                                         <button
                                                             type="button"
                                                             className="col-lg-6 col-md-6 col-sm-12 cart-confirm-buy-btn"
-                                                            onClick={() => handlePayModalShow()}>
+                                                            onClick={() => handleMsgModalShow()}>
                                                             Mua hàng ({totalItem})
                                                         </button>
                                                         <h5
@@ -197,6 +207,20 @@ function Cart() {
             </section>
             <Footer/>
 
+            <Modal show={msgModalShow} onHide={handleMsgModalShow}>
+                <Modal.Header className="logout-modal-header" closeButton>
+                    <Modal.Title>Lời nhắn</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="logout-modal-body">
+                    <textarea className="order-msg-input"
+                              onChange={event => handleChangeOrderMsg(event)}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="order-msg-btn-cancel" onClick={handleMsgModalClose}>Hủy</button>
+                    <button className="order-msg-btn-confirm" onClick={handlePayModalShow}>Xác nhận</button>
+                </Modal.Footer>
+            </Modal>
+
             <Modal show={payModalShow} onHide={handlePayModalClose}>
                 <Modal.Header className="logout-modal-header" closeButton>
                     <Modal.Title>Phương thức thanh toán</Modal.Title>
@@ -204,7 +228,9 @@ function Cart() {
                 <Modal.Body className="logout-modal-body">
                     <MyPayPalV2
                         totalCost={totalPrice}
-                        closeModalFn={handlePayModalClose}/>
+                        closeModalFn={handlePayModalClose}
+                        orderMsg={orderMsg}
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                 </Modal.Footer>

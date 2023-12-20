@@ -96,7 +96,7 @@ function Header() {
                                             <div className="header-dropdown-content">
                                                 {
                                                     curRole === 'MEMBER' &&
-                                                    <Link className="dropdown-child" to="/">Lịch sử mua hàng</Link>
+                                                    <Link className="dropdown-child" to="/purcharse-history">Lịch sử mua hàng</Link>
                                                 }
 
                                                 <Link className="dropdown-child" to="/">Thông tin cá nhân</Link>
