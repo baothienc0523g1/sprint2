@@ -17,6 +17,7 @@ function Cart() {
     const [msgModalShow, setMsgModalShow] = useState(false);
     const [payModalShow, setPayModalShow] = useState(false);
     const [orderMsg, setOrderMsg] = useState("");
+    const maxLengthOfMsg = 3000;
 
     const totalItem = useSelector(state => state.reducers.totalItem)
     const cart = useSelector(state => state.reducers.productArr);
@@ -44,20 +45,34 @@ function Cart() {
         }
     }
 
-    const handlePayModalClose = () => setPayModalShow(false);
+    const handlePayModalClose = () => {
+        setPayModalShow(false);
+        setOrderMsg("");
+    }
 
     const handlePayModalShow = () => {
-        setPayModalShow(true);
-        setMsgModalShow(false);
-    };
-    const handleMsgModalShow = () => setMsgModalShow(true);
-    const handleMsgModalClose = () => setMsgModalShow(false);
-
-    const handleChangeOrderMsg = (event) => {
-        if (orderMsg.length <= 1000) {
-            setOrderMsg(event.target.value)
+        if (orderMsg.length <= maxLengthOfMsg) {
+            setPayModalShow(true);
+            setMsgModalShow(false);
         } else {
             alert("Lời nhắn không được vượt quá 1000 ký tự")
+        }
+    };
+
+    const handleMsgModalShow = () => {
+        setOrderMsg("");
+        setMsgModalShow(true);
+    };
+    const handleMsgModalClose = () => {
+        setOrderMsg("");
+        setMsgModalShow(false);
+    }
+
+    const handleChangeOrderMsg = (event) => {
+        if (orderMsg.length <= maxLengthOfMsg) {
+            setOrderMsg(event.target.value)
+        } else {
+            setOrderMsg(orderMsg);
         }
     }
 
@@ -87,7 +102,7 @@ function Cart() {
                                                 style={{height: 2, backgroundColor: "#5e5c4d", opacity: 1}}/>
                                             {
                                                 totalItem === 0 &&
-                                                <span className="fst-italic">Chưa cóa sản phẩm nào</span>
+                                                <span className="fst-italic">Chưa có sản phẩm nào</span>
                                             }
 
                                             {
@@ -171,8 +186,13 @@ function Cart() {
                                                     </div>
                                                     <div className="d-flex justify-content-between p-2 mb-2"
                                                          style={{backgroundColor: "#e1f5fe"}}>
-                                                        <h5 className="fw-bold mb-0">Tổng thiệt hại: </h5>
+                                                        <h5 className="fw-bold mb-0">Tạm tính: </h5>
                                                         <h5 className="fw-bold mb-0">{new Intl.NumberFormat().format(totalPrice)} .đ</h5>
+                                                    </div>
+                                                    <div className="d-flex justify-content-between p-2 mb-2"
+                                                         style={{backgroundColor: "#e1f5fe"}}>
+                                                        <h5 className="fw-bold mb-0">Tỉ giá USD: </h5>
+                                                        <h5 className="fw-bold mb-0">{new Intl.NumberFormat().format(24000)}</h5>
                                                     </div>
                                                     <hr className="mb-4"
                                                         style={{height: 2, backgroundColor: "#5e5c4d", opacity: 1}}/>

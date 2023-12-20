@@ -1,13 +1,41 @@
 import {getUsernameByJwt} from "../service/securityService";
 import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import '../style/purchaseHistory.css';
-import {Table} from "react-bootstrap";
 import Footer from "./Footer";
+import * as orderService from "../service/orderService";
+import OrderDetailModal from "./OrderDetailModal";
+import {dateTimeConverter} from "../utilities/DateTimeConverter";
+import {msgOutLengthConverter} from "../utilities/MsgOutLengthConverter";
+import {Modal} from "react-bootstrap";
 
 function PurchaseHistory() {
     const flag = getUsernameByJwt() != null;
     const navigate = useNavigate();
+
+    const [orders, setOrders] = useState();
+    const [orderId, setOrderId] = useState();
+    const [orderCode, setOrderCode] = useState();
+    const [detailModalShow, setDetailModalShow] = useState(false);
+
+    const [message, setMessage] = useState("");
+    const [messageModalShow, setMessageModalShow] = useState(false);
+
+    const handleMessageModalClose = () => {
+        setMessageModalShow(false);
+        setMessage("")
+    }
+    const handleMessageModalShow = (mes) => {
+        setMessage(mes);
+        setMessageModalShow(true);
+
+    }
+
+
+    const getOrders = async () => {
+        const data = await orderService.getOrderByUsername(0, 5);
+        await setOrders(data);
+    }
 
     const isAuthenticated = () => {
         if (!flag) {
@@ -15,9 +43,21 @@ function PurchaseHistory() {
         }
     }
 
+    const getOrderDetail = async (id, code) => {
+        setOrderId(id);
+        setOrderCode(code)
+        setDetailModalShow(true);
+    }
+
+
     useEffect(() => {
-        isAuthenticated()
+        isAuthenticated();
+        getOrders();
     }, [])
+
+    if (!orders) {
+        return null;
+    }
 
     return (
         <>
@@ -29,38 +69,73 @@ function PurchaseHistory() {
                 <div className="ph-content container">
                     <div className="row">
                         <table className="ph-table col-xl-12">
-                            <thead className="mb-3 ph-thead">
+                            <thead className="ph-thead">
                             <tr>
                                 <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                                <th>Username</th>
-                                <th>Username</th>
+                                <th>Người đặt</th>
+                                <th>Mã đơn hàng</th>
+                                <th>Ngày đặt</th>
+                                <th>Tin nhắn</th>
+                                <th>Chi tiết</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>@fat</td>
-                                <td>@fat</td>
-                            </tr>
+                            {
+                                orders.length === 0 && <span className="fst-italic">Chưa có sản phẩm nào</span>
+                            }
+                            {
+                                orders.length > 0 &&
+                                orders.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.userFullname}</td>
+                                            <td>{item.orderCode}</td>
+                                            <td>{dateTimeConverter(item.time)}</td>
+                                            <td>
+                                                {msgOutLengthConverter(item.message, 45)}
+                                                <i onClick={() => handleMessageModalShow(item.message)}
+                                                   className="fa-solid fa-comment-dots ph-icon-detail"/>
+                                            </td>
+                                            <td>
+                                                <i onClick={() => getOrderDetail(item.id, item.orderCode)}
+                                                   className="fa-solid fa-circle-info ph-icon-detail"/>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <OrderDetailModal
+                show={detailModalShow}
+                setShow={setDetailModalShow}
+                id={orderId}
+                code={orderCode}/>
+
+            <Modal
+                show={messageModalShow}
+                onHide={handleMessageModalClose}
+                backdrop="static"
+            >
+                <Modal.Header className="logout-modal-header" closeButton>
+                    <Modal.Title>Tin nhắn</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="logout-modal-body">
+                    {message}
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="logout-btn-modal-cancel"
+                            onClick={handleMessageModalClose}>
+                        Đóng
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
             <Footer/>
         </>
     )

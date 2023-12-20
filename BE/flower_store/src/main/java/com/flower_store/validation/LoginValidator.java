@@ -9,10 +9,11 @@ public class LoginValidator {
 
     /**
      * method usernameValidator()
-     * Creator ThienBB
-     * Date 04-12-2023
-     * param String username, Errors errors
-     * return void
+     *
+     * @param password, errors
+     * @return void
+     * @author Bao Thien
+     * @since 04-12-2023
      */
     public static void usernameValidator(String username, Errors errors) {
         if (username == null || username.trim().length() == 0) {
@@ -22,10 +23,11 @@ public class LoginValidator {
 
     /**
      * method passwordValidator()
-     * Creator ThienBB
-     * Date 04-12-2023
-     * param String password, Errors errors
-     * return void
+     *
+     * @param password, errors
+     * @return void
+     * @author Bao Thien
+     * @since 04-12-2023
      */
     public static void passwordValidator(String password, Errors errors) {
         if (password == null || password.trim().length() == 0) {

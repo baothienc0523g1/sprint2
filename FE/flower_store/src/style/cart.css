@@ -212,6 +212,8 @@
 .order-msg-input {
     width: 80%;
     margin: auto;
+    padding-left: 15px;
+    padding-top: 5px;
 }
 .order-msg-btn-cancel, .order-msg-btn-confirm {
     width: 26%;

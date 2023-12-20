@@ -2,12 +2,12 @@ import {PayPalButtons, PayPalScriptProvider, usePayPalScriptReducer} from "@payp
 import {toast} from "react-toastify";
 import {useDispatch} from "react-redux";
 import * as cartService from "../service/cartService";
-import {getCartFromAPI} from "../provider/actions";
+import {getCartFromAPI, payCarts} from "../provider/actions";
 
 const style = {"layout": "vertical"};
 export default function MyPayPalV2(event) {
     const {totalCost, closeModalFn, orderMsg} = event;
-    const totalCostInUSD = Math.round(totalCost / 24000);
+    const totalCostInUSD = Math.ceil(totalCost / 24000);
     const dispatch = useDispatch();
 
     const createOrder = (data, actions, err) => {
@@ -30,7 +30,7 @@ export default function MyPayPalV2(event) {
         if (res.status === 200) {
             toast("Thanh toán thành công");
             closeModalFn();
-            dispatch(getCartFromAPI());
+            dispatch(payCarts());
         } else {
             toast("Thanh toán không thành công");
             closeModalFn();

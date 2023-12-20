@@ -75,6 +75,11 @@ const removeProducts = (username, productId) => async (dispatch) => {
     }
 };
 
+const payCarts = () => {
+    return ({
+        type: PAY_CART,
+    })
+}
 
 const GET_CART_FROM_API = "GET_CART_FROM_API";
 const ADD_ITEMS = "ADD_ITEMS";
@@ -83,6 +88,6 @@ const REMOVE_ITEMS = "REMOVE_ITEMS";
 const REMOVE_CART = "REMOVE_CART";
 const PAY_CART = "PAY_CART";
 
-export {getCartFromAPI, addToCart, removeProducts, minusFromCart}
+export {getCartFromAPI, addToCart, removeProducts, minusFromCart, payCarts}
 
 export {GET_CART_FROM_API, ADD_ITEMS, MINUS_ITEMS, REMOVE_ITEMS, REMOVE_CART, PAY_CART}

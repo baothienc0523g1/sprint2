@@ -68,8 +68,7 @@ function Header() {
         <>
             <div className="header">
                 <div className="notification">
-                    <div className="notification-text">Kỉ niệm xưa giờ là những thước phim dư thừa. Em tua đi tua lại để
-                        làm chi nữa?
+                    <div className="notification-text">Nếu không có những gì mình yêu, hãy tập yêu những gì mình có!
                     </div>
                 </div>
                 <Navbar expand="lg" className="bg-white">
@@ -96,7 +95,8 @@ function Header() {
                                             <div className="header-dropdown-content">
                                                 {
                                                     curRole === 'MEMBER' &&
-                                                    <Link className="dropdown-child" to="/purcharse-history">Lịch sử mua hàng</Link>
+                                                    <Link className="dropdown-child" to="/purcharse-history">Lịch sử mua
+                                                        hàng</Link>
                                                 }
 
                                                 <Link className="dropdown-child" to="/">Thông tin cá nhân</Link>
@@ -104,7 +104,8 @@ function Header() {
                                                 {
                                                     curRole === 'ADMIN' &&
                                                     <>
-                                                        <Link className="dropdown-child" to="/product-managements">Sản phẩm</Link>
+                                                        <Link className="dropdown-child" to="/product-managements">Sản
+                                                            phẩm</Link>
                                                         <Link className="dropdown-child" to="/">Khách hàng</Link>
                                                     </>
                                                 }
@@ -141,7 +142,7 @@ function Header() {
                     <Modal.Title>Đăng xuất</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="logout-modal-body">
-                    Bạn có trắc trắn muốn đăng xuất?
+                    Bạn có chắc chắn muốn đăng xuất?
                 </Modal.Body>
                 <Modal.Footer>
                     <button className="logout-btn-modal-cancel" onClick={handleClose}>Hủy</button>

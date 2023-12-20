@@ -55,6 +55,7 @@ CREATE TABLE `orders` (
     user_id INT,
     `time` DATETIME,
     message LONGTEXT,
+    order_code VARCHAR(50),
     FOREIGN KEY (user_id)
         REFERENCES users (id),
     is_deleted BIT(1) DEFAULT 0

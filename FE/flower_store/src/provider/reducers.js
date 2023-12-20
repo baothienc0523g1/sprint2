@@ -1,4 +1,4 @@
-import {ADD_ITEMS, GET_CART_FROM_API, MINUS_ITEMS, REMOVE_ITEMS} from "./actions";
+import {ADD_ITEMS, GET_CART_FROM_API, MINUS_ITEMS, PAY_CART, REMOVE_ITEMS} from "./actions";
 import {combineReducers} from "redux";
 
 
@@ -61,6 +61,10 @@ const reducers = (state = initialState, action) => {
             return {
                 ...state,
                 totalItem: nextQuantity,
+            }
+        case PAY_CART:
+            return {
+                ...initialState,
             }
         default:
             return state;

@@ -4,6 +4,7 @@
     min-height: 100vh;
     box-sizing: border-box;
     border: 0;
+    font-family: Lora, 'sans-serif';
 }
 
 .ph-title-div {
@@ -19,6 +20,7 @@
 
 .ph-table tr {
     border-bottom: 1px solid #e7bab0;
+    text-align: center;
 }
 
 .ph-table tr, .ph-table th {
@@ -34,6 +36,14 @@
 }
 
 .ph-table th {
-    font-family: Lora, 'sans-serif'
+    font-family: Lora, 'sans-serif';
+    text-align: center;
 }
+
+.ph-icon-detail {
+    color: #5e5c4d;
+    font-size: 1.2rem;
+    margin-left: 2%;
+}
+
 

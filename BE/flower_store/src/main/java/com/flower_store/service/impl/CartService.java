@@ -1,5 +1,6 @@
 package com.flower_store.service.impl;
 
+import com.flower_store.commons.OrderCodeGenerator;
 import com.flower_store.dto.CartDto;
 import com.flower_store.dto.OrderPayDto;
 import com.flower_store.model.*;
@@ -168,11 +169,12 @@ public class CartService implements ICartService {
         try {
             String username = orderPayDto.getUsername();
             String orderMessage = orderPayDto.getMessage();
+            String orderCode = this.orderCodeGenerating();
             Optional<User> existedUser = this.userRepository.findUserByUsername(username);
             LocalDateTime now = LocalDateTime.now();
 
             if (existedUser.isPresent()) {
-                Order newOrder = new Order(now.toString(), orderMessage, existedUser.get());
+                Order newOrder = new Order(now.toString(), orderMessage, existedUser.get(), orderCode);
                 Collection<CartDto> existedUserCart = this.cartRepository.getCartByUsername(username);
 
                 if (existedUserCart.size() > 0) {
@@ -203,5 +205,25 @@ public class CartService implements ICartService {
         }
         return false;
     }
+
+
+    /**
+     * method do generate an order code
+     *
+     * @param username
+     * @author Bao Thien
+     * @since 20-12-2023
+     */
+    @Override
+    public String orderCodeGenerating() {
+        String orderCode = OrderCodeGenerator.orderCodeGenerate();
+        String existedCode = this.orderRepository.isCodeExisted(orderCode);
+        while (existedCode != null) {
+            orderCode = OrderCodeGenerator.orderCodeGenerate();
+            existedCode = this.orderRepository.isCodeExisted(orderCode);
+        }
+        return orderCode;
+    }
+
 
 }

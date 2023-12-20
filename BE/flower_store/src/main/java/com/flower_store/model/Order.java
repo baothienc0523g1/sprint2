@@ -25,15 +25,19 @@ public class Order {
     @Column(columnDefinition = "longtext")
     private String message;
 
+    @Column(columnDefinition = "VARCHAR(50)")
+    private String orderCode;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     private boolean isDeleted;
 
-    public Order(String time, String message, User user) {
+    public Order(String time, String message, User user, String orderCode) {
         this.time = time;
         this.message = message;
         this.user = user;
+        this.orderCode = orderCode;
     }
 }

@@ -17,4 +17,5 @@ public interface ICartService {
 
     boolean cartPay(OrderPayDto orderPayDto);
 
+    String orderCodeGenerating();
 }
