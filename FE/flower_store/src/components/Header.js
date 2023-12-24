@@ -99,7 +99,7 @@ function Header() {
                                                         hàng</Link>
                                                 }
 
-                                                <Link className="dropdown-child" to="/">Thông tin cá nhân</Link>
+                                                <Link className="dropdown-child" to="/personal-page">Thông tin cá nhân</Link>
 
                                                 {
                                                     curRole === 'ADMIN' &&

@@ -82,6 +82,7 @@ public class JwtUtilities implements Serializable {
 
     public void expiredTokenHandler(String token) {
         Date exipredDate = new Date();
-
+        Jwts.builder()
+                .setExpiration(exipredDate);
     }
 }

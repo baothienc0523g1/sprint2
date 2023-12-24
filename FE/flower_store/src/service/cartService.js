@@ -9,7 +9,7 @@ const getCart = async () => {
         const res = await axios.get(BASE_API + `/${username}`);
         return res.data;
     } catch (e) {
-        console.log(e)
+
     }
 }
 
@@ -18,7 +18,7 @@ const addNewProductToCart = async (username, productId, productQuantity) => {
         const res = await axios.get(BASE_API + `/${username}/${productId}/${productQuantity}`);
         return res.status;
     } catch (e) {
-        console.log(e);
+
     }
 }
 
@@ -27,7 +27,7 @@ const minusProductFromCart = async (username, productId, productQuantity) => {
         const res = await axios.get(BASE_API + `/remove/${username}/${productId}/${productQuantity}`);
         return res.status;
     } catch (e) {
-        console.log(e);
+
     }
 }
 
@@ -36,7 +36,7 @@ const removeProductFromCart = async (username, productId) => {
         const res = await axios.delete(BASE_API + `/${username}/${productId}`);
         return res.status;
     } catch (e) {
-        console.log(e);
+
     }
 }
 

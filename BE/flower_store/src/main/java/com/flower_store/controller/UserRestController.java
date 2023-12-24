@@ -1,5 +1,6 @@
 package com.flower_store.controller;
 
+import com.flower_store.dto.UserInfoDto;
 import com.flower_store.model.User;
 import com.flower_store.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,21 @@ public class UserRestController {
         }
     }
 
+    /**
+     * method get user information by username
+     *
+     * @param username
+     * @author Bao Thien
+     * @since 22-12-2023
+     */
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getInformation(@PathVariable(name = "username") String username) {
 
+        Optional<UserInfoDto> userInfoDto = this.userService.getInfoByUsername(username);
+
+        if (userInfoDto.isPresent()) {
+            return ResponseEntity.ok(userInfoDto);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

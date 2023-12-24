@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_API = "http://localhost:8080/api";
 
-const getFeature = async (sort,searchName) => {
+const getFeature = async (sort, searchName) => {
     try {
         const res = await axios.get(BASE_API +
             `/public/features?sort=${sort}&searchName=${searchName}`);
@@ -65,5 +65,7 @@ const getProductTypeName = async (id) => {
         console.log(e);
     }
 }
-export {getFeature, getProductDetail, getProductListWithType, getProductWithSearchOption,
-    getProductHighestPrice, getProductTypeName, getTrendingFeature}
+export {
+    getFeature, getProductDetail, getProductListWithType, getProductWithSearchOption,
+    getProductHighestPrice, getProductTypeName, getTrendingFeature
+}

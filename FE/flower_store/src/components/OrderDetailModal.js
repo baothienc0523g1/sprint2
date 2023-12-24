@@ -2,7 +2,7 @@ import {Modal, Table} from "react-bootstrap";
 import * as orderService from "../service/orderService";
 import {useEffect, useState} from "react";
 
-function OrderDetailModal(event) {
+const OrderDetailModal = (event) => {
 
     const {show, setShow, id, code} = event;
     const [detailList, setDetailList] = useState();
@@ -10,12 +10,16 @@ function OrderDetailModal(event) {
 
     const getDetail = async () => {
         const data = await orderService.getOrderDetails(id);
-        await setDetailList(data);
+        setDetailList(data);
     }
 
     useEffect(() => {
         getDetail();
     }, [show, id]);
+
+    if (!detailList) {
+        return null;
+    }
 
     if (!detailList) {
         return null;
@@ -47,7 +51,7 @@ function OrderDetailModal(event) {
                     </thead>
                     <tbody>
                     {
-                        detailList.map((item, index) => {
+                        detailList && detailList.map((item, index) => {
                             totalCost += item.totalCost
                             return (
                                 <tr key={index}>

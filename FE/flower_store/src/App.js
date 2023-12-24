@@ -15,6 +15,7 @@ import ProductDetail from "./components/ProductDetail";
 import ProductsWithType from "./components/ProductsWithType";
 import ProductManagements from "./components/Managements/ProductManagements";
 import PurchaseHistory from "./components/PurchaseHistory";
+import PersonalPage from "./components/PersonalPage";
 
 export default function App() {
     const { pathname } = useLocation();
@@ -42,6 +43,7 @@ export default function App() {
                         ]}/>}>
 
                     <Route path="/purcharse-history" element={<PurchaseHistory/>}/>
+                    <Route path="/personal-page" element={<PersonalPage/>}/>
                 </Route>
             </Routes>
 

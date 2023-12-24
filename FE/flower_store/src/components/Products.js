@@ -6,12 +6,13 @@ import {useNavigate} from "react-router-dom";
 import LazyLoad from "react-lazy-load";
 
 export default function Products() {
+    const initSearchValue = "";
     const [products, setProducts] = useState([]);
-    const [sortType, setSortType] = useState("");
-    const [searchName, setSearchName] = useState("");
+    const [sortType, setSortType] = useState(initSearchValue);
+    const [searchName, setSearchName] = useState(initSearchValue);
     const navigate = useNavigate();
 
-    const getProductList = async () => {
+    const getProductList = async (sortType, searchName) => {
         const data = await featureService.getFeature(sortType, searchName);
         await setProducts(data);
     }
@@ -28,28 +29,28 @@ export default function Products() {
         navigate("/product/type/3");
     }
 
-    const handleChangeSortType = async (event) => {
+    const handleChangeSortType = (event) => {
         setSortType(event.target.value);
     }
 
-    const handleChangeSearchName = (event) => {
-        setSearchName(event.target.value);
+    const handleChangeSearchName = async (event) => {
+        await setSearchName(event.target.value);
     }
 
-    const handleSearchName = async (e) => {
+    const handleSearchName = (e) => {
         if (e.key === 'Enter') {
-            await getProductList();
+            getProductList(sortType, searchName);
         }
     }
 
-    const handleResetSearchFilter = async () => {
-        setSearchName("");
-        setSortType("");
-        await getProductList();
+    const handleResetSearchFilter = () => {
+        setSearchName(initSearchValue);
+        setSortType(initSearchValue);
+        getProductList(sortType, "");
     }
 
     useEffect(() => {
-        getProductList();
+        getProductList(sortType, searchName);
     }, [sortType])
 
 
@@ -65,10 +66,11 @@ export default function Products() {
                     <button className="product-type-btn" onClick={handleChangeProductTypePlants}>Hoa và cây <i
                         className="fa-brands fa-pagelines"/></button>
                     <input type="text" className="search-input" placeholder="Nhập tên sản phẩm"
-                           onChange={(event => handleChangeSearchName(event))}
+                           value={searchName}
+                           onChange={event => handleChangeSearchName(event)}
                            onKeyDown={handleSearchName}
                     />
-                    <button className="reset-search-mainp" onClick={handleResetSearchFilter}>Xóa bộ lọc </button>
+                    <button className="reset-search-mainp" onClick={handleResetSearchFilter}>Xóa bộ lọc</button>
 
                     <div className="search-option-wrapper gap-2">
                         <select onChange={event => handleChangeSortType(event)}
@@ -91,7 +93,7 @@ export default function Products() {
                             return (
                                 <div key={index} className="col-xxl-2 col-lg-3 col-md-4 col-sm-4 mb-5 mt-3"
                                      style={{textAlign: "center"}}>
-                                    <LazyLoad threshold={0.85}>
+                                    <LazyLoad threshold={0.95}>
                                         <MyCard
                                             url={temp.pictureUrl}
                                             name={temp.name}

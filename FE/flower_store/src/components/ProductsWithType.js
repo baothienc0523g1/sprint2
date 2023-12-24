@@ -56,7 +56,7 @@ export default function ProductsWithType() {
         }
     }
 
-    const handleResetSearch = async () => {
+    const handleResetSearch = () => {
         setProductMaxPrice(highestPrice);
         setSearchName("");
         getProductWithType(id);

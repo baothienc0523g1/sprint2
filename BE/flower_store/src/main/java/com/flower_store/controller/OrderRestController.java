@@ -29,16 +29,22 @@ public class OrderRestController {
     private IUserRepository userRepository;
 
     /**
-     * method get order history by username
+     * get all order by username, order code
      *
+     * @param page
+     * @param size
      * @param username
+     * @param orderCode
+     * @return String
      * @author Bao Thien
      * @since 20-12-2023
      */
     @GetMapping("/{username}")
     public ResponseEntity<?> getOrderByUserName(@PathVariable(name = "username") String username,
                                                 @RequestParam(name = "page") int page,
-                                                @RequestParam(name = "size") int size) {
+                                                @RequestParam(name = "size") int size,
+                                                @RequestParam(name = "orderCode") String orderCode
+    ) {
         Optional<User> existedUser = this.userRepository.findUserByUsername(username);
 
         if (!existedUser.isPresent()) {
@@ -46,7 +52,7 @@ public class OrderRestController {
         }
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<OrderDto> orders = this.orderService.getOrderByUsername(pageable, username);
+        Page<OrderDto> orders = this.orderService.getOrderByUsername(pageable, username, orderCode);
 
         if (orders.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -80,4 +86,42 @@ public class OrderRestController {
 
         return ResponseEntity.ok(ordersDetail);
     }
+
+
+    /**
+     * get first time order by username in date string
+     *
+     * @param userName
+     * @return String
+     * @author Bao Thien
+     * @since 20-12-2023
+     */
+    @GetMapping("/firstOrder/{username}")
+    public ResponseEntity<?> getFirstOrderDateByUsername(@PathVariable(name = "username") String username) {
+        String firstOrder = this.orderService.getFirstOrderDateWithUserName(username);
+
+        if (firstOrder != null) {
+            return ResponseEntity.ok(firstOrder);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * get last time order by username in date string
+     *
+     * @param userName
+     * @return String
+     * @author Bao Thien
+     * @since 20-12-2023
+     */
+    @GetMapping("/lastOrder/{username}")
+    public ResponseEntity<?> getLastOrderDateByUsername(@PathVariable(name = "username") String username) {
+        String lastOrder = this.orderService.getLastOrderDateWithUserName(username);
+
+        if (lastOrder != null) {
+            return ResponseEntity.ok(lastOrder);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

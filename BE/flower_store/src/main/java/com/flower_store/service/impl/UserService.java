@@ -1,5 +1,6 @@
 package com.flower_store.service.impl;
 
+import com.flower_store.dto.UserInfoDto;
 import com.flower_store.model.Role;
 import com.flower_store.model.User;
 import com.flower_store.repository.IRoleRepository;
@@ -43,5 +44,15 @@ public class UserService implements IUserService {
         Role newRole = this.roleRepository.findByName("MEMBER");
         user.setRole(newRole);
         this.userRepository.save(user);
+    }
+
+    /**
+     * method get user information by username
+     * @param userName
+     * @since 22-12-2023
+     * @author Bao Thien*/
+    @Override
+    public Optional<UserInfoDto> getInfoByUsername(String userName) {
+        return this.userRepository.getInfoByUsername(userName);
     }
 }

@@ -23,20 +23,21 @@ public class OrderService implements IOrderService {
     @Autowired
     private IOrderDetailRepository orderDetailRepository;
 
-    @Autowired
-    private IUserRepository userRepository;
-
     /**
-     * method get order history by username
+     * get all order by username, order code
      *
-     * @param username
      * @param pageable
+     * @param username
+     * @param orderCode
+     * @return String
      * @author Bao Thien
      * @since 20-12-2023
      */
     @Override
-    public Page<OrderDto> getOrderByUsername(Pageable pageable, String username) {
-        return this.orderRepository.getOrderByUsername(pageable, username);
+    public Page<OrderDto> getOrderByUsername(Pageable pageable,
+                                             String username,
+                                             String orderCode) {
+        return this.orderRepository.getOrderByUsername(pageable, username, '%' + orderCode + '%');
     }
 
     /**
@@ -50,5 +51,33 @@ public class OrderService implements IOrderService {
     @Override
     public Collection<OrderDetailDto> findOrderDetailByUsernameAndOrderId(String username, int id) {
         return this.orderDetailRepository.findOrderDetailByUsernameAndOrderId(username, id);
+    }
+
+
+    /**
+     * get first time order by username in date string
+     *
+     * @param userName
+     * @return String
+     * @author Bao Thien
+     * @since 20-12-2023
+     */
+    @Override
+    public String getFirstOrderDateWithUserName(String userName) {
+        return this.orderRepository.getFirstOrderDateWithUserName(userName);
+    }
+
+
+    /**
+     * get last time order by username in date string
+     *
+     * @param userName
+     * @return String
+     * @author Bao Thien
+     * @since 20-12-2023
+     */
+    @Override
+    public String getLastOrderDateWithUserName(String userName) {
+        return this.orderRepository.getLastOrderDateWithUserName(userName);
     }
 }
