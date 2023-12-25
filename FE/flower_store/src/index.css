@@ -34,3 +34,7 @@ code {
     opacity: 1
   }
 }
+
+* {
+  scroll-behavior: smooth;
+}
