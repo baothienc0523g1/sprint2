@@ -38,7 +38,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                     " on p.product_type_id = pt.id " +
                     " where p.is_deleted = 0 " +
                     " and p.name like :searchName ", nativeQuery = true)
-    Page<Feature> findAllFeatureWithSort(@Param("searchName") String searchName, Pageable pageable);
+    Page<Feature> findAllFeatureWithSearchName(@Param("searchName") String searchName, Pageable pageable);
 
     /**
      * method get trending product by quantity in order details table
@@ -159,7 +159,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     /**
      * method find products max price
      *
-     * @return long price
+     * @return String
      * @author Bao Thien
      * @since 08-12-2023
      */
@@ -168,4 +168,26 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                     " where id = :id ", nativeQuery = true)
     String getProductTypeName(int id);
 
+
+    /**
+     * method get products for management with pageable, sort,
+     * search with product name or product code
+     *
+     * @return Collection
+     * @author Bao Thien
+     * @since 09-01-2024
+     */
+    @Query(value = " select p.id as id, p.name as name, p.code as code, " +
+            " p.description as description, " +
+            " p.price as price, pt.id as productTypeId, " +
+            " pt.name as productTypeName, pp.picture_url as pictureUrl " +
+            " from products as p " +
+            " join product_picture as pp " +
+            " on p.id = pp.product_id " +
+            " join product_type as pt " +
+            " on p.product_type_id = pt.id " +
+            " where p.name like :searchKeyWord " +
+            " or p.code like :searchKeyWord " +
+            " and p.is_deleted = 0 ", nativeQuery = true)
+    Page<Feature> getAllFeature(Pageable pageable, String searchKeyWord);
 }

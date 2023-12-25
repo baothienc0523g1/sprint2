@@ -1,7 +1,7 @@
 import {getUsernameByJwt} from "./securityService";
 import axios from "axios";
 
-const BASE_API = "http://localhost:8080/api/member/orders";
+const BASE_API = "http://10.10.8.247:8080/api/member/orders";
 
 const getOrderByUsername = async (page, size, orderCode) => {
     try {

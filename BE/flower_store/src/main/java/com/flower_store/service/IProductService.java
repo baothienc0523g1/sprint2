@@ -3,13 +3,12 @@ package com.flower_store.service;
 import com.flower_store.dto.Feature;
 import com.flower_store.model.Product;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.Optional;
 
 public interface IProductService {
-    Page<Feature> findAllFeatureWithSort(String searchName, Pageable pageable);
+    Page<Feature> findAllFeatureWithSearch(String searchName, String sort);
 
     Collection<Feature> findTrendingFeature();
 
@@ -19,9 +18,9 @@ public interface IProductService {
 
     void addProduct(Product product);
 
-    void removeProduct(Integer id);
+    boolean removeProduct(Integer id);
 
-    void updateProduct(Product product);
+    boolean updateProduct(Integer id, Product product);
 
     Optional<Product> findById(Integer id);
 
@@ -33,4 +32,7 @@ public interface IProductService {
     Optional<Long> maxPriceOfProducts();
 
     String productTypeName(int id);
+
+    Page<Feature> getAllFeature(int page, int size, String searchKeyWord, String sort);
+
 }

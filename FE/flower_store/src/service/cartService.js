@@ -1,7 +1,7 @@
 import axios from "axios";
 import {getUsernameByJwt} from "./securityService";
 
-const BASE_API = "http://localhost:8080/api/member/carts";
+const BASE_API = "http://10.10.8.247:8080/api/member/carts";
 
 const getCart = async () => {
     try {

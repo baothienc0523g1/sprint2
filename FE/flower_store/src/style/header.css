@@ -151,6 +151,7 @@
 /*logo img*/
 .header-logo {
     height: 40px;
+    scale: 1.2;
 }
 
 /*header navlink*/
@@ -189,6 +190,7 @@
     #scrollToTop {
         left: 90%;
     }
+
     .user-fullname {
         font-family: "Bookman Old Style", sans-serif;
         color: gray;

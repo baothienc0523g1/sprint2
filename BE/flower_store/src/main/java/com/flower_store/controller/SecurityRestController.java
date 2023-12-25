@@ -53,12 +53,12 @@ public class SecurityRestController {
     private static final Logger logger = LoggerFactory.getLogger(SecurityRestController.class);
 
     /**
-     * method authenticationUser
+     * method do login
      *
      * @param loginRequestDto
      * @param bindingResult
-     * @return Jwt string
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 04-12-2023
      */
     @PostMapping("/login")
@@ -96,9 +96,9 @@ public class SecurityRestController {
     /**
      * method login with facebook
      *
-     * @param loginRequestDto
-     * @return HttpStatus
-     * @author ThienBB
+     * @param facebookLoginDto
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 15-12-2023
      */
     @PostMapping("/login-fb")
@@ -134,8 +134,9 @@ public class SecurityRestController {
      * method register new User
      *
      * @param userDto
-     * @return Http status
-     * @author ThienBB
+     * @param bindingResult
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 04-12-2023
      */
     @PostMapping("/register")
@@ -153,15 +154,16 @@ public class SecurityRestController {
     }
 
     /**
-     * method authenticationUser
-     *
+     * method do log out
+     * NOT COMPLETE YET
+     * @param request
      * @param token
-     * @return HttpStatus
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 15-12-2023
      */
     @PostMapping("/logout/")
-    public ResponseEntity<?> doLogout(HttpServletRequest request) {
+    public ResponseEntity<?> doLogout(HttpServletRequest request, String token) {
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

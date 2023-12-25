@@ -1,7 +1,7 @@
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 
-const BASE_API = "http://localhost:8080/api";
+const BASE_API = "http://10.10.8.247:8080/api";
 
 const doLogin = async (event) => {
     return await axios.post(BASE_API + '/public/login', event)

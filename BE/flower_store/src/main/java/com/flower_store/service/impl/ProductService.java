@@ -1,6 +1,7 @@
 package com.flower_store.service.impl;
 
 import com.flower_store.dto.Feature;
+import com.flower_store.dto.ProductDto;
 import com.flower_store.model.Product;
 import com.flower_store.repository.IProductRepository;
 import com.flower_store.service.IProductService;
@@ -8,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,21 +29,43 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method get product with search
+     * method get product with sort for display on main page
      *
-     * @param pageable
      * @param searchName
+     * @param sort
      * @return Page<Feature>
      * @author ThienBB
      * @since 14-12-2023
      */
     @Override
-    public Page<Feature> findAllFeatureWithSort(String searchName, Pageable pageable) {
-        return this.productRepository.findAllFeatureWithSort("%" + searchName + "%", pageable);
+    public Page<Feature> findAllFeatureWithSearch(String searchName, String sort) {
+        Pageable pageable;
+        Page<Feature> features;
+
+        switch (sort) {
+            case "asc":
+                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").ascending());
+                features = this.productRepository.findAllFeatureWithSearchName("%" + searchName + "%", pageable);
+                return features;
+
+            case "desc":
+                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").descending());
+                features = this.productRepository.findAllFeatureWithSearchName("%" + searchName + "%", pageable);
+                return features;
+
+            case "":
+                pageable = PageRequest.of(0, Integer.MAX_VALUE);
+                features = this.productRepository.findAllFeatureWithSearchName("%" + searchName + "%", pageable);
+                return features;
+
+            default:
+                return Page.empty();
+
+        }
     }
 
     /**
-     * method get trending product by quantity in order details table
+     * method get trending product by how much time it's in order details table
      *
      * @return Collection<Feature>
      * @author Bao Thien
@@ -53,7 +78,8 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method find feature by id
+     * method find feature by id for display on main page when user
+     * want to search
      *
      * @param id
      * @return Optional<Feature>
@@ -67,7 +93,7 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method find feature by type id
+     * method find feature by type id for display on main page
      *
      * @param id
      * @return Collection<Product>
@@ -100,46 +126,55 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method remove product
+     * method remove product for admin
      *
      * @param id
-     * @return void
      * @author Bao Thien
      * @since 06-12-2023
      */
     @Override
     @Transactional
-    public void removeProduct(Integer id) {
+    public boolean removeProduct(Integer id) {
         try {
             Optional<Product> existedProduct = this.productRepository.findById(id);
-            existedProduct.ifPresent(product -> this.productRepository.delete(product));
+            if (existedProduct.isPresent()) {
+                this.productRepository.delete(existedProduct.get());
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             logger.warn("Error while removing product: " + e.getMessage());
         }
+        return false;
     }
 
 
     /**
-     * method update product
+     * method update product for admin
      *
      * @param product
-     * @return void
+     * @param id
      * @author Bao Thien
      * @since 06-12-2023
      */
     @Override
-    public void updateProduct(Product product) {
+    public boolean updateProduct(Integer id, Product product) {
         try {
             Optional<Product> existedProduct = this.productRepository.findById(product.getId());
-            existedProduct.ifPresent(temp -> this.productRepository.save(temp));
+            if (existedProduct.isPresent()) {
+                this.productRepository.save(product);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             logger.warn("Error while update product: " + e.getMessage());
         }
+        return false;
     }
 
 
     /**
-     * method update product
+     * method update product for admin
      *
      * @param id
      * @return void
@@ -180,13 +215,64 @@ public class ProductService implements IProductService {
         return null;
     }
 
+    /**
+     * method find the highest price of products
+     *
+     * @return Optional<Long>
+     * @author Bao Thien
+     * @since 10-12-2023
+     */
     @Override
     public Optional<Long> maxPriceOfProducts() {
         return this.productRepository.getMaxPrice();
     }
 
+    /**
+     * method get product type name by id
+     *
+     * @return String
+     * @author Bao Thien
+     * @since 10-12-2023
+     */
     @Override
     public String productTypeName(int id) {
         return this.productRepository.getProductTypeName(id);
     }
+
+
+    /**
+     * method get products for management with pageable, sort,
+     * search with product name or product code
+     *
+     * @return Collection
+     * @author Bao Thien
+     * @since 09-01-2024
+     */
+    @Override
+    public Page<Feature> getAllFeature(int page, int size, String searchKeyWord, String sort) {
+        Page<Feature> features;
+        Pageable pageable;
+
+        switch (sort) {
+            case "asc":
+                pageable = PageRequest.of(page, size, Sort.by("price").ascending());
+                features = this.productRepository.getAllFeature(pageable, "%" + searchKeyWord + "%");
+                return features;
+
+            case "desc":
+                pageable = PageRequest.of(page, size, Sort.by("price").descending());
+                features = this.productRepository.getAllFeature(pageable, "%" + searchKeyWord + "%");
+                return features;
+
+            case "":
+                pageable = PageRequest.of(page, size);
+                features = this.productRepository.getAllFeature(pageable, "%" + searchKeyWord + "%");
+                return features;
+
+            default:
+                return Page.empty();
+        }
+    }
+
+
 }

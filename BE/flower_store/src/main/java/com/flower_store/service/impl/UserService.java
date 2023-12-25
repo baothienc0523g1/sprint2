@@ -21,11 +21,12 @@ public class UserService implements IUserService {
     private IRoleRepository roleRepository;
 
     /**
-     * method find user by username
-     * @author Bao Thien
-     * @since 06-12-2023
+     * method find user object by username
+     *
      * @param username
      * @return Optional<User>
+     * @author Bao Thien
+     * @since 06-12-2023
      */
     @Override
     public Optional<User> findUserByUsername(String username) {
@@ -33,11 +34,12 @@ public class UserService implements IUserService {
     }
 
     /**
-     * method create new user with facebook login
-     * @author Bao Thien
-     * @since 18-12-2023
+     * method create new user with facebook login with role member
+     *
      * @param user
      * @return void
+     * @author Bao Thien
+     * @since 18-12-2023
      */
     @Override
     public void createNewUser(User user) {
@@ -48,9 +50,11 @@ public class UserService implements IUserService {
 
     /**
      * method get user information by username
+     *
      * @param userName
+     * @author Bao Thien
      * @since 22-12-2023
-     * @author Bao Thien*/
+     */
     @Override
     public Optional<UserInfoDto> getInfoByUsername(String userName) {
         return this.userRepository.getInfoByUsername(userName);

@@ -1,14 +1,15 @@
 package com.flower_store.controller;
 
 import com.flower_store.dto.Feature;
+import com.flower_store.dto.ProductDto;
+import com.flower_store.model.Product;
 import com.flower_store.service.IProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -23,12 +24,13 @@ public class ProductRestController {
     private IProductService productService;
 
     /**
-     * method get product with sort/non-sort and search
+     * method get products with sort/non-sort and search
+     * for display on main page
      *
      * @param sort
      * @param searchName
-     * @return Page<Feature>
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 14-12-2023
      */
     @GetMapping("/public/features")
@@ -36,54 +38,20 @@ public class ProductRestController {
             @RequestParam(name = "sort", required = false) String sort,
             @RequestParam(name = "searchName", required = false, defaultValue = "") String searchName) {
 
-        Pageable pageable;
-        Page<Feature> features;
-        switch (sort) {
-            case "asc":
-                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").ascending());
-                features = this.productService.findAllFeatureWithSort(searchName, pageable);
-                if (features == null) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-                if (features.isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-                return ResponseEntity.ok(features);
+        Page<Feature> features = this.productService.findAllFeatureWithSearch(searchName, sort);
 
-            case "desc":
-                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").descending());
-                features = this.productService.findAllFeatureWithSort(searchName, pageable);
-                if (features == null) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-                if (features.isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-                return ResponseEntity.ok(features);
-
-            case "":
-                pageable = PageRequest.of(0, Integer.MAX_VALUE);
-                features = this.productService.findAllFeatureWithSort(searchName, pageable);
-                if (features == null) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-                if (features.isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-                return ResponseEntity.ok(features);
-
-            default:
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (features.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        return ResponseEntity.ok(features);
     }
 
 
     /**
      * method get trending product to main page
      *
-     * @param
-     * @return Collection<Feature>
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 12-12-2023
      */
     @GetMapping("/public/trending-features")
@@ -102,8 +70,8 @@ public class ProductRestController {
      * method get product by ID
      *
      * @param id
-     * @return ResponseEntity
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 05-12-2023
      */
     @GetMapping("/public/product-details/{id}")
@@ -121,8 +89,8 @@ public class ProductRestController {
      * method get product list by type id
      *
      * @param id
-     * @return ResponseEntity
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 05-12-2023
      */
     @GetMapping("/public/products/types/{id}")
@@ -137,7 +105,7 @@ public class ProductRestController {
     }
 
     /**
-     * method find products with option
+     * method find products with options
      *
      * @param productMinPrice
      * @param productMaxPrice
@@ -172,7 +140,7 @@ public class ProductRestController {
     /**
      * method find the highest price of products
      *
-     * @return Optional<Long>
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 10-12-2023
      */
@@ -191,7 +159,7 @@ public class ProductRestController {
      * method find product type name by id
      *
      * @param id
-     * @return String
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 10-12-2023
      */
@@ -200,5 +168,64 @@ public class ProductRestController {
         String typeName = this.productService.productTypeName(id);
 
         return ResponseEntity.ok(typeName);
+    }
+
+
+    /**
+     * method get products for management with pageable, sort,
+     * search with product name or product code
+     *
+     * @return Collection
+     * @author Bao Thien
+     * @since 09-01-2024
+     */
+    @GetMapping("/admin/products")
+    public ResponseEntity<?> getAllFeature(
+            @RequestParam(name = "search", required = false, defaultValue = "") String searchKeyWord,
+            @RequestParam(name = "sort", required = false, defaultValue = "") String sort,
+            @RequestParam(name = "page") int page,
+            @RequestParam(name = "size") int size
+
+    ) {
+        Page<Feature> features = this.productService.getAllFeature(page, size, searchKeyWord, sort);
+
+        if (features.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return ResponseEntity.ok(features);
+    }
+
+
+
+
+    //not tested yet
+    @GetMapping("/admin/products/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable(name = "id") Integer id) {
+        Optional<Product> existedProduct = this.productService.findById(id);
+        if (existedProduct.isPresent()) {
+            return ResponseEntity.ok(existedProduct);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    //not tested yet
+    @PutMapping("/admin/products")
+    public ResponseEntity<?> updateProduct(@RequestBody ProductDto productDto, BindingResult bindingResult) {
+        new ProductDto().validate(productDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(productDto, HttpStatus.BAD_REQUEST);
+        }
+
+        Product product = new Product();
+        BeanUtils.copyProperties(productDto, product);
+
+        boolean isUpdated = this.productService.updateProduct(productDto.getId(), product);
+
+        if (isUpdated) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

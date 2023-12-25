@@ -19,10 +19,11 @@ public class SecurityService implements ISecurityService {
 
     /**
      * method add new user
-     * @author Bao Thien
-     * @since 06-12-2023
+     *
      * @param user
      * @return void
+     * @author Bao Thien
+     * @since 06-12-2023
      */
     @Override
     @Transactional

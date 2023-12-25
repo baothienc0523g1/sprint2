@@ -30,9 +30,10 @@ public class CartRestController {
 
 
     /**
-     * method get cart by username after user log in
+     * method get cart by username
      *
      * @param username
+     * @return Collection<CartDto>
      * @author Bao Thien
      * @since 06-12-2023
      */
@@ -53,11 +54,12 @@ public class CartRestController {
     }
 
     /**
-     * method add only 1 new product to cart
+     * method add product(s) to cart with username
      *
      * @param username
      * @param productId
      * @param quantity
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 08-12-2023
      */
@@ -77,7 +79,7 @@ public class CartRestController {
     }
 
     /**
-     * method add product(s) into cart
+     * method add product into cart
      *
      * @param username
      * @param productId
@@ -147,8 +149,7 @@ public class CartRestController {
     /**
      * method do pay
      *
-     * @param username
-     * @param cartPayDto
+     * @param orderPayDto
      * @author Bao Thien
      * @since 16-12-2023
      */

@@ -21,14 +21,6 @@ public class JwtUserDetailsService implements IJwtUserDetailService {
     @Autowired
     private ISecurityRepository securityRepository;
 
-    /**
-     * method get user by username
-     *
-     * @param username
-     * @return UserDetails obj
-     * @author Bao Thien
-     * @since 06-12-2023
-     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> existedUser = this.securityRepository.findByUserName(username);
@@ -54,7 +46,7 @@ public class JwtUserDetailsService implements IJwtUserDetailService {
      * method find user by username
      *
      * @param username
-     * @return Optional User obj
+     * @return Optional<User>
      * @author Bao Thien
      * @since 06-12-2023
      */

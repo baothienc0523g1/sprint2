@@ -29,7 +29,7 @@ public class OrderRestController {
     private IUserRepository userRepository;
 
     /**
-     * get all order by username, order code
+     * get all order by username
      *
      * @param page
      * @param size
@@ -65,6 +65,7 @@ public class OrderRestController {
      * method get order details by username and order id
      *
      * @param username
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 20-12-2023
      */
@@ -89,10 +90,10 @@ public class OrderRestController {
 
 
     /**
-     * get first time order by username in date string
+     * get first time order by username
      *
-     * @param userName
-     * @return String
+     * @param username
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 20-12-2023
      */
@@ -107,10 +108,10 @@ public class OrderRestController {
     }
 
     /**
-     * get last time order by username in date string
+     * get last time order by username
      *
-     * @param userName
-     * @return String
+     * @param username
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 20-12-2023
      */
