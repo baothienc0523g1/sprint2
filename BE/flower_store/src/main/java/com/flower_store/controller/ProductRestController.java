@@ -23,12 +23,12 @@ public class ProductRestController {
     private IProductService productService;
 
     /**
-     * method get product with sort/non-sort and search
-     *
+     * method get products with sort/non-sort and search
+     * for display on main page
      * @param sort
      * @param searchName
-     * @return Page<Feature>
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 14-12-2023
      */
     @GetMapping("/public/features")
@@ -81,9 +81,8 @@ public class ProductRestController {
     /**
      * method get trending product to main page
      *
-     * @param
-     * @return Collection<Feature>
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 12-12-2023
      */
     @GetMapping("/public/trending-features")
@@ -102,8 +101,8 @@ public class ProductRestController {
      * method get product by ID
      *
      * @param id
-     * @return ResponseEntity
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 05-12-2023
      */
     @GetMapping("/public/product-details/{id}")
@@ -121,8 +120,8 @@ public class ProductRestController {
      * method get product list by type id
      *
      * @param id
-     * @return ResponseEntity
-     * @author ThienBB
+     * @return ResponseEntity<?>
+     * @author Bao Thien
      * @since 05-12-2023
      */
     @GetMapping("/public/products/types/{id}")
@@ -137,7 +136,7 @@ public class ProductRestController {
     }
 
     /**
-     * method find products with option
+     * method find products with options
      *
      * @param productMinPrice
      * @param productMaxPrice
@@ -172,7 +171,7 @@ public class ProductRestController {
     /**
      * method find the highest price of products
      *
-     * @return Optional<Long>
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 10-12-2023
      */
@@ -191,7 +190,7 @@ public class ProductRestController {
      * method find product type name by id
      *
      * @param id
-     * @return String
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 10-12-2023
      */

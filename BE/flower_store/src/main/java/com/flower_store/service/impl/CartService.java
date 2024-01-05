@@ -110,9 +110,10 @@ public class CartService implements ICartService {
     /**
      * method remove products from cart
      *
+     * @param username
      * @param productId
      * @return boolean
-     * @author Bui Bao Thien
+     * @author Bao Thien
      * @since 08-12-2023
      */
     @Override
@@ -136,7 +137,9 @@ public class CartService implements ICartService {
 
     /**
      * method do adjustment product quantity in cart
+     * there's 2 action when adjustment is ADD and REMOVE
      *
+     * @param actionCase
      * @param username
      * @param productId
      * @param quantity
@@ -159,7 +162,8 @@ public class CartService implements ICartService {
     /**
      * method do pay
      *
-     * @param username
+     * @param orderPayDto
+     * @return boolean
      * @author Bao Thien
      * @since 16-12-2023
      */
@@ -210,7 +214,7 @@ public class CartService implements ICartService {
     /**
      * method do generate an order code
      *
-     * @param username
+     * @return String
      * @author Bao Thien
      * @since 20-12-2023
      */

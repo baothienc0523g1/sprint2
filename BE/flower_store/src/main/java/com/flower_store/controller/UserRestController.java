@@ -22,7 +22,7 @@ public class UserRestController {
      * method get user full name
      *
      * @param username
-     * @return Optional<User>
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 05-12-2023
      */
@@ -41,6 +41,7 @@ public class UserRestController {
      * method get user information by username
      *
      * @param username
+     * @return ResponseEntity<?>
      * @author Bao Thien
      * @since 22-12-2023
      */

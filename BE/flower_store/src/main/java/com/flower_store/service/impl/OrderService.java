@@ -28,7 +28,7 @@ public class OrderService implements IOrderService {
      * @param pageable
      * @param username
      * @param orderCode
-     * @return String
+     * @return Page<OrderDto>
      * @author Bao Thien
      * @since 20-12-2023
      */
@@ -44,6 +44,7 @@ public class OrderService implements IOrderService {
      *
      * @param username
      * @param id
+     * @return Collection<OrderDetailDto>
      * @author Bao Thien
      * @since 20-12-2023
      */
@@ -54,7 +55,7 @@ public class OrderService implements IOrderService {
 
 
     /**
-     * get first time order by username in date string
+     * get first time order by username in string
      *
      * @param userName
      * @return String

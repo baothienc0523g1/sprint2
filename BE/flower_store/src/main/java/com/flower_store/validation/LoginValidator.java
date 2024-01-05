@@ -8,10 +8,10 @@ public class LoginValidator {
     private static final String PASSWORD = "password";
 
     /**
-     * method usernameValidator()
+     * method check if username in login request from client is null or not
      *
-     * @param password, errors
-     * @return void
+     * @param password
+     * @param errors
      * @author Bao Thien
      * @since 04-12-2023
      */
@@ -22,10 +22,10 @@ public class LoginValidator {
     }
 
     /**
-     * method passwordValidator()
+     * method check if password in login request from client is null or not
      *
-     * @param password, errors
-     * @return void
+     * @param password
+     * @param errors
      * @author Bao Thien
      * @since 04-12-2023
      */

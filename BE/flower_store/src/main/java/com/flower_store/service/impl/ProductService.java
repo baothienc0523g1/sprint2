@@ -26,7 +26,7 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method get product with search
+     * method get product with sort for display on main page
      *
      * @param pageable
      * @param searchName
@@ -40,7 +40,7 @@ public class ProductService implements IProductService {
     }
 
     /**
-     * method get trending product by quantity in order details table
+     * method get trending product by how much time it's in order details table
      *
      * @return Collection<Feature>
      * @author Bao Thien
@@ -53,7 +53,8 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method find feature by id
+     * method find feature by id for display on main page when user
+     * want to search
      *
      * @param id
      * @return Optional<Feature>
@@ -67,7 +68,7 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method find feature by type id
+     * method find feature by type id for display on main page
      *
      * @param id
      * @return Collection<Product>
@@ -100,10 +101,9 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method remove product
+     * method remove product for admin
      *
      * @param id
-     * @return void
      * @author Bao Thien
      * @since 06-12-2023
      */
@@ -120,10 +120,9 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method update product
+     * method update product for admin
      *
      * @param product
-     * @return void
      * @author Bao Thien
      * @since 06-12-2023
      */
@@ -139,7 +138,7 @@ public class ProductService implements IProductService {
 
 
     /**
-     * method update product
+     * method update product for admin
      *
      * @param id
      * @return void
@@ -180,11 +179,25 @@ public class ProductService implements IProductService {
         return null;
     }
 
+    /**
+     * method find the highest price of products
+     *
+     * @return Optional<Long>
+     * @author Bao Thien
+     * @since 10-12-2023
+     */
     @Override
     public Optional<Long> maxPriceOfProducts() {
         return this.productRepository.getMaxPrice();
     }
 
+    /**
+     * method get product type name by id
+     *
+     * @return String
+     * @author Bao Thien
+     * @since 10-12-2023
+     */
     @Override
     public String productTypeName(int id) {
         return this.productRepository.getProductTypeName(id);
