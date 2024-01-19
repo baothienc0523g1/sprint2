@@ -149,8 +149,7 @@ public class CartRestController {
     /**
      * method do pay
      *
-     * @param username
-     * @param cartPayDto
+     * @param orderPayDto
      * @author Bao Thien
      * @since 16-12-2023
      */

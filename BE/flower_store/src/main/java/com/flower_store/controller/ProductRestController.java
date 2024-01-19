@@ -4,9 +4,6 @@ import com.flower_store.dto.Feature;
 import com.flower_store.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +22,7 @@ public class ProductRestController {
     /**
      * method get products with sort/non-sort and search
      * for display on main page
+     *
      * @param sort
      * @param searchName
      * @return ResponseEntity<?>
@@ -36,45 +34,12 @@ public class ProductRestController {
             @RequestParam(name = "sort", required = false) String sort,
             @RequestParam(name = "searchName", required = false, defaultValue = "") String searchName) {
 
-        Pageable pageable;
-        Page<Feature> features;
-        switch (sort) {
-            case "asc":
-                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").ascending());
-                features = this.productService.findAllFeatureWithSort(searchName, pageable);
-                if (features == null) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-                if (features.isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-                return ResponseEntity.ok(features);
+        Page<Feature> features = this.productService.findAllFeatureWithSearch(searchName, sort);
 
-            case "desc":
-                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("price").descending());
-                features = this.productService.findAllFeatureWithSort(searchName, pageable);
-                if (features == null) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-                if (features.isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-                return ResponseEntity.ok(features);
-
-            case "":
-                pageable = PageRequest.of(0, Integer.MAX_VALUE);
-                features = this.productService.findAllFeatureWithSort(searchName, pageable);
-                if (features == null) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-                if (features.isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-                return ResponseEntity.ok(features);
-
-            default:
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (features.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        return ResponseEntity.ok(features);
     }
 
 
@@ -199,5 +164,31 @@ public class ProductRestController {
         String typeName = this.productService.productTypeName(id);
 
         return ResponseEntity.ok(typeName);
+    }
+
+
+    /**
+     * method get products for management with pageable, sort,
+     * search with product name or product code
+     *
+     * @return Collection
+     * @author Bao Thien
+     * @since 09-01-2024
+     */
+    @GetMapping("/admin/products")
+    public ResponseEntity<?> getAllFeature(
+            @RequestParam(name = "search", required = false, defaultValue = "") String searchKeyWord,
+            @RequestParam(name = "sort", required = false, defaultValue = "") String sort,
+            @RequestParam(name = "page") int page,
+            @RequestParam(name = "size") int size
+
+    ) {
+        Page<Feature> features = this.productService.getAllFeature(page, size, searchKeyWord, sort);
+
+        if (features.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return ResponseEntity.ok(features);
     }
 }
